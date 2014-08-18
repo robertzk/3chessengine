@@ -52,10 +52,36 @@
         return error.toString().should.equal("Specified 'board' is not a Board");
       }
     });
-    return it("should be able to create a Piece when a valid color and board are provided", function() {
+    it("show throw an error when no position is specified", function() {
+      var error;
+      try {
+        return new Piece({
+          color: 'white',
+          board: new Board(false)
+        });
+      } catch (_error) {
+        error = _error;
+        return error.toString().should.equal("Please provide a position");
+      }
+    });
+    it("show throw an error when an invalid position is specified", function() {
+      var error;
+      try {
+        return new Piece({
+          color: 'white',
+          board: new Board(false),
+          position: [1]
+        });
+      } catch (_error) {
+        error = _error;
+        return error.toString().should.equal("Position must be an array of two integers.");
+      }
+    });
+    return it("should be able to create a Piece when a valid color, board, and position are provided", function() {
       return new Piece({
         color: 'white',
-        board: new Board()
+        board: new Board(false),
+        position: [0, 0]
       });
     });
   });

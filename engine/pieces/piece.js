@@ -7,6 +7,7 @@
     function Piece(opts) {
       this.assign_color(opts);
       this.assign_board(opts);
+      this.assign_position(opts);
     }
 
     Piece.prototype.assign_color = function(opts) {
@@ -30,6 +31,17 @@
         throw "Specified 'board' is not a Board";
       }
       return this.board = opts.board;
+    };
+
+    Piece.prototype.assign_position = function(opts) {
+      if (!('position' in opts)) {
+        throw "Please provide a position";
+      }
+      if (!(opts.position instanceof Array && opts.position.length === 2)) {
+        throw "Position must be an array of two integers.";
+      }
+      this.position = opts.position;
+      return this.board.board[this.position[0]][this.position[1]] = this;
     };
 
     return Piece;

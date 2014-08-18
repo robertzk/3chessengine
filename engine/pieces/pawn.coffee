@@ -3,9 +3,9 @@ class Pawn extends Piece
 
   constructor: (opts) ->
     super
-    
-    do @initialize_direction
     @type = 'pawn'
+    do @initialize_unmoved
+    do @initialize_direction
 
   ###
   # With pawns, we must be careful about the direction in which
@@ -14,13 +14,32 @@ class Pawn extends Piece
   # side, which are moving forward.
   #
   # To record this moving direction, we simply maintain the convention that
-  # @direction = 1 implies the pawn is moving toward the center, and
-  # @direction = -1 implies the pawn is moving away from the center.
+  # @towards_center = true implies the pawn is moving toward the center, and
+  # @towards_center = false implies the pawn is moving away from the center.
   #
   # A pawn changes direction if and only if it crosses the center circle.
   ###
   initialize_direction: ->
-    @direction = 1
+    @towards_center = true
+
+  ###
+  # If a pawn has moved, it can no longer skip 2 spaces nor capture en passent.
+  # We must record this somehow, simply as a boolean flag.
+  ###
+  initialize_unmoved: ->
+    @unmoved = true
+
+  ###
+  # List the moves available to a pawn (in an array of [x, y] positions).
+  #
+  # Recall that it can capture to the sideways left and right, but only move
+  # forward. Adjacent to the center, the pawn can cross the center, or 
+  # capture along the same diagonal a bishop would be able to.
+  ###
+  moves: ->
+    
+
+
 
 module.exports = Pawn
 

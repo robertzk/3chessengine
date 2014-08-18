@@ -15,9 +15,14 @@
   Pawn = require('./pieces/pawn');
 
   Board = (function() {
-    function Board() {
+    function Board(setup_pieces) {
+      if (setup_pieces == null) {
+        setup_pieces = true;
+      }
       this.initialize_board();
-      this.initialize_pieces();
+      if (setup_pieces) {
+        this.initialize_pieces();
+      }
     }
 
     Board.prototype.initialize_board = function() {
@@ -58,9 +63,10 @@
       this.backrank_pieces || (this.backrank_pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]);
       _results = [];
       for (i = _i = 0; _i <= 7; i = ++_i) {
-        _results.push(this.board[8 * color + i][0] = new this.backrank_pieces[i]({
+        _results.push(new this.backrank_pieces[i]({
           color: color_name,
-          board: this
+          board: this,
+          position: [8 * color + i, 0]
         }));
       }
       return _results;
@@ -71,9 +77,10 @@
       _ref = [color, this.colors.indexOf(color)], color_name = _ref[0], color = _ref[1];
       _results = [];
       for (i = _i = 0; _i <= 7; i = ++_i) {
-        _results.push(this.board[8 * color + i][1] = new Pawn({
+        _results.push(new Pawn({
           color: color_name,
-          board: this
+          board: this,
+          position: [8 * color + i, 1]
         }));
       }
       return _results;

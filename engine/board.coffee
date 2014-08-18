@@ -7,9 +7,9 @@ Pawn   = require './pieces/pawn'
 
 class Board
 
-  constructor: ->
+  constructor: (setup_pieces = true) ->
     do @initialize_board
-    do @initialize_pieces
+    @initialize_pieces() if setup_pieces
 
   initialize_board: ->
     @colors = ['white', 'black', 'grey']
@@ -24,12 +24,12 @@ class Board
     [color_name, color] = [color, @colors.indexOf(color)]
     @backrank_pieces ||= [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
     for i in [0..7]
-      @board[8 * color + i][0] = new @backrank_pieces[i](color: color_name, board: @)
+      new @backrank_pieces[i](color: color_name, board: @, position: [8 * color + i, 0])
 
   initialize_pawns: (color) ->
     [color_name, color] = [color, @colors.indexOf(color)]
     for i in [0..7]
-      @board[8 * color + i][1] = new Pawn(color: color_name, board: @)
+      new Pawn(color: color_name, board: @, position: [8 * color + i, 1])
 
 
 module.exports = Board

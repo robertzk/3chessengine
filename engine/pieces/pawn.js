@@ -11,8 +11,9 @@
 
     function Pawn(opts) {
       Pawn.__super__.constructor.apply(this, arguments);
-      this.initialize_direction();
       this.type = 'pawn';
+      this.initialize_unmoved();
+      this.initialize_direction();
     }
 
 
@@ -23,15 +24,36 @@
      * side, which are moving forward.
      *
      * To record this moving direction, we simply maintain the convention that
-     * @direction = 1 implies the pawn is moving toward the center, and
-     * @direction = -1 implies the pawn is moving away from the center.
+     * @towards_center = true implies the pawn is moving toward the center, and
+     * @towards_center = false implies the pawn is moving away from the center.
      *
      * A pawn changes direction if and only if it crosses the center circle.
      */
 
     Pawn.prototype.initialize_direction = function() {
-      return this.direction = 1;
+      return this.towards_center = true;
     };
+
+
+    /*
+     * If a pawn has moved, it can no longer skip 2 spaces nor capture en passent.
+     * We must record this somehow, simply as a boolean flag.
+     */
+
+    Pawn.prototype.initialize_unmoved = function() {
+      return this.unmoved = true;
+    };
+
+
+    /*
+     * List the moves available to a pawn (in an array of [x, y] positions).
+     *
+     * Recall that it can capture to the sideways left and right, but only move
+     * forward. Adjacent to the center, the pawn can cross the center, or 
+     * capture along the same diagonal a bishop would be able to.
+     */
+
+    Pawn.prototype.moves = function() {};
 
     return Pawn;
 

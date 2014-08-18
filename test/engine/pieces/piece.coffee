@@ -27,6 +27,18 @@ describe 'Piece', ->
     catch error
       error.toString().should.equal "Specified 'board' is not a Board"
 
-  it "should be able to create a Piece when a valid color and board are provided", ->
-    new Piece(color: 'white', board: new Board())
+  it "show throw an error when no position is specified", ->
+    try
+      new Piece(color: 'white', board: new Board(false))
+    catch error
+      error.toString().should.equal "Please provide a position"
+
+  it "show throw an error when an invalid position is specified", ->
+    try
+      new Piece(color: 'white', board: new Board(false), position: [1])
+    catch error
+      error.toString().should.equal "Position must be an array of two integers."
+
+  it "should be able to create a Piece when a valid color, board, and position are provided", ->
+    new Piece(color: 'white', board: new Board(false), position: [0, 0])
     
