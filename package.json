@@ -19,6 +19,9 @@
     "url": "https://github.com/robertzk/3chessengine/issues"
   },
   "homepage": "https://github.com/robertzk/3chessengine",
+  "dependencies": {
+    "coffee-script": "latest"
+  },
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.21.4"
