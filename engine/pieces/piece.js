@@ -11,7 +11,7 @@
 
     Piece.prototype.assign_color = function(opts) {
       var color, colors;
-      if (__indexOf.call(opts, 'color') < 0) {
+      if (!('color' in opts)) {
         throw "Please provide a piece color";
       }
       color = opts.color.toLowerCase();
@@ -22,10 +22,11 @@
     };
 
     Piece.prototype.assign_board = function(opts) {
-      if (__indexOf.call(opts, 'board') < 0) {
+      var _ref, _ref1;
+      if (!('board' in opts)) {
         throw "Please provide a board";
       }
-      if (opts.board.constructor.name !== 'Board') {
+      if (((_ref = opts.board) != null ? (_ref1 = _ref.constructor) != null ? _ref1.name : void 0 : void 0) !== 'Board') {
         throw "Specified 'board' is not a Board";
       }
       return this.board = opts.board;
