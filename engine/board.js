@@ -22,6 +22,7 @@
 
     Board.prototype.initialize_board = function() {
       var $, _;
+      this.colors = ['white', 'black', 'grey'];
       return this.board = (function() {
         var _i, _results;
         _results = [];
@@ -40,29 +41,40 @@
     };
 
     Board.prototype.initialize_pieces = function() {
-      var color, colors, i, pieces, _i, _j, _results;
-      colors = ['white', 'black', 'grey'];
-      pieces = [King, Queen, Rook, Bishop, Knight, Pawn];
+      var color, _i, _len, _ref, _results;
+      _ref = this.colors;
       _results = [];
-      for (color = _i = 0; _i <= 2; color = ++_i) {
-        pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook];
-        for (i = _j = 0; _j <= 7; i = ++_j) {
-          this.board[8 * color + i][0] = new pieces[i]({
-            color: colors[color],
-            board: this
-          });
-        }
-        _results.push((function() {
-          var _k, _results1;
-          _results1 = [];
-          for (i = _k = 0; _k <= 7; i = ++_k) {
-            _results1.push(this.board[8 * color + i][1] = new Pawn({
-              color: colors[color],
-              board: this
-            }));
-          }
-          return _results1;
-        }).call(this));
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        color = _ref[_i];
+        this.initialize_backrank(color);
+        _results.push(this.initialize_pawns(color));
+      }
+      return _results;
+    };
+
+    Board.prototype.initialize_backrank = function(color) {
+      var color_name, i, _i, _ref, _results;
+      _ref = [color, this.colors.indexOf(color)], color_name = _ref[0], color = _ref[1];
+      this.backrank_pieces || (this.backrank_pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]);
+      _results = [];
+      for (i = _i = 0; _i <= 7; i = ++_i) {
+        _results.push(this.board[8 * color + i][0] = new this.bankrank_pieces[i]({
+          color: color_name,
+          board: this
+        }));
+      }
+      return _results;
+    };
+
+    Board.prototype.initialize_pawns = function(color) {
+      var color_name, i, _i, _ref, _results;
+      _ref = [color, this.colors.indexOf(color)], color_name = _ref[0], color = _ref[1];
+      _results = [];
+      for (i = _i = 0; _i <= 7; i = ++_i) {
+        _results.push(this.board[8 * color + i][1] = new Pawn({
+          color: color_name,
+          board: this
+        }));
       }
       return _results;
     };

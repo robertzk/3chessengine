@@ -12,19 +12,27 @@ class Board
     do @initialize_pieces
 
   initialize_board: ->
+    @colors = ['white', 'black', 'grey']
     @board = (null for _ in [0..5] for $ in [0..23])
 
   initialize_pieces: ->
-    colors = ['white', 'black', 'grey']
-    pieces = [King, Queen, Rook, Bishop, Knight, Pawn]
-    for color in [0..2]
-      # Set up back rank
-      pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
-      for i in [0..7]
-        @board[8 * color + i][0] = new pieces[i](color: colors[color], board: @)
+    for color in @colors
+      @initialize_backrank color
+      @initialize_pawns    color
 
       # Set up second rank
-      for i in [0..7]
-        @board[8 * color + i][1] = new Pawn(color: colors[color], board: @)
+
+  initialize_backrank: (color) ->
+    [color_name, color] = [color, @colors.indexOf(color)]
+    @backrank_pieces ||= [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
+    for i in [0..7]
+      @board[8 * color + i][0] =
+        new @bankrank_pieces[i](color: color_name, board: @)
+
+  initialize_pawns: (color) ->
+    [color_name, color] = [color, @colors.indexOf(color)]
+    for i in [0..7]
+      @board[8 * color + i][1] = new Pawn(color: color_name, board: @)
+
 
 module.exports = Board
