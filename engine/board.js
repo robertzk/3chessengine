@@ -58,7 +58,7 @@
       this.backrank_pieces || (this.backrank_pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]);
       _results = [];
       for (i = _i = 0; _i <= 7; i = ++_i) {
-        _results.push(this.board[8 * color + i][0] = new this.bankrank_pieces[i]({
+        _results.push(this.board[8 * color + i][0] = new this.backrank_pieces[i]({
           color: color_name,
           board: this
         }));

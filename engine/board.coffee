@@ -20,14 +20,11 @@ class Board
       @initialize_backrank color
       @initialize_pawns    color
 
-      # Set up second rank
-
   initialize_backrank: (color) ->
     [color_name, color] = [color, @colors.indexOf(color)]
     @backrank_pieces ||= [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
     for i in [0..7]
-      @board[8 * color + i][0] =
-        new @bankrank_pieces[i](color: color_name, board: @)
+      @board[8 * color + i][0] = new @backrank_pieces[i](color: color_name, board: @)
 
   initialize_pawns: (color) ->
     [color_name, color] = [color, @colors.indexOf(color)]
