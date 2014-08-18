@@ -8,7 +8,7 @@
 
   Board = require('../../../engine/board');
 
-  describe('#piece', function() {
+  describe('Piece', function() {
     it("should throw an error when no piece color is provided", function() {
       var error;
       try {

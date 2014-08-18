@@ -1,4 +1,4 @@
-Piece = require('piece')
+Piece = require('./piece')
 class Pawn extends Piece
 
   constructor: (opts) ->

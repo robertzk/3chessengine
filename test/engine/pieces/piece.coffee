@@ -2,7 +2,7 @@ should = require('chai').should()
 Piece = require '../../../engine/pieces/piece'
 Board = require '../../../engine/board'
 
-describe '#piece', ->
+describe 'Piece', ->
   it "should throw an error when no piece color is provided", ->
     try
       new Piece({})
