@@ -27,4 +27,7 @@ class Piece
     # TODO: (RK) Should we be violating the law of demeter here?
     @board.board[@position[0]][@position[1]] = @
 
+  x: -> @position[0]
+  y: -> @position[1]
+
 module.exports = Piece

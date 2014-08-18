@@ -53,7 +53,38 @@
      * capture along the same diagonal a bishop would be able to.
      */
 
-    Pawn.prototype.moves = function() {};
+    Pawn.prototype.moves = function() {
+      var delta, i, moves, _i, _j, _len, _len1, _ref, _ref1;
+      moves = [];
+      if (this.y() === 5 && this.towards_center) {
+        if (!this.board.has_piece_at((this.x() + 12) % 24, this.y())) {
+          moves.push([(this.x() + 12) % 24, this.y()]);
+        }
+        _ref = [-1, 1];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          i = _ref[_i];
+          if (this.board.has_piece_at((this.x() + 12 + 2 * i) % 24, this.y()) && this.board.piece_at((this.x() + 12 + 2 * i) % 24, this.y()).color !== this.color) {
+            moves.push([(this.x() + 12 + 2 * i) % 24, this.y()]);
+          }
+        }
+      } else {
+        if (this.unmoved && !this.board.has_piece_at(this.x(), this.y() + 2)) {
+          moves.push([this.x(), this.y() + 2]);
+        }
+        delta = this.towards_center ? 1 : -1;
+        if (!this.board.has_piece_at(this.x(), this.y() + delta)) {
+          moves.push([this.x(), this.y() + delta]);
+        }
+        _ref1 = [-1, 1];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          i = _ref1[_j];
+          if (this.board.has_piece_at(this.x() + i, this.y() + delta) && this.board.piece_at(this.x() + i, this.y() + delta).color !== this.color) {
+            moves.push([this.x() + i, this.y() + 1]);
+          }
+        }
+      }
+      return moves;
+    };
 
     return Pawn;
 

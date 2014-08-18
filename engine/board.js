@@ -86,6 +86,14 @@
       return _results;
     };
 
+    Board.prototype.has_piece_at = function(x, y) {
+      return this.board[(24 + x) % 24][y] !== null;
+    };
+
+    Board.prototype.piece_at = function(x, y) {
+      return this.board[(24 + x) % 24][y];
+    };
+
     return Board;
 
   })();

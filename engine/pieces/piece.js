@@ -44,6 +44,14 @@
       return this.board.board[this.position[0]][this.position[1]] = this;
     };
 
+    Piece.prototype.x = function() {
+      return this.position[0];
+    };
+
+    Piece.prototype.y = function() {
+      return this.position[1];
+    };
+
     return Piece;
 
   })();

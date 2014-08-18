@@ -31,5 +31,9 @@ class Board
     for i in [0..7]
       new Pawn(color: color_name, board: @, position: [8 * color + i, 1])
 
+  has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
+  piece_at:     (x, y) -> @board[(24 + x) % 24][y]
+
+
 
 module.exports = Board
