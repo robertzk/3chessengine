@@ -39,9 +39,11 @@ class Pawn extends Piece
   moves: ->
     moves = []
     if @y() == 5 && @towards_center # We have reached the inner circle
+      # Move forward directly across the circle
       unless @board.has_piece_at((@x() + 12) % 24, @y())
         moves.push [(@x() + 12) % 24, @y()]
 
+      # Take a piece along the diagonals one step across the circle.
       for i in [-1, 1]
         if @board.has_piece_at((@x() + 12 + 2 * i) % 24, @y()) &&
            @board.piece_at((@x() + 12 + 2 * i) % 24, @y()).color != @color
@@ -53,9 +55,11 @@ class Pawn extends Piece
 
       delta = if @towards_center then 1 else -1
 
+      # Move forward.
       unless @board.has_piece_at(@x(), @y() + delta)
         moves.push [@x(), @y() + delta]
 
+      # Take a piece along the adjacent diagonals.
       for i in [-1, 1]
         if @board.has_piece_at(@x() + i, @y() + delta) &&
            @board.piece_at(@x() + i, @y() + delta).color != @color
