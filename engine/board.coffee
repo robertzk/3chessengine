@@ -12,7 +12,7 @@ class Board
     @initialize_pieces() if setup_pieces
 
   initialize_board: ->
-    @colors = ['white', 'black', 'grey']
+    @colors = ['white', 'grey', 'black']
     @board = (null for _ in [0..5] for $ in [0..23])
 
   initialize_pieces: ->
