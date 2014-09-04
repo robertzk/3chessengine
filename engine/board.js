@@ -1,6 +1,8 @@
 (function() {
   var Bishop, Board, King, Knight, Pawn, Queen, Rook;
 
+  King = require('./pieces/piece');
+
   King = require('./pieces/king');
 
   Queen = require('./pieces/queen');
@@ -91,6 +93,13 @@
 
     Board.prototype.piece_at = function(x, y) {
       return this.board[(24 + x) % 24][y];
+    };
+
+    Board.prototype.place_piece = function(piece, x, y) {
+      if (!(piece instanceof Piece)) {
+        throw "Must place a Piece";
+      }
+      return this.board[(24 + x) % 24][y] = piece;
     };
 
     return Board;

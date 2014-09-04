@@ -79,7 +79,7 @@
     Pawn.prototype.noncenter_moves = function() {
       var delta, i, moves, _i, _len, _ref;
       moves = [];
-      if (this.unmoved && !this.board.has_piece_at(this.x(), this.y() + 2)) {
+      if (this.unmoved && !this.board.has_piece_at(this.x(), this.y() + 2) && !this.board.has_piece_at(this.x(), this.y() + 1)) {
         moves.push([this.x(), this.y() + 2]);
       }
       delta = this.towards_center ? 1 : -1;
@@ -89,8 +89,8 @@
       _ref = [-1, 1];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         i = _ref[_i];
-        if (this.board.has_piece_at(this.x() + i, this.y() + delta) && this.board.piece_at(this.x() + i, this.y() + delta).color !== this.color) {
-          moves.push([this.x() + i, this.y() + 1]);
+        if ((this.board.has_piece_at(this.x() + i, this.y() + delta)) && (this.board.piece_at(this.x() + i, this.y() + delta).color !== this.color)) {
+          moves.push([this.x() + i, this.y() + delta]);
         }
       }
       return moves;

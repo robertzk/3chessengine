@@ -1,3 +1,4 @@
+King   = require './pieces/piece'
 King   = require './pieces/king'
 Queen  = require './pieces/queen'
 Rook   = require './pieces/rook'
@@ -34,6 +35,8 @@ class Board
   has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
   piece_at:     (x, y) -> @board[(24 + x) % 24][y]
 
-
+  place_piece: (piece, x, y) ->
+    throw "Must place a Piece" unless piece instanceof Piece
+    @board[(24 + x) % 24][y] = piece
 
 module.exports = Board
