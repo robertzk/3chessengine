@@ -21,9 +21,7 @@
       if (y > 5) {
         y -= y % 5;
       }
-      if (!(y < 0)) {
-        return [x % 24, y];
-      }
+      return [x % 24, !(y < 0) ? y : void 0];
     };
 
 
@@ -34,30 +32,20 @@
      */
 
     Knight.prototype.moves = function() {
-      var d, sign, sign2, x, y, _i, _results;
-      _results = [];
-      for (sign = _i = -1; _i <= 1; sign = _i += 2) {
-        _results.push((function() {
-          var _j, _results1;
-          _results1 = [];
-          for (sign2 = _j = -1; _j <= 1; sign2 = _j += 2) {
-            _results1.push((function() {
-              var _k, _ref, _ref1, _results2;
-              _results2 = [];
-              for (d = _k = 1; _k <= 2; d = ++_k) {
-                _ref = this.normalize_position(this.x + sign1 * d, this.y + sign2 * (3 - d)), x = _ref[0], y = _ref[1];
-                if ((y == null) || ((_ref1 = this.board.piece_at(x, y)) != null ? _ref1.color : void 0) === this.color) {
-                  continue;
-                }
-                _results2.push([x, y]);
-              }
-              return _results2;
-            }).call(this));
+      var d, positions, sign1, sign2, x, y, _i, _j, _k, _ref, _ref1;
+      positions = [];
+      for (sign1 = _i = -1; _i <= 1; sign1 = _i += 2) {
+        for (sign2 = _j = -1; _j <= 1; sign2 = _j += 2) {
+          for (d = _k = 1; _k <= 2; d = ++_k) {
+            _ref = this.normalize_position(this.x() + sign1 * d, this.y() + sign2 * (3 - d)), x = _ref[0], y = _ref[1];
+            if ((y == null) || ((_ref1 = this.board.piece_at(x, y)) != null ? _ref1.color : void 0) === this.color) {
+              continue;
+            }
+            positions.push([x, y]);
           }
-          return _results1;
-        }).call(this));
+        }
       }
-      return _results;
+      return positions;
     };
 
     return Knight;

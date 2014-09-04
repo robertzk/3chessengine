@@ -15,7 +15,7 @@ class Knight extends Piece
       # We only care about *available* moves.
     y -= y % 5 if y > 5
 
-    [x % 24, y] unless y < 0
+    [x % 24, y unless y < 0]
 
   ###
   # List the moves available to a knight (in an array of [x, y] positions).
@@ -23,15 +23,17 @@ class Knight extends Piece
   # Recall that it can capture in L shapes all around the board.
   ###
   moves: ->
-    for sign in [-1..1] by 2
+    positions = []
+    for sign1 in [-1..1] by 2
       for sign2 in [-1..1] by 2
         for d in [1..2]
-          [x, y] = @normalize_position @x + sign1 * d, @y + sign2 * (3 - d)
+          [x, y] = @normalize_position @x() + sign1 * d, @y() + sign2 * (3 - d)
           # If the knight went off the board or is landing on a piece
           # of the same color, this is an illegal move.
-          if !y? or @board.piece_at(x, y)?.color == @color
-            continue
-          [x, y]
+          continue if !y? or @board.piece_at(x, y)?.color == @color
+          positions.push [x, y]
+
+    positions
 
 module.exports = Knight
 
