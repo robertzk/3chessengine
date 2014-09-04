@@ -14,6 +14,7 @@
       var b, p;
       b = new Board();
       p = b.piece_at(1, 0);
+      p.moves().length.should.equal(3);
       return assert.deepEqual(p.moves(), [[0, 2], [23, 1], [2, 2]]);
     });
   });
