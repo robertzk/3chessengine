@@ -50,7 +50,8 @@ class Pawn extends Piece
           moves.push [(@x() + 12 + 2 * i) % 24, @y()]
     else
       # TODO: (RK) Incorporate pins?
-      if @unmoved and !@board.has_piece_at(@x(), @y() + 2)
+      if @unmoved and !@board.has_piece_at(@x(), @y() + 2) and \
+          !@board.has_piece_at(@x(), @y() + 1)
         moves.push [@x(), @y() + 2]
 
       delta = if @towards_center then 1 else -1
@@ -61,9 +62,9 @@ class Pawn extends Piece
 
       # Take a piece along the adjacent diagonals.
       for i in [-1, 1]
-        if @board.has_piece_at(@x() + i, @y() + delta) &&
-           @board.piece_at(@x() + i, @y() + delta).color != @color
-          moves.push [@x() + i, @y() + 1]
+        if (@board.has_piece_at(@x() + i, @y() + delta)) and \
+           (@board.piece_at(@x() + i, @y() + delta).color != @color)
+          moves.push [@x() + i, @y() + delta]
 
     moves
 
