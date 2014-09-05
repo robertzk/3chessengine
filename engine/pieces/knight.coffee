@@ -35,5 +35,7 @@ class Knight extends Piece
 
     positions
 
+  # TODO: (RK) Knights cannot cross moats.
+
 module.exports = Knight
 
