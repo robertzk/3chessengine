@@ -1,32 +1,28 @@
-/**
- * Escape special characters in the given string of html.
- *
- * @param  {String} html
- * @return {String}
- */
-module.exports = {
-  escape: function(html) {
-    return String(html)
-      .replace(/&/g, '&amp;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-  },
+(function() {
+  var Bishop, Board, King, Knight, Pawn, Queen, Rook;
 
-  /**
-   * Unescape special characters in the given string of html.
-   *
-   * @param  {String} html
-   * @return {String}
-   */
-  unescape: function(html) {
-    return String(html)
-      .replace(/&amp;/g, '&')
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, '\'')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>');
-  }
-};
+  King = require('./engine/pieces/king');
 
+  Queen = require('./engine/pieces/queen');
+
+  Rook = require('./engine/pieces/rook');
+
+  Bishop = require('./engine/pieces/bishop');
+
+  Knight = require('./engine/pieces/knight');
+
+  Pawn = require('./engine/pieces/pawn');
+
+  Board = require('./engine/board');
+
+  module.exports = {
+    King: King,
+    Queen: Queen,
+    Rook: Rook,
+    Bishop: Bishop,
+    Knight: Knight,
+    Pawn: Pawn,
+    Board: Board
+  };
+
+}).call(this);
