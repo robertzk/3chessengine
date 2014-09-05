@@ -9,6 +9,10 @@
       this.assign_position(opts);
     }
 
+    Piece.prototype.moves = function() {
+      return [];
+    };
+
     Piece.prototype.assign_color = function(opts) {
       var color, colors;
       if (!('color' in opts)) {

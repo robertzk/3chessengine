@@ -5,6 +5,8 @@ class Piece
     @assign_board    opts
     @assign_position opts
 
+  moves: -> []
+
   assign_color: (opts) ->
     throw "Please provide a piece color" unless 'color' of opts
     color = opts.color.toLowerCase()
