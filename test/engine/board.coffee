@@ -11,7 +11,7 @@ Board = require '../../engine/board'
 describe 'Board', ->
   it "should initialize back rank correctly", ->
     b = new Board()
-    colors = ['white', 'black', 'grey']
+    colors = ['white', 'grey', 'black']
     pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
 
     for i in [0..23]
@@ -20,7 +20,7 @@ describe 'Board', ->
 
   it "should initialize pawns correctly", ->
     b = new Board()
-    colors = ['white', 'black', 'grey']
+    colors = ['white', 'grey', 'black']
     pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
 
     for i in [0..23]

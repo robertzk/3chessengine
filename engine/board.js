@@ -28,7 +28,7 @@
 
     Board.prototype.initialize_board = function() {
       var $, _;
-      this.colors = ['white', 'black', 'grey'];
+      this.colors = ['white', 'grey', 'black'];
       return this.board = (function() {
         var _i, _results;
         _results = [];

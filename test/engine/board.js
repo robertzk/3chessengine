@@ -21,7 +21,7 @@
     it("should initialize back rank correctly", function() {
       var b, colors, i, pieces, _i, _results;
       b = new Board();
-      colors = ['white', 'black', 'grey'];
+      colors = ['white', 'grey', 'black'];
       pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook];
       _results = [];
       for (i = _i = 0; _i <= 23; i = ++_i) {
@@ -33,7 +33,7 @@
     return it("should initialize pawns correctly", function() {
       var b, colors, i, pieces, _i, _results;
       b = new Board();
-      colors = ['white', 'black', 'grey'];
+      colors = ['white', 'grey', 'black'];
       pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook];
       _results = [];
       for (i = _i = 0; _i <= 23; i = ++_i) {

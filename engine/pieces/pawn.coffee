@@ -37,37 +37,46 @@ class Pawn extends Piece
   # capture along the same diagonal a bishop would be able to.
   ###
   moves: ->
-    moves = []
     if @y() == 5 && @towards_center # We have reached the inner circle
-      # Move forward directly across the circle
-      unless @board.has_piece_at((@x() + 12) % 24, @y())
-        moves.push [(@x() + 12) % 24, @y()]
-
-      # Take a piece along the diagonals one step across the circle.
-      for i in [-1, 1]
-        if @board.has_piece_at((@x() + 12 + 2 * i) % 24, @y()) &&
-           @board.piece_at((@x() + 12 + 2 * i) % 24, @y()).color != @color
-          moves.push [(@x() + 12 + 2 * i) % 24, @y()]
+      do @center_moves
     else
-      # TODO: (RK) Incorporate pins?
-      if @unmoved and !@board.has_piece_at(@x(), @y() + 2) and \
-          !@board.has_piece_at(@x(), @y() + 1)
-        moves.push [@x(), @y() + 2]
+      do @noncenter_moves
 
-      delta = if @towards_center then 1 else -1
+  center_moves: ->
+    moves = []
+    # Move forward directly across the circle
+    unless @board.has_piece_at((@x() + 12) % 24, @y())
+      moves.push [(@x() + 12) % 24, @y()]
 
-      # Move forward.
-      unless @board.has_piece_at(@x(), @y() + delta)
-        moves.push [@x(), @y() + delta]
-
-      # Take a piece along the adjacent diagonals.
-      for i in [-1, 1]
-        if (@board.has_piece_at(@x() + i, @y() + delta)) and \
-           (@board.piece_at(@x() + i, @y() + delta).color != @color)
-          moves.push [@x() + i, @y() + delta]
+    # Take a piece along the diagonals one step across the circle.
+    for i in [-1, 1]
+      if @board.has_piece_at((@x() + 12 + 2 * i) % 24, @y()) &&
+         @board.piece_at((@x() + 12 + 2 * i) % 24, @y()).color != @color
+        moves.push [(@x() + 12 + 2 * i) % 24, @y()]
 
     moves
 
+  noncenter_moves: ->
+    moves = []
+
+    # TODO: (RK) Incorporate pins?
+    if @unmoved and !@board.has_piece_at(@x(), @y() + 2) and \
+        !@board.has_piece_at(@x(), @y() + 1)
+      moves.push [@x(), @y() + 2]
+
+    delta = if @towards_center then 1 else -1
+
+    # Move forward.
+    unless @board.has_piece_at(@x(), @y() + delta)
+      moves.push [@x(), @y() + delta]
+
+    # Take a piece along the adjacent diagonals.
+    for i in [-1, 1]
+      if (@board.has_piece_at(@x() + i, @y() + delta)) and \
+         (@board.piece_at(@x() + i, @y() + delta).color != @color)
+        moves.push [@x() + i, @y() + delta]
+    
+    moves
 
 module.exports = Pawn
 
