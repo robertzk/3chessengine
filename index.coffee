@@ -7,3 +7,4 @@ Pawn   = require './engine/pieces/pawn'
 Board  = require './engine/board'
 
 module.exports = { King, Queen, Rook, Bishop, Knight, Pawn, Board }
+

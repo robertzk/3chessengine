@@ -202,7 +202,7 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
         x += 12;
       }
       if (y > 5) {
-        y -= y % 5;
+        y = 6 - (y % 5);
       }
       return [x % 24, !(y < 0) ? y : void 0];
     };
@@ -489,5 +489,5 @@ __cs.libs.cs168726db = (function(require, module, exports) {
 return module.exports || exports;
 })(__cs.r, {}, {});
 
-window.ThreeChessBoard = __cs.libs.cs168726db 
 
+window.ThreeChessEngine = __cs.libs.cs168726db; 

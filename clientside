@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+clientside = `clientside --export ThreeChessEngine index.js > engine.js`
+engine_filename = File.join(File.dirname(__FILE__), 'engine.js')
+engine = File.read(engine_filename).split("\n")
+
+index_line = -1
+engine.each_with_index do |line, ix|
+  if line == '//index.js'
+    index_line = ix
+    break
+  end
+end
+
+engine[index_line + 1] =~ /^([^ ]+)/
+engine << "window.ThreeChessEngine = #{$1}; \n"
+
+File.open(engine_filename, 'a') { |f| f.write(engine.last) }
+

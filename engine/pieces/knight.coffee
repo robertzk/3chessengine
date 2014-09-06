@@ -13,7 +13,7 @@ class Knight extends Piece
 
     x += 12 if y > 5 # This is technically wrong, but it's ok!
       # We only care about *available* moves.
-    y -= y % 5 if y > 5
+    y = 6 - (y % 5) if y > 5
 
     [x % 24, y unless y < 0]
 

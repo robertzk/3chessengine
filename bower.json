@@ -1,7 +1,7 @@
 {
   "name": "3chessengine",
   "main": "engine.js",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "dependencies": { },
   "devDependencies": {
     "chai": "^1.9.1",
