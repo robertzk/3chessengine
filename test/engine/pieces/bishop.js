@@ -15,7 +15,8 @@
     it("should have no moves in the initial board position", function() {
       var b, p;
       b = new Board();
-      return p = b.piece_at(2, 0);
+      p = b.piece_at(2, 0);
+      return p.moves().length.should.equal(0);
     });
     return it("should be able to move in a loop if the white b2 pawn is removed", function() {
       var b, moves, p, true_moves;

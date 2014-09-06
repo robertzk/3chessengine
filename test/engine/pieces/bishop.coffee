@@ -8,7 +8,7 @@ describe 'Bishop', ->
   it "should have no moves in the initial board position", ->
     b = new Board()
     p = b.piece_at(2, 0)
-    #p.moves().length.should.equal 0
+    p.moves().length.should.equal 0
 
   it "should be able to move in a loop if the white b2 pawn is removed", ->
     b = new Board()

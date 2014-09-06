@@ -14,7 +14,7 @@
     }
 
     Bishop.prototype.normalize_position = function(old_x, old_y, x, y) {
-      var has_piece, out, same_color;
+      var diff, has_piece, out, same_color;
       if (y < 0) {
         return {
           can_move: false
@@ -23,6 +23,7 @@
       if (Math.abs(old_x - x) !== 1 || Math.abs(old_y - y) !== 1) {
         throw "Only adjacent moves supported";
       }
+      diff = x - old_x;
       x = (x + 24) % 24;
       old_x = (old_x + 24) % 24;
       out = {
@@ -30,7 +31,7 @@
         crossed_circle: false
       };
       if (y > 5) {
-        if (x - old_x < 0) {
+        if (diff < 0) {
           x = old_x + (24 - 14);
           x %= 24;
         } else {

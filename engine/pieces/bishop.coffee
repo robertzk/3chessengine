@@ -23,11 +23,12 @@ class Bishop extends Piece
     if Math.abs(old_x - x) != 1 || Math.abs(old_y - y) != 1
       throw "Only adjacent moves supported"
 
+    diff = x - old_x # This has to be precomputed before the % 24s
     x = (x + 24) % 24
     old_x = (old_x + 24) % 24
     out = { can_move: true, crossed_circle: false }
     if y > 5
-      if x - old_x < 0
+      if diff < 0
         x = old_x + (24 - 14)
         x %= 24
       else
