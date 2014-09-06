@@ -10,10 +10,14 @@ class Board
 
   constructor: (setup_pieces = true) ->
     do @initialize_board
+    do @initialize_constants
     @initialize_pieces() if setup_pieces
 
-  initialize_board: ->
+  initialize_constants: ->
+    @piece_map = { Rook, Knight, Bishop, King, Queen, Pawn }
     @colors = ['white', 'grey', 'black']
+
+  initialize_board: ->
     @board = (null for _ in [0..5] for $ in [0..23])
 
   initialize_pieces: ->
@@ -35,8 +39,28 @@ class Board
   has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
   piece_at:     (x, y) -> @board[(24 + x) % 24][y]
 
-  place_piece: (piece, x, y) ->
-    throw "Must place a Piece" unless piece instanceof Piece
+  place_piece: (type, color, x, y) ->
+    type = @piece_map[@sanitize_type(type)]
+    piece = new type(board: @, position: [x, y], color: @sanitize_color(color))
     @board[(24 + x) % 24][y] = piece
+    piece
+
+  move_piece: (old_x, old_y, new_x, new_y) ->
+    old_x = (old_x + 24) % 24
+    throw "No piece at (#{old_x}, #{old_y})" unless @has_piece_at(old_x, old_y)
+    @piece_at(old_x, old_y).move_to(new_x, new_y)
+
+  # Private
+  ##
+
+  sanitize_type: (type) ->
+    type = type.toLowerCase()
+    throw "Invalid piece type" unless type in @piece_map
+    type
+
+  sanitize_color: (color) ->
+    color = color.toLowerCase()
+    throw "Invalid color" unless color in @colors
+    color
 
 module.exports = Board
