@@ -323,6 +323,16 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
       }
       return moves;
     };
+    Pawn.prototype.move_to = function(new_x, new_y) {
+      var old_y, out;
+      this.unmoved = false;
+      old_y = this.y();
+      out = Pawn.__super__.move_to.apply(this, arguments);
+      if (old_y === 5 && new_y === 5) {
+        this.towards_center = false;
+      }
+      return out;
+    };
     return Pawn;
   })(Piece);
   module.exports = Pawn;
@@ -355,12 +365,12 @@ __cs.libs.cs07b02b0c = (function(require, module, exports) {
     }
     Board.prototype.initialize_constants = function() {
       this.piece_map = {
-        Rook: Rook,
-        Knight: Knight,
-        Bishop: Bishop,
-        King: King,
-        Queen: Queen,
-        Pawn: Pawn
+        rook: Rook,
+        knight: Knight,
+        bishop: Bishop,
+        king: King,
+        queen: Queen,
+        pawn: Pawn
       };
       return this.colors = ['white', 'grey', 'black'];
     };
@@ -446,7 +456,7 @@ __cs.libs.cs07b02b0c = (function(require, module, exports) {
     };
     Board.prototype.sanitize_type = function(type) {
       type = type.toLowerCase();
-      if (__indexOf.call(this.piece_map, type) < 0) {
+      if (!(type in this.piece_map)) {
         throw "Invalid piece type";
       }
       return type;
