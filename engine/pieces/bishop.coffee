@@ -5,5 +5,11 @@ class Bishop extends Piece
     super
     @type = 'bishop'
 
+  normalize_position: (x, y) ->
+    return false if y < 0
+
+  moves: ->
+    positions = []
+
 module.exports = Bishop
 

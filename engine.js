@@ -176,6 +176,15 @@ __cs.libs.cs5f8b3ecd = (function(require, module, exports) {
       Bishop.__super__.constructor.apply(this, arguments);
       this.type = 'bishop';
     }
+    Bishop.prototype.normalize_position = function(x, y) {
+      if (y < 0) {
+        return false;
+      }
+    };
+    Bishop.prototype.moves = function() {
+      var positions;
+      return positions = [];
+    };
     return Bishop;
   })(Piece);
   module.exports = Bishop;

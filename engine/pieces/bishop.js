@@ -13,6 +13,17 @@
       this.type = 'bishop';
     }
 
+    Bishop.prototype.normalize_position = function(x, y) {
+      if (y < 0) {
+        return false;
+      }
+    };
+
+    Bishop.prototype.moves = function() {
+      var positions;
+      return positions = [];
+    };
+
     return Bishop;
 
   })(Piece);
