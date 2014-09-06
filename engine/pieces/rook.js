@@ -32,10 +32,10 @@
       };
       if (y > 5) {
         if (diff < 0) {
-          x = old_x + (24 - 14);
+          x = old_x + (24 - 12);
           x %= 24;
         } else {
-          x = old_x + 14;
+          x = old_x + 12;
           x %= 24;
         }
         y = 5;
