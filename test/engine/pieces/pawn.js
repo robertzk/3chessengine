@@ -115,7 +115,7 @@
       p.towards_center = false;
       return assert.deepEqual(p.moves(), [[0, 4], [2, 4]]);
     });
-    return it("should not be able to attack friendlies", function() {
+    it("should not be able to attack friendlies", function() {
       var b, other1, other2, other3, p;
       b = new Board;
       p = new Pawn({
@@ -139,6 +139,21 @@
         position: [2, 3]
       });
       return p.moves().length.should.equal(0);
+    });
+    it("should not be able to go two steps if it has moved", function() {
+      var b, p;
+      b = new Board();
+      p = b.piece_at(0, 1);
+      p.move_to(0, 3);
+      return assert.deepEqual(p.moves(), [[0, 4]]);
+    });
+    return it("crossing the inner circle should make a pawn change its towards_center", function() {
+      var b, p;
+      b = new Board();
+      p = b.place_piece('pawn', 'white', 0, 5);
+      p.towards_center.should.be["true"];
+      p.move_to(12, 5);
+      return p.towards_center.should.be["false"];
     });
   });
 

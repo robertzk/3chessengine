@@ -96,6 +96,17 @@
       return moves;
     };
 
+    Pawn.prototype.move_to = function(new_x, new_y) {
+      var old_y, out;
+      this.unmoved = false;
+      old_y = this.y();
+      out = Pawn.__super__.move_to.apply(this, arguments);
+      if (old_y === 5 && new_y === 5) {
+        this.towards_center = false;
+      }
+      return out;
+    };
+
     return Pawn;
 
   })(Piece);

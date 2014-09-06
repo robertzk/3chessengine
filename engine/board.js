@@ -30,12 +30,12 @@
 
     Board.prototype.initialize_constants = function() {
       this.piece_map = {
-        Rook: Rook,
-        Knight: Knight,
-        Bishop: Bishop,
-        King: King,
-        Queen: Queen,
-        Pawn: Pawn
+        rook: Rook,
+        knight: Knight,
+        bishop: Bishop,
+        king: King,
+        queen: Queen,
+        pawn: Pawn
       };
       return this.colors = ['white', 'grey', 'black'];
     };
@@ -130,7 +130,7 @@
 
     Board.prototype.sanitize_type = function(type) {
       type = type.toLowerCase();
-      if (__indexOf.call(this.piece_map, type) < 0) {
+      if (!(type in this.piece_map)) {
         throw "Invalid piece type";
       }
       return type;

@@ -14,7 +14,7 @@ class Board
     @initialize_pieces() if setup_pieces
 
   initialize_constants: ->
-    @piece_map = { Rook, Knight, Bishop, King, Queen, Pawn }
+    @piece_map = { rook: Rook, knight: Knight, bishop: Bishop, king: King, queen: Queen, pawn: Pawn }
     @colors = ['white', 'grey', 'black']
 
   initialize_board: ->
@@ -55,7 +55,7 @@ class Board
 
   sanitize_type: (type) ->
     type = type.toLowerCase()
-    throw "Invalid piece type" unless type in @piece_map
+    throw "Invalid piece type" unless type of @piece_map
     type
 
   sanitize_color: (color) ->

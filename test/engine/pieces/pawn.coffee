@@ -58,4 +58,16 @@ describe 'Pawn', ->
     other3 = new Pawn color: 'black', board: b, position: [2, 3]
     p.moves().length.should.equal 0
 
+  it "should not be able to go two steps if it has moved", ->
+    b = new Board()
+    p = b.piece_at(0, 1)
+    p.move_to(0, 3)
+    assert.deepEqual p.moves(), [[0, 4]]
+
+  it "crossing the inner circle should make a pawn change its towards_center", ->
+    b = new Board()
+    p = b.place_piece('pawn', 'white', 0, 5)
+    p.towards_center.should.be.true
+    p.move_to(12, 5)
+    p.towards_center.should.be.false
 

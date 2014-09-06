@@ -78,5 +78,13 @@ class Pawn extends Piece
     
     moves
 
+  move_to: (new_x, new_y) ->
+    @unmoved = false
+    old_y = @y()
+    out = super
+    if old_y == 5 && new_y == 5 # We crossed the inner circle
+      @towards_center = false
+    out
+
 module.exports = Pawn
 
