@@ -13,24 +13,24 @@ if (typeof __cs == 'undefined') {
   };
   window.require = __cs.r;
 }
-__cs.map['./engine/pieces/king'] = 'cs47052e70';
-__cs.map['./engine/pieces/queen'] = 'cs7242a7f4';
-__cs.map['./engine/pieces/rook'] = 'csd72de993';
-__cs.map['./engine/pieces/bishop'] = 'cs375b291b';
-__cs.map['./engine/pieces/knight'] = 'cs0a15ea7e';
-__cs.map['./engine/pieces/pawn'] = 'cs1d0f4d7e';
-__cs.map['./engine/board'] = 'cs18cf41c2';
-__cs.map['./piece'] = 'cs11bbc1d6';
-__cs.map['./pieces/piece'] = 'cs11bbc1d6';
-__cs.map['./pieces/king'] = 'cs47052e70';
-__cs.map['./pieces/queen'] = 'cs7242a7f4';
-__cs.map['./pieces/rook'] = 'csd72de993';
-__cs.map['./pieces/bishop'] = 'cs375b291b';
-__cs.map['./pieces/knight'] = 'cs0a15ea7e';
-__cs.map['./pieces/pawn'] = 'cs1d0f4d7e';
+__cs.map['./engine/pieces/king'] = 'cs852f3f85';
+__cs.map['./engine/pieces/queen'] = 'cs591948df';
+__cs.map['./engine/pieces/rook'] = 'cs50ac7fdb';
+__cs.map['./engine/pieces/bishop'] = 'cs5f8b3ecd';
+__cs.map['./engine/pieces/knight'] = 'csefeb9072';
+__cs.map['./engine/pieces/pawn'] = 'cs4379d23b';
+__cs.map['./engine/board'] = 'cs07b02b0c';
+__cs.map['./piece'] = 'cs6b44f638';
+__cs.map['./pieces/piece'] = 'cs6b44f638';
+__cs.map['./pieces/king'] = 'cs852f3f85';
+__cs.map['./pieces/queen'] = 'cs591948df';
+__cs.map['./pieces/rook'] = 'cs50ac7fdb';
+__cs.map['./pieces/bishop'] = 'cs5f8b3ecd';
+__cs.map['./pieces/knight'] = 'csefeb9072';
+__cs.map['./pieces/pawn'] = 'cs4379d23b';
 
 //piece.js
-__cs.libs.cs11bbc1d6 = (function(require, module, exports) {
+__cs.libs.cs6b44f638 = (function(require, module, exports) {
 (function() {
   var Piece,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -40,6 +40,9 @@ __cs.libs.cs11bbc1d6 = (function(require, module, exports) {
       this.assign_board(opts);
       this.assign_position(opts);
     }
+    Piece.prototype.moves = function() {
+      return [];
+    };
     Piece.prototype.assign_color = function(opts) {
       var color, colors;
       if (!('color' in opts)) {
@@ -77,6 +80,22 @@ __cs.libs.cs11bbc1d6 = (function(require, module, exports) {
     Piece.prototype.y = function() {
       return this.position[1];
     };
+    Piece.prototype.move_to = function(new_x, new_y) {
+      var _i, _results;
+      if (__indexOf.call((function() {
+        _results = [];
+        for (_i = 0; _i <= 23; _i++){ _results.push(_i); }
+        return _results;
+      }).apply(this), new_x) < 0) {
+        throw "Invalid new_x";
+      }
+      if (__indexOf.call([0, 1, 2, 3, 4, 5], new_y) < 0) {
+        throw "Invalid new_y";
+      }
+      this.board.board[new_x][new_y] = this;
+      this.board.board[this.x()][this.y()] = null;
+      return this.position = [new_x, new_y];
+    };
     return Piece;
   })();
   module.exports = Piece;
@@ -85,7 +104,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //king.js
-__cs.libs.cs47052e70 = (function(require, module, exports) {
+__cs.libs.cs852f3f85 = (function(require, module, exports) {
 (function() {
   var King, Piece,
     __hasProp = {}.hasOwnProperty,
@@ -105,7 +124,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //queen.js
-__cs.libs.cs7242a7f4 = (function(require, module, exports) {
+__cs.libs.cs591948df = (function(require, module, exports) {
 (function() {
   var Piece, Queen,
     __hasProp = {}.hasOwnProperty,
@@ -125,7 +144,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //rook.js
-__cs.libs.csd72de993 = (function(require, module, exports) {
+__cs.libs.cs50ac7fdb = (function(require, module, exports) {
 (function() {
   var Piece, Rook,
     __hasProp = {}.hasOwnProperty,
@@ -145,7 +164,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //bishop.js
-__cs.libs.cs375b291b = (function(require, module, exports) {
+__cs.libs.cs5f8b3ecd = (function(require, module, exports) {
 (function() {
   var Bishop, Piece,
     __hasProp = {}.hasOwnProperty,
@@ -165,7 +184,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //knight.js
-__cs.libs.cs0a15ea7e = (function(require, module, exports) {
+__cs.libs.csefeb9072 = (function(require, module, exports) {
 (function() {
   var Knight, Piece,
     __hasProp = {}.hasOwnProperty,
@@ -217,7 +236,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //pawn.js
-__cs.libs.cs1d0f4d7e = (function(require, module, exports) {
+__cs.libs.cs4379d23b = (function(require, module, exports) {
 (function() {
   var Pawn, Piece,
     __hasProp = {}.hasOwnProperty,
@@ -312,9 +331,10 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //board.js
-__cs.libs.cs18cf41c2 = (function(require, module, exports) {
+__cs.libs.cs07b02b0c = (function(require, module, exports) {
 (function() {
-  var Bishop, Board, King, Knight, Pawn, Queen, Rook;
+  var Bishop, Board, King, Knight, Pawn, Queen, Rook,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
   King = require('./pieces/piece');
   King = require('./pieces/king');
   Queen = require('./pieces/queen');
@@ -328,13 +348,24 @@ __cs.libs.cs18cf41c2 = (function(require, module, exports) {
         setup_pieces = true;
       }
       this.initialize_board();
+      this.initialize_constants();
       if (setup_pieces) {
         this.initialize_pieces();
       }
     }
+    Board.prototype.initialize_constants = function() {
+      this.piece_map = {
+        Rook: Rook,
+        Knight: Knight,
+        Bishop: Bishop,
+        King: King,
+        Queen: Queen,
+        Pawn: Pawn
+      };
+      return this.colors = ['white', 'grey', 'black'];
+    };
     Board.prototype.initialize_board = function() {
       var $, _;
-      this.colors = ['white', 'grey', 'black'];
       return this.board = (function() {
         var _i, _results;
         _results = [];
@@ -395,11 +426,37 @@ __cs.libs.cs18cf41c2 = (function(require, module, exports) {
     Board.prototype.piece_at = function(x, y) {
       return this.board[(24 + x) % 24][y];
     };
-    Board.prototype.place_piece = function(piece, x, y) {
-      if (!(piece instanceof Piece)) {
-        throw "Must place a Piece";
+    Board.prototype.place_piece = function(type, color, x, y) {
+      var piece;
+      type = this.piece_map[this.sanitize_type(type)];
+      piece = new type({
+        board: this,
+        position: [x, y],
+        color: this.sanitize_color(color)
+      });
+      this.board[(24 + x) % 24][y] = piece;
+      return piece;
+    };
+    Board.prototype.move_piece = function(old_x, old_y, new_x, new_y) {
+      old_x = (old_x + 24) % 24;
+      if (!this.has_piece_at(old_x, old_y)) {
+        throw "No piece at (" + old_x + ", " + old_y + ")";
       }
-      return this.board[(24 + x) % 24][y] = piece;
+      return this.piece_at(old_x, old_y).move_to(new_x, new_y);
+    };
+    Board.prototype.sanitize_type = function(type) {
+      type = type.toLowerCase();
+      if (__indexOf.call(this.piece_map, type) < 0) {
+        throw "Invalid piece type";
+      }
+      return type;
+    };
+    Board.prototype.sanitize_color = function(color) {
+      color = color.toLowerCase();
+      if (__indexOf.call(this.colors, color) < 0) {
+        throw "Invalid color";
+      }
+      return color;
     };
     return Board;
   })();
@@ -432,5 +489,5 @@ __cs.libs.cs168726db = (function(require, module, exports) {
 return module.exports || exports;
 })(__cs.r, {}, {});
 
-window.ThreeChessEngine = __cs.libs.cs168726db
+window.ThreeChessBoard = __cs.libs.cs168726db 
 
