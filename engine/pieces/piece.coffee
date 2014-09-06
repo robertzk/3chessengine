@@ -32,4 +32,12 @@ class Piece
   x: -> @position[0]
   y: -> @position[1]
 
+  move_to: (new_x, new_y) ->
+    throw "Invalid new_x" unless new_x in [0..23]
+    throw "Invalid new_y" unless new_y in [0..5]
+    @board.board[new_x][new_y] = @
+    @board.board[@x()][@y()] = null
+    @position = [new_x, new_y]
+
 module.exports = Piece
+

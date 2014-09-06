@@ -1,5 +1,6 @@
 (function() {
-  var Bishop, Board, King, Knight, Pawn, Queen, Rook;
+  var Bishop, Board, King, Knight, Pawn, Queen, Rook,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   King = require('./pieces/piece');
 
@@ -21,14 +22,26 @@
         setup_pieces = true;
       }
       this.initialize_board();
+      this.initialize_constants();
       if (setup_pieces) {
         this.initialize_pieces();
       }
     }
 
+    Board.prototype.initialize_constants = function() {
+      this.piece_map = {
+        Rook: Rook,
+        Knight: Knight,
+        Bishop: Bishop,
+        King: King,
+        Queen: Queen,
+        Pawn: Pawn
+      };
+      return this.colors = ['white', 'grey', 'black'];
+    };
+
     Board.prototype.initialize_board = function() {
       var $, _;
-      this.colors = ['white', 'grey', 'black'];
       return this.board = (function() {
         var _i, _results;
         _results = [];
@@ -95,11 +108,40 @@
       return this.board[(24 + x) % 24][y];
     };
 
-    Board.prototype.place_piece = function(piece, x, y) {
-      if (!(piece instanceof Piece)) {
-        throw "Must place a Piece";
+    Board.prototype.place_piece = function(type, color, x, y) {
+      var piece;
+      type = this.piece_map[this.sanitize_type(type)];
+      piece = new type({
+        board: this,
+        position: [x, y],
+        color: this.sanitize_color(color)
+      });
+      this.board[(24 + x) % 24][y] = piece;
+      return piece;
+    };
+
+    Board.prototype.move_piece = function(old_x, old_y, new_x, new_y) {
+      old_x = (old_x + 24) % 24;
+      if (!this.has_piece_at(old_x, old_y)) {
+        throw "No piece at (" + old_x + ", " + old_y + ")";
       }
-      return this.board[(24 + x) % 24][y] = piece;
+      return this.piece_at(old_x, old_y).move_to(new_x, new_y);
+    };
+
+    Board.prototype.sanitize_type = function(type) {
+      type = type.toLowerCase();
+      if (__indexOf.call(this.piece_map, type) < 0) {
+        throw "Invalid piece type";
+      }
+      return type;
+    };
+
+    Board.prototype.sanitize_color = function(color) {
+      color = color.toLowerCase();
+      if (__indexOf.call(this.colors, color) < 0) {
+        throw "Invalid color";
+      }
+      return color;
     };
 
     return Board;

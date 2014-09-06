@@ -55,6 +55,23 @@
       return this.position[1];
     };
 
+    Piece.prototype.move_to = function(new_x, new_y) {
+      var _i, _results;
+      if (__indexOf.call((function() {
+        _results = [];
+        for (_i = 0; _i <= 23; _i++){ _results.push(_i); }
+        return _results;
+      }).apply(this), new_x) < 0) {
+        throw "Invalid new_x";
+      }
+      if (__indexOf.call([0, 1, 2, 3, 4, 5], new_y) < 0) {
+        throw "Invalid new_y";
+      }
+      this.board.board[new_x][new_y] = this;
+      this.board.board[this.x()][this.y()] = null;
+      return this.position = [new_x, new_y];
+    };
+
     return Piece;
 
   })();
