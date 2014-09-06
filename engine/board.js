@@ -128,6 +128,10 @@
       return this.piece_at(old_x, old_y).move_to(new_x, new_y);
     };
 
+    Board.prototype.remove_piece = function(x, y) {
+      return this.board[x][y] = null;
+    };
+
     Board.prototype.sanitize_type = function(type) {
       type = type.toLowerCase();
       if (!(type in this.piece_map)) {

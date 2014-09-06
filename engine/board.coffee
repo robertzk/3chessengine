@@ -50,6 +50,8 @@ class Board
     throw "No piece at (#{old_x}, #{old_y})" unless @has_piece_at(old_x, old_y)
     @piece_at(old_x, old_y).move_to(new_x, new_y)
 
+  remove_piece: (x, y) -> @board[x][y] = null
+
   # Private
   ##
 
