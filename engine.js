@@ -233,7 +233,7 @@ __cs.libs.cs591948df = (function(require, module, exports) {
       Queen.__super__.constructor.apply(this, arguments);
       this.type = 'queen';
     }
-    Queen.prototype.moves = octopus(true, true, true);
+    Queen.prototype.moves = octopus(true, true);
     return Queen;
   })(Piece);
   module.exports = Queen;
