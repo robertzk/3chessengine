@@ -21,6 +21,7 @@ __cs.map['./engine/pieces/knight'] = 'csefeb9072';
 __cs.map['./engine/pieces/pawn'] = 'cs4379d23b';
 __cs.map['./engine/board'] = 'cs07b02b0c';
 __cs.map['./piece'] = 'cs6b44f638';
+__cs.map['./octopus'] = 'csb79f58b0';
 __cs.map['./pieces/piece'] = 'cs6b44f638';
 __cs.map['./pieces/king'] = 'cs852f3f85';
 __cs.map['./pieces/queen'] = 'cs591948df';
@@ -103,72 +104,114 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
 return module.exports || exports;
 })(__cs.r, {}, {});
 
+//octopus.js
+__cs.libs.csb79f58b0 = (function(require, module, exports) {
+(function() {
+  var moves, normalize_position;
+  normalize_position = function(old_x, old_y, x, y) {
+    var diff, has_piece, offset, out, same_color;
+    if (y < 0) {
+      return {
+        can_move: false
+      };
+    }
+    if (Math.abs(old_x - x) !== 1 && Math.abs(old_y - y) !== 1) {
+      throw "Only adjacent moves supported";
+    }
+    diff = x - old_x;
+    x = (x + 24) % 24;
+    old_x = (old_x + 24) % 24;
+    out = {
+      can_move: true,
+      crossed_circle: false
+    };
+    if (y > 5) {
+      offset = Math.abs(old_x - x) + Math.abs(old_y - y) === 2 ? 14 : 12;
+      if (diff < 0) {
+        x = old_x + (24 - offset);
+        x %= 24;
+      } else {
+        x = old_x + offset;
+        x %= 24;
+      }
+      y = 5;
+      out.crossed_circle = true;
+    }
+    if (has_piece = this.board.has_piece_at(x, y)) {
+      same_color = this.board.piece_at(x, y).color === this.color;
+      out.can_move = !same_color;
+    }
+    out.final_move = has_piece;
+    out.position = [x, y];
+    return out;
+  };
+  moves = function(diagonal, axial, one_step) {
+    if (one_step == null) {
+      one_step = false;
+    }
+    return function() {
+      var dir, dirs, next_position, positions, prev_x, prev_y, tries, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3;
+      positions = [];
+      dirs = [];
+      if (axial) {
+        _ref = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          x = _ref[_i];
+          dirs.push(x);
+        }
+      }
+      if (diagonal) {
+        _ref1 = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          x = _ref1[_j];
+          dirs.push(x);
+        }
+      }
+      tries = [];
+      for (_k = 0, _len2 = dirs.length; _k < _len2; _k++) {
+        dir = dirs[_k];
+        prev_x = this.x();
+        prev_y = this.y();
+        while (true) {
+          _ref2 = [prev_x + dir[0], prev_y + dir[1]], x = _ref2[0], y = _ref2[1];
+          next_position = normalize_position.call(this, prev_x, prev_y, x, y);
+          tries.push([x, y]);
+          if (!next_position.can_move) {
+            break;
+          }
+          positions.push(next_position.position);
+          if (next_position.crossed_circle) {
+            dir[1] = -dir[1];
+          }
+          if (next_position.final_move || one_step) {
+            break;
+          }
+          _ref3 = next_position.position, prev_x = _ref3[0], prev_y = _ref3[1];
+        }
+      }
+      return positions;
+    };
+  };
+  module.exports = moves;
+}).call(this);
+return module.exports || exports;
+})(__cs.r, {}, {});
+
 //king.js
 __cs.libs.cs852f3f85 = (function(require, module, exports) {
 (function() {
-  var King, Piece,
+  var King, Piece, octopus,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
   Piece = require('./piece');
+  octopus = require('./octopus');
   King = (function(_super) {
     __extends(King, _super);
     function King(opts) {
       King.__super__.constructor.apply(this, arguments);
       this.type = 'king';
     }
-    King.prototype.normalize_position = function(old_x, old_y, x, y) {
-      var diff, has_piece, offset, out, same_color;
-      if (y < 0) {
-        return {
-          can_move: false
-        };
-      }
-      diff = x - old_x;
-      x = (x + 24) % 24;
-      old_x = (old_x + 24) % 24;
-      out = {
-        can_move: true,
-        crossed_circle: false
-      };
-      if (y > 5) {
-        offset = Math.abs(old_x - x) + Math.abs(old_y - y) === 2 ? 14 : 12;
-        if (diff < 0) {
-          x = old_x + (24 - offset);
-          x %= 24;
-        } else {
-          x = old_x + offset;
-          x %= 24;
-        }
-        y = 5;
-        out.crossed_circle = true;
-      }
-      if (has_piece = this.board.has_piece_at(x, y)) {
-        same_color = this.board.piece_at(x, y).color === this.color;
-        out.can_move = !same_color;
-      }
-      out.final_move = has_piece;
-      out.position = [x, y];
-      return out;
-    };
-    King.prototype.moves = function() {
-      var dir, next_position, positions, prev_x, prev_y, tries, x, y, _i, _len, _ref, _ref1;
-      positions = [];
-      tries = [];
-      _ref = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        dir = _ref[_i];
-        prev_x = this.x();
-        prev_y = this.y();
-        _ref1 = [prev_x + dir[0], prev_y + dir[1]], x = _ref1[0], y = _ref1[1];
-        next_position = this.normalize_position(prev_x, prev_y, x, y);
-        tries.push([x, y]);
-        if (!next_position.can_move) {
-          continue;
-        }
-        positions.push(next_position.position);
-      }
-      return positions;
-    };
+    King.prototype.moves = octopus(true, true, true);
     return King;
   })(Piece);
   module.exports = King;
@@ -179,78 +222,18 @@ return module.exports || exports;
 //queen.js
 __cs.libs.cs591948df = (function(require, module, exports) {
 (function() {
-  var Piece, Queen,
+  var Piece, Queen, octopus,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
   Piece = require('./piece');
+  octopus = require('./octopus');
   Queen = (function(_super) {
     __extends(Queen, _super);
     function Queen(opts) {
       Queen.__super__.constructor.apply(this, arguments);
       this.type = 'queen';
     }
-    Queen.prototype.normalize_position = function(old_x, old_y, x, y) {
-      var diff, has_piece, offset, out, same_color;
-      if (y < 0) {
-        return {
-          can_move: false
-        };
-      }
-      diff = x - old_x;
-      x = (x + 24) % 24;
-      old_x = (old_x + 24) % 24;
-      out = {
-        can_move: true,
-        crossed_circle: false
-      };
-      if (y > 5) {
-        offset = Math.abs(old_x - x) + Math.abs(old_y - y) === 2 ? 14 : 12;
-        if (diff < 0) {
-          x = old_x + (24 - offset);
-          x %= 24;
-        } else {
-          x = old_x + offset;
-          x %= 24;
-        }
-        y = 5;
-        out.crossed_circle = true;
-      }
-      if (has_piece = this.board.has_piece_at(x, y)) {
-        same_color = this.board.piece_at(x, y).color === this.color;
-        out.can_move = !same_color;
-      }
-      out.final_move = has_piece;
-      out.position = [x, y];
-      return out;
-    };
-    Queen.prototype.moves = function() {
-      var dir, next_position, positions, prev_x, prev_y, tries, x, y, _i, _len, _ref, _ref1, _ref2;
-      positions = [];
-      tries = [];
-      _ref = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        dir = _ref[_i];
-        prev_x = this.x();
-        prev_y = this.y();
-        while (true) {
-          _ref1 = [prev_x + dir[0], prev_y + dir[1]], x = _ref1[0], y = _ref1[1];
-          next_position = this.normalize_position(prev_x, prev_y, x, y);
-          tries.push([x, y]);
-          if (!next_position.can_move) {
-            break;
-          }
-          positions.push(next_position.position);
-          if (next_position.crossed_circle) {
-            dir[1] = -dir[1];
-          }
-          if (next_position.final_move) {
-            break;
-          }
-          _ref2 = next_position.position, prev_x = _ref2[0], prev_y = _ref2[1];
-        }
-      }
-      return positions;
-    };
+    Queen.prototype.moves = octopus(true, true, true);
     return Queen;
   })(Piece);
   module.exports = Queen;
@@ -261,80 +244,18 @@ return module.exports || exports;
 //rook.js
 __cs.libs.cs50ac7fdb = (function(require, module, exports) {
 (function() {
-  var Piece, Rook,
+  var Piece, Rook, octopus,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
   Piece = require('./piece');
+  octopus = require('./octopus');
   Rook = (function(_super) {
     __extends(Rook, _super);
     function Rook(opts) {
       Rook.__super__.constructor.apply(this, arguments);
       this.type = 'rook';
     }
-    Rook.prototype.normalize_position = function(old_x, old_y, x, y) {
-      var diff, has_piece, out, same_color;
-      if (y < 0) {
-        return {
-          can_move: false
-        };
-      }
-      if (Math.abs(old_x - x) !== 1 && Math.abs(old_y - y) !== 1) {
-        throw "Only adjacent moves supported";
-      }
-      diff = x - old_x;
-      x = (x + 24) % 24;
-      old_x = (old_x + 24) % 24;
-      out = {
-        can_move: true,
-        crossed_circle: false
-      };
-      if (y > 5) {
-        if (diff < 0) {
-          x = old_x + (24 - 12);
-          x %= 24;
-        } else {
-          x = old_x + 12;
-          x %= 24;
-        }
-        y = 5;
-        out.crossed_circle = true;
-      }
-      if (has_piece = this.board.has_piece_at(x, y)) {
-        same_color = this.board.piece_at(x, y).color === this.color;
-        out.can_move = !same_color;
-      }
-      out.final_move = has_piece;
-      out.position = [x, y];
-      return out;
-    };
-    Rook.prototype.moves = function() {
-      var dir, next_position, positions, prev_x, prev_y, tries, x, y, _i, _len, _ref, _ref1, _ref2;
-      positions = [];
-      tries = [];
-      _ref = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        dir = _ref[_i];
-        prev_x = this.x();
-        prev_y = this.y();
-        while (true) {
-          _ref1 = [prev_x + dir[0], prev_y + dir[1]], x = _ref1[0], y = _ref1[1];
-          next_position = this.normalize_position(prev_x, prev_y, x, y);
-          tries.push([x, y]);
-          if (!next_position.can_move) {
-            break;
-          }
-          positions.push(next_position.position);
-          if (next_position.crossed_circle) {
-            dir[1] = -dir[1];
-          }
-          if (next_position.final_move) {
-            break;
-          }
-          _ref2 = next_position.position, prev_x = _ref2[0], prev_y = _ref2[1];
-        }
-      }
-      return positions;
-    };
+    Rook.prototype.moves = octopus(false, true);
     return Rook;
   })(Piece);
   module.exports = Rook;
@@ -345,80 +266,18 @@ return module.exports || exports;
 //bishop.js
 __cs.libs.cs5f8b3ecd = (function(require, module, exports) {
 (function() {
-  var Bishop, Piece,
+  var Bishop, Piece, octopus,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
   Piece = require('./piece');
+  octopus = require('./octopus');
   Bishop = (function(_super) {
     __extends(Bishop, _super);
     function Bishop(opts) {
       Bishop.__super__.constructor.apply(this, arguments);
       this.type = 'bishop';
     }
-    Bishop.prototype.normalize_position = function(old_x, old_y, x, y) {
-      var diff, has_piece, out, same_color;
-      if (y < 0) {
-        return {
-          can_move: false
-        };
-      }
-      if (Math.abs(old_x - x) !== 1 || Math.abs(old_y - y) !== 1) {
-        throw "Only adjacent moves supported";
-      }
-      diff = x - old_x;
-      x = (x + 24) % 24;
-      old_x = (old_x + 24) % 24;
-      out = {
-        can_move: true,
-        crossed_circle: false
-      };
-      if (y > 5) {
-        if (diff < 0) {
-          x = old_x + (24 - 14);
-          x %= 24;
-        } else {
-          x = old_x + 14;
-          x %= 24;
-        }
-        y = 5;
-        out.crossed_circle = true;
-      }
-      if (has_piece = this.board.has_piece_at(x, y)) {
-        same_color = this.board.piece_at(x, y).color === this.color;
-        out.can_move = !same_color;
-      }
-      out.final_move = has_piece;
-      out.position = [x, y];
-      return out;
-    };
-    Bishop.prototype.moves = function() {
-      var dir, next_position, positions, prev_x, prev_y, tries, x, y, _i, _len, _ref, _ref1, _ref2;
-      positions = [];
-      tries = [];
-      _ref = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        dir = _ref[_i];
-        prev_x = this.x();
-        prev_y = this.y();
-        while (true) {
-          _ref1 = [prev_x + dir[0], prev_y + dir[1]], x = _ref1[0], y = _ref1[1];
-          next_position = this.normalize_position(prev_x, prev_y, x, y);
-          tries.push([x, y]);
-          if (!next_position.can_move) {
-            break;
-          }
-          positions.push(next_position.position);
-          if (next_position.crossed_circle) {
-            dir[1] = -dir[1];
-          }
-          if (next_position.final_move) {
-            break;
-          }
-          _ref2 = next_position.position, prev_x = _ref2[0], prev_y = _ref2[1];
-        }
-      }
-      return positions;
-    };
+    Bishop.prototype.moves = octopus(true, false);
     return Bishop;
   })(Piece);
   module.exports = Bishop;
