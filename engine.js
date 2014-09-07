@@ -474,7 +474,7 @@ __cs.libs.cs07b02b0c = (function(require, module, exports) {
         queen: Queen,
         pawn: Pawn
       };
-      return this.colors = ['white', 'grey', 'black'];
+      return this.colors = ['white', 'black', 'grey'];
     };
     Board.prototype.initialize_board = function() {
       var $, _;
