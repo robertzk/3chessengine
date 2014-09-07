@@ -15,7 +15,7 @@ class Board
 
   initialize_constants: ->
     @piece_map = { rook: Rook, knight: Knight, bishop: Bishop, king: King, queen: Queen, pawn: Pawn }
-    @colors = ['white', 'grey', 'black']
+    @colors = ['white', 'black', 'grey']
 
   initialize_board: ->
     @board = (null for _ in [0..5] for $ in [0..23])
