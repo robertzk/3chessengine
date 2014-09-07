@@ -37,7 +37,7 @@
         queen: Queen,
         pawn: Pawn
       };
-      return this.colors = ['white', 'black', 'grey'];
+      return this.colors = ['white', 'grey', 'black'];
     };
 
     Board.prototype.initialize_board = function() {
