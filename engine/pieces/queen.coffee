@@ -6,7 +6,7 @@ class Queen extends Piece
     super
     @type = 'queen'
 
-  moves: octopus(true, true, true)
+  moves: octopus(true, true)
 
 module.exports = Queen
 
