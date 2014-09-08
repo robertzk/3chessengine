@@ -19,13 +19,20 @@
     };
 
     Piece.prototype.filter_checks = function(moves) {
-      var bad, color, king, move, ok_moves, piece, vb, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
+      var bad, color, king, move, ok_moves, piece, vb, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
       ok_moves = [];
       for (_i = 0, _len = moves.length; _i < _len; _i++) {
         move = moves[_i];
         vb = this.board.virtual_board();
         vb.move_piece(this.x(), this.y(), move[0], move[1]);
-        king = vb.king(this.color);
+        if (this.type === 'king') {
+          x = move[0];
+          y = move[1];
+        } else {
+          king = vb.king(this.color);
+          x = king.x();
+          y = king.y();
+        }
         bad = false;
         _ref = vb.colors;
         for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
@@ -34,7 +41,7 @@
             _ref1 = vb.get_pieces(color);
             for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
               piece = _ref1[_k];
-              if (all_in([king.x(), king.y()], piece.moves())) {
+              if (all_in([[x, y]], piece.moves())) {
                 bad = true;
                 break;
               }

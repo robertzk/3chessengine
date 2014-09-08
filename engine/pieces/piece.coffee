@@ -14,11 +14,17 @@ class Piece
     for move in moves
       vb = do @board.virtual_board
       vb.move_piece(@x(), @y(), move[0], move[1])
-      king = vb.king(@color)
+      if @type == 'king'
+        x = move[0]
+        y = move[1]
+      else
+        king = vb.king(@color)
+        x = king.x()
+        y = king.y()
       bad = false
       for color in vb.colors when color != @color
         for piece in vb.get_pieces(color)
-          if all_in([king.x(), king.y()], piece.moves())
+          if all_in([[x, y]], piece.moves())
             bad = true
             break
 
