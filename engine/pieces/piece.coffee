@@ -18,7 +18,7 @@ class Piece
       bad = false
       for color in vb.colors when color != @color
         for piece in vb.get_pieces(color)
-          if [move].all_in(piece.moves())
+          if all_in([king.x(), king.y()], piece.moves())
             bad = true
             break
 
