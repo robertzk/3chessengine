@@ -33,18 +33,19 @@ normalize_position = (old_x, old_y, x, y) ->
   if Math.abs(old_x - x) != 1 && Math.abs(old_y - y) != 1
     throw "Only adjacent moves supported"
 
-  diff = x - old_x # This has to be precomputed before the % 24s
+  diff_x = x - old_x # This has to be precomputed before the % 24s
+  diff_y = y - old_y
   x = (x + 24) % 24
   old_x = (old_x + 24) % 24
   out = { can_move: true, crossed_circle: false }
   if y > 5
     offset =
-      if Math.abs(old_x - x) + Math.abs(old_y - y) == 2
+      if Math.abs(diff_x) + Math.abs(diff_y) == 2
         14 # Like a bishop
       else
         12 # Like a rook
 
-    if diff < 0
+    if diff_x < 0
       x = old_x + (24 - offset)
       x %= 24
     else

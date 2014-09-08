@@ -2,7 +2,7 @@
   var moves, normalize_position;
 
   normalize_position = function(old_x, old_y, x, y) {
-    var diff, has_piece, offset, out, same_color;
+    var diff_x, diff_y, has_piece, offset, out, same_color;
     if (y < 0) {
       return {
         can_move: false
@@ -11,7 +11,8 @@
     if (Math.abs(old_x - x) !== 1 && Math.abs(old_y - y) !== 1) {
       throw "Only adjacent moves supported";
     }
-    diff = x - old_x;
+    diff_x = x - old_x;
+    diff_y = y - old_y;
     x = (x + 24) % 24;
     old_x = (old_x + 24) % 24;
     out = {
@@ -19,8 +20,8 @@
       crossed_circle: false
     };
     if (y > 5) {
-      offset = Math.abs(old_x - x) + Math.abs(old_y - y) === 2 ? 14 : 12;
-      if (diff < 0) {
+      offset = Math.abs(diff_x) + Math.abs(diff_y) === 2 ? 14 : 12;
+      if (diff_x < 0) {
         x = old_x + (24 - offset);
         x %= 24;
       } else {
