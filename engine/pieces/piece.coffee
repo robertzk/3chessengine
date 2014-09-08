@@ -1,4 +1,4 @@
-all_in = require('./util').all_In
+all_in = require('./util').all_in
 class Piece
 
   constructor: (opts) ->

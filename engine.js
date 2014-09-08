@@ -1346,7 +1346,7 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
 (function() {
   var Piece, all_in,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
-  all_in = require('./util').all_In;
+  all_in = require('./util').all_in;
   Piece = (function() {
     function Piece(opts) {
       if (!arguments.length) {
