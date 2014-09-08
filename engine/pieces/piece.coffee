@@ -19,12 +19,15 @@ class Piece
         y = move[1]
       else
         king = vb.king(@color)
+        unless king
+          ok_moves = moves
+          break
         x = king.x()
         y = king.y()
       bad = false
       for color in vb.colors when color != @color
         for piece in vb.get_pieces(color)
-          if all_in([[x, y]], piece.moves())
+          if all_in([[x, y]], piece.moves(false))
             bad = true
             break
 

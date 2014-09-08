@@ -1371,6 +1371,10 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
           y = move[1];
         } else {
           king = vb.king(this.color);
+          if (!king) {
+            ok_moves = moves;
+            break;
+          }
           x = king.x();
           y = king.y();
         }
@@ -1382,7 +1386,7 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
             _ref1 = vb.get_pieces(color);
             for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
               piece = _ref1[_k];
-              if (all_in([[x, y]], piece.moves())) {
+              if (all_in([[x, y]], piece.moves(false))) {
                 bad = true;
                 break;
               }
@@ -1501,8 +1505,11 @@ __cs.libs.csb79f58b0 = (function(require, module, exports) {
     if (one_step == null) {
       one_step = false;
     }
-    return function() {
+    return function(filter) {
       var dir, dirs, next_position, positions, prev_x, prev_y, tries, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3;
+      if (filter == null) {
+        filter = true;
+      }
       positions = [];
       dirs = [];
       if (axial) {
@@ -1541,7 +1548,11 @@ __cs.libs.csb79f58b0 = (function(require, module, exports) {
           _ref3 = next_position.position, prev_x = _ref3[0], prev_y = _ref3[1];
         }
       }
-      return positions;
+      if (filter) {
+        return this.filter_checks(positions);
+      } else {
+        return positions;
+      }
     };
   };
   module.exports = moves;
@@ -1563,9 +1574,7 @@ __cs.libs.cs852f3f85 = (function(require, module, exports) {
       King.__super__.constructor.apply(this, arguments);
       this.type = 'king';
     }
-    King.prototype.moves = function() {
-      return this.filter_checks(octopus(true, true, true).apply(this, Array.prototype.slice.call(arguments)));
-    };
+    King.prototype.moves = octopus(true, true, true);
 
     /*
      * If a king has moved, it can no longer castle.
@@ -1684,8 +1693,11 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
      *
      * Recall that it can capture in L shapes all around the board.
      */
-    Knight.prototype.moves = function() {
+    Knight.prototype.moves = function(filter) {
       var d, positions, sign1, sign2, x, y, _i, _j, _k, _ref, _ref1;
+      if (filter == null) {
+        filter = true;
+      }
       positions = [];
       for (sign1 = _i = -1; _i <= 1; sign1 = _i += 2) {
         for (sign2 = _j = -1; _j <= 1; sign2 = _j += 2) {
@@ -1698,7 +1710,11 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
           }
         }
       }
-      return positions;
+      if (filter) {
+        return this.filter_checks(positions);
+      } else {
+        return positions;
+      }
     };
     return Knight;
   })(Piece);
@@ -1754,11 +1770,16 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
      * forward. Adjacent to the center, the pawn can cross the center, or 
      * capture along the same diagonal a bishop would be able to.
      */
-    Pawn.prototype.moves = function() {
-      if (this.y() === 5 && this.towards_center) {
-        return this.center_moves();
+    Pawn.prototype.moves = function(filter) {
+      var moves;
+      if (filter == null) {
+        filter = true;
+      }
+      moves = this.y() === 5 && this.towards_center ? this.center_moves() : this.noncenter_moves();
+      if (filter) {
+        return this.filter_checks(moves);
       } else {
-        return this.noncenter_moves();
+        return moves;
       }
     };
     Pawn.prototype.center_moves = function() {

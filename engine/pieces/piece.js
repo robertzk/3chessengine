@@ -30,6 +30,10 @@
           y = move[1];
         } else {
           king = vb.king(this.color);
+          if (!king) {
+            ok_moves = moves;
+            break;
+          }
           x = king.x();
           y = king.y();
         }
@@ -41,7 +45,7 @@
             _ref1 = vb.get_pieces(color);
             for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
               piece = _ref1[_k];
-              if (all_in([[x, y]], piece.moves())) {
+              if (all_in([[x, y]], piece.moves(false))) {
                 bad = true;
                 break;
               }

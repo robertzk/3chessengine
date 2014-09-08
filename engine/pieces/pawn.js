@@ -52,11 +52,16 @@
      * capture along the same diagonal a bishop would be able to.
      */
 
-    Pawn.prototype.moves = function() {
-      if (this.y() === 5 && this.towards_center) {
-        return this.center_moves();
+    Pawn.prototype.moves = function(filter) {
+      var moves;
+      if (filter == null) {
+        filter = true;
+      }
+      moves = this.y() === 5 && this.towards_center ? this.center_moves() : this.noncenter_moves();
+      if (filter) {
+        return this.filter_checks(moves);
       } else {
-        return this.noncenter_moves();
+        return moves;
       }
     };
 

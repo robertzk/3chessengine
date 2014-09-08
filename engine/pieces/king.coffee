@@ -6,8 +6,7 @@ class King extends Piece
     super
     @type = 'king'
 
-  moves: ->
-    @filter_checks octopus(true, true, true).apply(@, Array.prototype.slice.call(arguments))
+  moves: octopus(true, true, true)
 
   ###
   # If a king has moved, it can no longer castle.

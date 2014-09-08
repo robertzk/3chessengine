@@ -15,9 +15,7 @@
       this.type = 'king';
     }
 
-    King.prototype.moves = function() {
-      return this.filter_checks(octopus(true, true, true).apply(this, Array.prototype.slice.call(arguments)));
-    };
+    King.prototype.moves = octopus(true, true, true);
 
 
     /*

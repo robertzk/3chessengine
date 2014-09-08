@@ -79,6 +79,12 @@
       b = new Board();
       king = b.king('white');
       king.x().should.equal(3);
+      king.y().should.equal(0);
+      king = b.king('black');
+      king.x().should.equal(3 + 8);
+      king.y().should.equal(0);
+      king = b.king('grey');
+      king.x().should.equal(3 + 16);
       return king.y().should.equal(0);
     });
     return it("can find colored pieces", function() {

@@ -57,6 +57,12 @@ describe 'Board', ->
     king = b.king('white')
     king.x().should.equal 3
     king.y().should.equal 0
+    king = b.king('black')
+    king.x().should.equal 3 + 8
+    king.y().should.equal 0
+    king = b.king('grey')
+    king.x().should.equal 3 + 16
+    king.y().should.equal 0
 
   it "can find colored pieces", ->
     b = new Board()
