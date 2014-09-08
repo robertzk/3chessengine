@@ -16,7 +16,7 @@ class Piece
 
   assign_board: (opts) ->
     throw "Please provide a board" unless 'board' of opts
-    unless opts.board?.constructor?.name is 'Board'
+    unless opts.board?.__class == 'Board'
       throw "Specified 'board' is not a Board"
 
     @board = opts.board

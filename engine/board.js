@@ -21,6 +21,7 @@
       if (setup_pieces == null) {
         setup_pieces = true;
       }
+      this.__class = 'Board';
       this.initialize_board();
       this.initialize_constants();
       if (setup_pieces) {

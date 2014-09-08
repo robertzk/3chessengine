@@ -56,11 +56,11 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
       return this.color = color;
     };
     Piece.prototype.assign_board = function(opts) {
-      var _ref, _ref1;
+      var _ref;
       if (!('board' in opts)) {
         throw "Please provide a board";
       }
-      if (((_ref = opts.board) != null ? (_ref1 = _ref.constructor) != null ? _ref1.name : void 0 : void 0) !== 'Board') {
+      if (((_ref = opts.board) != null ? _ref.__class : void 0) !== 'Board') {
         throw "Specified 'board' is not a Board";
       }
       return this.board = opts.board;
@@ -459,6 +459,7 @@ __cs.libs.cs07b02b0c = (function(require, module, exports) {
       if (setup_pieces == null) {
         setup_pieces = true;
       }
+      this.__class = 'Board';
       this.initialize_board();
       this.initialize_constants();
       if (setup_pieces) {

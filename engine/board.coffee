@@ -9,6 +9,8 @@ Pawn   = require './pieces/pawn'
 class Board
 
   constructor: (setup_pieces = true) ->
+    @__class = 'Board'
+
     do @initialize_board
     do @initialize_constants
     @initialize_pieces() if setup_pieces

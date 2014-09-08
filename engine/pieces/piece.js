@@ -26,11 +26,11 @@
     };
 
     Piece.prototype.assign_board = function(opts) {
-      var _ref, _ref1;
+      var _ref;
       if (!('board' in opts)) {
         throw "Please provide a board";
       }
-      if (((_ref = opts.board) != null ? (_ref1 = _ref.constructor) != null ? _ref1.name : void 0 : void 0) !== 'Board') {
+      if (((_ref = opts.board) != null ? _ref.__class : void 0) !== 'Board') {
         throw "Specified 'board' is not a Board";
       }
       return this.board = opts.board;
