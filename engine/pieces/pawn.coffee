@@ -36,14 +36,14 @@ class Pawn extends Piece
   # forward. Adjacent to the center, the pawn can cross the center, or 
   # capture along the same diagonal a bishop would be able to.
   ###
-  moves: (filter = 2) ->
+  moves: (filter = 3) ->
     moves =
       if @y() == 5 && @towards_center # We have reached the inner circle
         do @center_moves
       else
         do @noncenter_moves
 
-    @filter_checks(moves, filter)
+    @filter_checks(moves, filter - 1)
 
   center_moves: ->
     moves = []
