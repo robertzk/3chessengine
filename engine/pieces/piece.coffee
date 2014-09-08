@@ -27,7 +27,7 @@ class Piece
         y = king.y()
       bad = false
       for color in vb.colors when color != @color
-        for piece in vb.get_pieces(color)
+        for piece in vb.get_pieces(color) when piece.type != 'pawn'
           if all_in([[x, y]], piece.moves(depth))
             bad = true
             break
