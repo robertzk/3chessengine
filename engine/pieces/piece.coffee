@@ -62,7 +62,7 @@ class Piece
   y: -> @position[1]
 
   move_to: (new_x, new_y) ->
-    new_x %= 24
+    new_x = (new_x + 24) % 24
     throw "Invalid new_x" unless new_x in [0..23]
     throw "Invalid new_y" unless new_y in [0..5]
     @board.board[new_x][new_y] = @

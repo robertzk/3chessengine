@@ -1444,7 +1444,7 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
     };
     Piece.prototype.move_to = function(new_x, new_y) {
       var _i, _results;
-      new_x %= 24;
+      new_x = (new_x + 24) % 24;
       if (__indexOf.call((function() {
         _results = [];
         for (_i = 0; _i <= 23; _i++){ _results.push(_i); }
