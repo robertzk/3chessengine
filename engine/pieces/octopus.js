@@ -87,7 +87,7 @@
           _ref3 = next_position.position, prev_x = _ref3[0], prev_y = _ref3[1];
         }
       }
-      return this.filter_checks(positions, filter - 1);
+      return this.filter_checks(positions, filter);
     };
   };
 

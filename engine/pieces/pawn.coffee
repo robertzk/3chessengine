@@ -43,7 +43,7 @@ class Pawn extends Piece
       else
         do @noncenter_moves
 
-    @filter_checks(moves, filter - 1)
+    @filter_checks(moves, filter)
 
   center_moves: ->
     moves = []

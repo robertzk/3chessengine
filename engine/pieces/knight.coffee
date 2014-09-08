@@ -33,7 +33,7 @@ class Knight extends Piece
           continue if !y? or @board.piece_at(x, y)?.color == @color
           positions.push [x, y]
 
-    @filter_checks positions, filter - 1
+    @filter_checks positions, filter
 
   # TODO: (RK) Knights cannot cross moats.
 

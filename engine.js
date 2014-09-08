@@ -1554,7 +1554,7 @@ __cs.libs.csb79f58b0 = (function(require, module, exports) {
           _ref3 = next_position.position, prev_x = _ref3[0], prev_y = _ref3[1];
         }
       }
-      return this.filter_checks(positions, filter - 1);
+      return this.filter_checks(positions, filter);
     };
   };
   module.exports = moves;
@@ -1712,7 +1712,7 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
           }
         }
       }
-      return this.filter_checks(positions, filter - 1);
+      return this.filter_checks(positions, filter);
     };
     return Knight;
   })(Piece);
@@ -1774,7 +1774,7 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
         filter = 2;
       }
       moves = this.y() === 5 && this.towards_center ? this.center_moves() : this.noncenter_moves();
-      return this.filter_checks(moves, filter - 1);
+      return this.filter_checks(moves, filter);
     };
     Pawn.prototype.center_moves = function() {
       var i, moves, _i, _len, _ref;

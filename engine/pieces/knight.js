@@ -48,7 +48,7 @@
           }
         }
       }
-      return this.filter_checks(positions, filter - 1);
+      return this.filter_checks(positions, filter);
     };
 
     return Knight;

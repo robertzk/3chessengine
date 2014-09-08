@@ -92,7 +92,7 @@ moves = (diagonal, axial, one_step = false) -> (filter = 2) ->
       break if next_position.final_move || one_step
       [prev_x, prev_y] = next_position.position
 
-  @filter_checks positions, filter - 1
+  @filter_checks positions, filter
 
 module.exports = moves
 
