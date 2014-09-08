@@ -1359,8 +1359,14 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
     Piece.prototype.moves = function() {
       return [];
     };
-    Piece.prototype.filter_checks = function(moves) {
+    Piece.prototype.filter_checks = function(moves, depth) {
       var bad, color, king, move, ok_moves, piece, vb, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
+      if (depth == null) {
+        depth = 0;
+      }
+      if (!depth) {
+        return moves;
+      }
       ok_moves = [];
       for (_i = 0, _len = moves.length; _i < _len; _i++) {
         move = moves[_i];
@@ -1386,7 +1392,7 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
             _ref1 = vb.get_pieces(color);
             for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
               piece = _ref1[_k];
-              if (all_in([[x, y]], piece.moves(false))) {
+              if (all_in([[x, y]], piece.moves(depth))) {
                 bad = true;
                 break;
               }
@@ -1508,7 +1514,7 @@ __cs.libs.csb79f58b0 = (function(require, module, exports) {
     return function(filter) {
       var dir, dirs, next_position, positions, prev_x, prev_y, tries, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3;
       if (filter == null) {
-        filter = true;
+        filter = 2;
       }
       positions = [];
       dirs = [];
@@ -1548,11 +1554,7 @@ __cs.libs.csb79f58b0 = (function(require, module, exports) {
           _ref3 = next_position.position, prev_x = _ref3[0], prev_y = _ref3[1];
         }
       }
-      if (filter) {
-        return this.filter_checks(positions);
-      } else {
-        return positions;
-      }
+      return this.filter_checks(positions, filter - 1);
     };
   };
   module.exports = moves;
@@ -1696,7 +1698,7 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
     Knight.prototype.moves = function(filter) {
       var d, positions, sign1, sign2, x, y, _i, _j, _k, _ref, _ref1;
       if (filter == null) {
-        filter = true;
+        filter = 2;
       }
       positions = [];
       for (sign1 = _i = -1; _i <= 1; sign1 = _i += 2) {
@@ -1710,11 +1712,7 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
           }
         }
       }
-      if (filter) {
-        return this.filter_checks(positions);
-      } else {
-        return positions;
-      }
+      return this.filter_checks(positions, filter - 1);
     };
     return Knight;
   })(Piece);
@@ -1773,14 +1771,10 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
     Pawn.prototype.moves = function(filter) {
       var moves;
       if (filter == null) {
-        filter = true;
+        filter = 2;
       }
       moves = this.y() === 5 && this.towards_center ? this.center_moves() : this.noncenter_moves();
-      if (filter) {
-        return this.filter_checks(moves);
-      } else {
-        return moves;
-      }
+      return this.filter_checks(moves, filter - 1);
     };
     Pawn.prototype.center_moves = function() {
       var i, moves, _i, _len, _ref;

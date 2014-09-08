@@ -9,7 +9,8 @@ class Piece
 
   moves: -> []
 
-  filter_checks: (moves) ->
+  filter_checks: (moves, depth = 0) ->
+    return moves unless depth
     ok_moves = []
     for move in moves
       vb = do @board.virtual_board
@@ -27,7 +28,7 @@ class Piece
       bad = false
       for color in vb.colors when color != @color
         for piece in vb.get_pieces(color)
-          if all_in([[x, y]], piece.moves(false))
+          if all_in([[x, y]], piece.moves(depth))
             bad = true
             break
 

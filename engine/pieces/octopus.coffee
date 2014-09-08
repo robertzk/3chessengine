@@ -68,7 +68,7 @@ normalize_position = (old_x, old_y, x, y) ->
 # set one_step = true so we only compute one step forward.
 # This function is intended to be used for Queen, Bishop, Rook, and King
 # as a method.
-moves = (diagonal, axial, one_step = false) -> (filter = true) ->
+moves = (diagonal, axial, one_step = false) -> (filter = 2) ->
   positions = []
   dirs = []
   if axial
@@ -92,10 +92,7 @@ moves = (diagonal, axial, one_step = false) -> (filter = true) ->
       break if next_position.final_move || one_step
       [prev_x, prev_y] = next_position.position
 
-  if filter
-    @filter_checks positions
-  else
-    positions
+  @filter_checks positions, filter - 1
 
 module.exports = moves
 

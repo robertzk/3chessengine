@@ -34,7 +34,7 @@
     Knight.prototype.moves = function(filter) {
       var d, positions, sign1, sign2, x, y, _i, _j, _k, _ref, _ref1;
       if (filter == null) {
-        filter = true;
+        filter = 2;
       }
       positions = [];
       for (sign1 = _i = -1; _i <= 1; sign1 = _i += 2) {
@@ -48,11 +48,7 @@
           }
         }
       }
-      if (filter) {
-        return this.filter_checks(positions);
-      } else {
-        return positions;
-      }
+      return this.filter_checks(positions, filter - 1);
     };
 
     return Knight;

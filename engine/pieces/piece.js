@@ -18,8 +18,14 @@
       return [];
     };
 
-    Piece.prototype.filter_checks = function(moves) {
+    Piece.prototype.filter_checks = function(moves, depth) {
       var bad, color, king, move, ok_moves, piece, vb, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
+      if (depth == null) {
+        depth = 0;
+      }
+      if (!depth) {
+        return moves;
+      }
       ok_moves = [];
       for (_i = 0, _len = moves.length; _i < _len; _i++) {
         move = moves[_i];
@@ -45,7 +51,7 @@
             _ref1 = vb.get_pieces(color);
             for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
               piece = _ref1[_k];
-              if (all_in([[x, y]], piece.moves(false))) {
+              if (all_in([[x, y]], piece.moves(depth))) {
                 bad = true;
                 break;
               }

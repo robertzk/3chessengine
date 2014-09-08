@@ -47,7 +47,7 @@
     return function(filter) {
       var dir, dirs, next_position, positions, prev_x, prev_y, tries, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3;
       if (filter == null) {
-        filter = true;
+        filter = 2;
       }
       positions = [];
       dirs = [];
@@ -87,11 +87,7 @@
           _ref3 = next_position.position, prev_x = _ref3[0], prev_y = _ref3[1];
         }
       }
-      if (filter) {
-        return this.filter_checks(positions);
-      } else {
-        return positions;
-      }
+      return this.filter_checks(positions, filter - 1);
     };
   };
 
