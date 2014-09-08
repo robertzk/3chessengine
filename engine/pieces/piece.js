@@ -34,7 +34,7 @@
             _ref1 = vb.get_pieces(color);
             for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
               piece = _ref1[_k];
-              if ([move].all_in(piece.moves())) {
+              if (all_in([king.x(), king.y()], piece.moves())) {
                 bad = true;
                 break;
               }
