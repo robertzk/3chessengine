@@ -1,11 +1,30 @@
+all_in = require('./util').all_In
 class Piece
 
   constructor: (opts) ->
+    return @ unless arguments.length
     @assign_color    opts
     @assign_board    opts
     @assign_position opts
 
   moves: -> []
+
+  filter_checks: (moves) ->
+    ok_moves = []
+    for move in moves
+      vb = do @board.virtual_board
+      vb.move_piece(@x(), @y(), move[0], move[1])
+      king = vb.king(@color)
+      bad = false
+      for color in vb.colors when color != @color
+        for piece in vb.get_pieces(color)
+          if [move].all_in(piece.moves())
+            bad = true
+            break
+
+      ok_moves.push(move) unless bad
+
+    ok_moves
 
   assign_color: (opts) ->
     throw "Please provide a piece color" unless 'color' of opts

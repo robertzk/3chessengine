@@ -1,9 +1,14 @@
 (function() {
-  var Piece,
+  var Piece, all_in,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+  all_in = require('./util').all_In;
 
   Piece = (function() {
     function Piece(opts) {
+      if (!arguments.length) {
+        return this;
+      }
       this.assign_color(opts);
       this.assign_board(opts);
       this.assign_position(opts);
@@ -11,6 +16,36 @@
 
     Piece.prototype.moves = function() {
       return [];
+    };
+
+    Piece.prototype.filter_checks = function(moves) {
+      var bad, color, king, move, ok_moves, piece, vb, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
+      ok_moves = [];
+      for (_i = 0, _len = moves.length; _i < _len; _i++) {
+        move = moves[_i];
+        vb = this.board.virtual_board();
+        vb.move_piece(this.x(), this.y(), move[0], move[1]);
+        king = vb.king(this.color);
+        bad = false;
+        _ref = vb.colors;
+        for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+          color = _ref[_j];
+          if (color !== this.color) {
+            _ref1 = vb.get_pieces(color);
+            for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
+              piece = _ref1[_k];
+              if ([move].all_in(piece.moves())) {
+                bad = true;
+                break;
+              }
+            }
+          }
+        }
+        if (!bad) {
+          ok_moves.push(move);
+        }
+      }
+      return ok_moves;
     };
 
     Piece.prototype.assign_color = function(opts) {

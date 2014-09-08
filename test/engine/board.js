@@ -57,7 +57,7 @@
       b = new Board();
       return b.piece_at(0, 0).should.equal(b.board[0][0]);
     });
-    return it("should be able to move a piece", function() {
+    it("should be able to move a piece", function() {
       var b, piece;
       b = new Board();
       piece = b.piece_at(0, 1);
@@ -65,6 +65,27 @@
       b.has_piece_at(0, 1).should.be["false"];
       b.has_piece_at(0, 3).should.be["true"];
       return b.piece_at(0, 3).should.equal(piece);
+    });
+    it("a virtual board should not interfere with the real board", function() {
+      var b, vb;
+      b = new Board();
+      vb = b.virtual_board();
+      vb.move_piece(1, 1, 1, 2);
+      vb.has_piece_at(1, 2).should.be["true"];
+      return b.has_piece_at(1, 2).should.be["false"];
+    });
+    it("can find a king", function() {
+      var b, king;
+      b = new Board();
+      king = b.king('white');
+      king.x().should.equal(3);
+      return king.y().should.equal(0);
+    });
+    return it("can find colored pieces", function() {
+      var b, whites;
+      b = new Board();
+      whites = b.get_pieces('white');
+      return whites.length.should.equal(16);
     });
   });
 

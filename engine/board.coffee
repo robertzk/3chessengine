@@ -1,4 +1,6 @@
-King   = require './pieces/piece'
+clone = require './clone'
+
+Piece  = require './pieces/piece'
 King   = require './pieces/king'
 Queen  = require './pieces/queen'
 Rook   = require './pieces/rook'
@@ -38,6 +40,21 @@ class Board
     for i in [0..7]
       new Pawn(color: color_name, board: @, position: [8 * color + i, 1])
 
+  # A virtual copy of the board will be used for checking which moves put
+  # a king into mate.
+  virtual_board: ->
+    board = new Board(false)
+    for attr of @
+      continue if attr == 'board'
+      board[attr] = @[attr]
+
+    clone_piece = (piece) ->
+      return unless piece
+      new piece.constructor(color: piece.color, board: board, position: piece.position)
+    (clone_piece(_) for _ in $ for $ in @board)
+
+    board
+
   has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
   piece_at:     (x, y) -> @board[(24 + x) % 24][y]
 
@@ -53,6 +70,20 @@ class Board
     @piece_at(old_x, old_y).move_to(new_x, new_y)
 
   remove_piece: (x, y) -> @board[x][y] = null
+
+  king: (color) ->
+    for x in [0..23]
+      for y in [0..5]
+        piece = @board[x][y]
+        return piece if piece and piece.type == 'king' and piece.color == color
+
+  get_pieces: (color) ->
+    pieces = []
+    for x in [0..23]
+      for y in [0..5]
+        piece = @board[x][y]
+        pieces.push(piece) if piece and piece.color == color
+    pieces
 
   # Private
   ##

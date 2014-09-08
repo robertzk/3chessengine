@@ -15,7 +15,19 @@
       this.type = 'king';
     }
 
-    King.prototype.moves = octopus(true, true, true);
+    King.prototype.moves = function() {
+      return this.filter_checks(octopus(true, true, true).apply(this, Array.prototype.slice.call(arguments)));
+    };
+
+
+    /*
+     * If a king has moved, it can no longer castle.
+     * We must record this somehow, simply as a boolean flag.
+     */
+
+    King.prototype.initialize_unmoved = function() {
+      return this.unmoved = true;
+    };
 
     return King;
 

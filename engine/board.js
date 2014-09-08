@@ -1,8 +1,10 @@
 (function() {
-  var Bishop, Board, King, Knight, Pawn, Queen, Rook,
+  var Bishop, Board, King, Knight, Pawn, Piece, Queen, Rook, clone,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  King = require('./pieces/piece');
+  clone = require('./clone');
+
+  Piece = require('./pieces/piece');
 
   King = require('./pieces/king');
 
@@ -101,6 +103,36 @@
       return _results;
     };
 
+    Board.prototype.virtual_board = function() {
+      var $, attr, board, clone_piece, _, _i, _j, _len, _len1, _ref;
+      board = new Board(false);
+      for (attr in this) {
+        if (attr === 'board') {
+          continue;
+        }
+        board[attr] = this[attr];
+      }
+      clone_piece = function(piece) {
+        if (!piece) {
+          return;
+        }
+        return new piece.constructor({
+          color: piece.color,
+          board: board,
+          position: piece.position
+        });
+      };
+      _ref = this.board;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        $ = _ref[_i];
+        for (_j = 0, _len1 = $.length; _j < _len1; _j++) {
+          _ = $[_j];
+          clone_piece(_);
+        }
+      }
+      return board;
+    };
+
     Board.prototype.has_piece_at = function(x, y) {
       return this.board[(24 + x) % 24][y] !== null;
     };
@@ -131,6 +163,32 @@
 
     Board.prototype.remove_piece = function(x, y) {
       return this.board[x][y] = null;
+    };
+
+    Board.prototype.king = function(color) {
+      var piece, x, y, _i, _j;
+      for (x = _i = 0; _i <= 23; x = ++_i) {
+        for (y = _j = 0; _j <= 5; y = ++_j) {
+          piece = this.board[x][y];
+          if (piece && piece.type === 'king' && piece.color === color) {
+            return piece;
+          }
+        }
+      }
+    };
+
+    Board.prototype.get_pieces = function(color) {
+      var piece, pieces, x, y, _i, _j;
+      pieces = [];
+      for (x = _i = 0; _i <= 23; x = ++_i) {
+        for (y = _j = 0; _j <= 5; y = ++_j) {
+          piece = this.board[x][y];
+          if (piece && piece.color === color) {
+            pieces.push(piece);
+          }
+        }
+      }
+      return pieces;
     };
 
     Board.prototype.sanitize_type = function(type) {

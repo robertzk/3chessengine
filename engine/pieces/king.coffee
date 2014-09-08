@@ -6,7 +6,15 @@ class King extends Piece
     super
     @type = 'king'
 
-  moves: octopus(true, true, true)
+  moves: ->
+    @filter_checks octopus(true, true, true).apply(@, Array.prototype.slice.call(arguments))
+
+  ###
+  # If a king has moved, it can no longer castle.
+  # We must record this somehow, simply as a boolean flag.
+  ###
+  initialize_unmoved: ->
+    @unmoved = true
 
 module.exports = King
 

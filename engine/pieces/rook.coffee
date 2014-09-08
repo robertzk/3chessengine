@@ -8,5 +8,12 @@ class Rook extends Piece
 
   moves: octopus(false, true)
 
+  ###
+  # If a rook has moved, it can no longer be used in conjunction with castling.
+  # We must record this somehow, simply as a boolean flag.
+  ###
+  initialize_unmoved: ->
+    @unmoved = true
+
 module.exports = Rook
 

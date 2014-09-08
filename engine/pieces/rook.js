@@ -17,6 +17,16 @@
 
     Rook.prototype.moves = octopus(false, true);
 
+
+    /*
+     * If a rook has moved, it can no longer be used in conjunction with castling.
+     * We must record this somehow, simply as a boolean flag.
+     */
+
+    Rook.prototype.initialize_unmoved = function() {
+      return this.unmoved = true;
+    };
+
     return Rook;
 
   })(Piece);
