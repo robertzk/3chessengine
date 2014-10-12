@@ -14,25 +14,29 @@ class Piece
     ok_moves = []
     for move in moves
       vb = do @board.virtual_board
+      # Pretend to move this piece on a virtual board
       vb.move_piece(@x(), @y(), move[0], move[1])
-      if @type == 'king'
+      if @type == 'king' # If this is a king, record its moves
         x = move[0]
         y = move[1]
       else
-        king = vb.king(@color)
+        king = vb.king(@color) # Where is king after moving the piece?
         unless king
-          ok_moves = moves
-          break
+          # Is the king gone? Then he must have been captured!
+          continue
         x = king.x()
         y = king.y()
-      bad = false
-      for color in vb.colors when color != @color
-        for piece in vb.get_pieces(color) when piece.type != 'pawn'
-          if all_in([[x, y]], piece.moves(depth))
-            bad = true
-            break
 
-      ok_moves.push(move) unless bad
+      try
+        for color in vb.colors when color != @color
+          for piece in vb.get_pieces(color) when piece.type != 'pawn'
+            # If the king is within the movement path of a foreign piece,
+            # this is a bad move since the king will get captured.
+            throw "bad" if all_in([[x, y]], piece.moves(depth))
+      catch _
+        continue
+
+      ok_moves.push(move)
 
     ok_moves
 

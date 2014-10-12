@@ -19,7 +19,7 @@
     };
 
     Piece.prototype.filter_checks = function(moves, depth) {
-      var bad, color, king, move, ok_moves, piece, vb, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
+      var color, king, move, ok_moves, piece, vb, x, y, _, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
       if (depth == null) {
         depth = 0;
       }
@@ -37,32 +37,32 @@
         } else {
           king = vb.king(this.color);
           if (!king) {
-            ok_moves = moves;
-            break;
+            continue;
           }
           x = king.x();
           y = king.y();
         }
-        bad = false;
-        _ref = vb.colors;
-        for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
-          color = _ref[_j];
-          if (color !== this.color) {
-            _ref1 = vb.get_pieces(color);
-            for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
-              piece = _ref1[_k];
-              if (piece.type !== 'pawn') {
-                if (all_in([[x, y]], piece.moves(depth))) {
-                  bad = true;
-                  break;
+        try {
+          _ref = vb.colors;
+          for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+            color = _ref[_j];
+            if (color !== this.color) {
+              _ref1 = vb.get_pieces(color);
+              for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
+                piece = _ref1[_k];
+                if (piece.type !== 'pawn') {
+                  if (all_in([[x, y]], piece.moves(depth))) {
+                    throw "bad";
+                  }
                 }
               }
             }
           }
+        } catch (_error) {
+          _ = _error;
+          continue;
         }
-        if (!bad) {
-          ok_moves.push(move);
-        }
+        ok_moves.push(move);
       }
       return ok_moves;
     };
