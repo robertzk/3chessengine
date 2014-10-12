@@ -1701,7 +1701,7 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
     Knight.prototype.moves = function(filter) {
       var d, positions, sign1, sign2, x, y, _i, _j, _k, _ref, _ref1;
       if (filter == null) {
-        filter = 3;
+        filter = 2;
       }
       positions = [];
       for (sign1 = _i = -1; _i <= 1; sign1 = _i += 2) {
