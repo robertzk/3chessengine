@@ -47,7 +47,7 @@
     return function(filter) {
       var dir, dirs, next_position, positions, prev_x, prev_y, tries, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3;
       if (filter == null) {
-        filter = 2;
+        filter = 3;
       }
       positions = [];
       dirs = [];

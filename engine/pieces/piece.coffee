@@ -29,7 +29,7 @@ class Piece
 
       try
         for color in vb.colors when color != @color
-          for piece in vb.get_pieces(color) when piece.type != 'pawn'
+          for piece in vb.get_pieces(color) #when piece.type != 'pawn'
             # If the king is within the movement path of a foreign piece,
             # this is a bad move since the king will get captured.
             throw "bad" if all_in([[x, y]], piece.moves(depth))

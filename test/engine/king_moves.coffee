@@ -18,6 +18,7 @@ describe 'King moves', ->
     b.move_piece(1, 0, 2, 0) # Move up a1 pawn
     b.move_piece(19, 0, 23, 2) # Move gray king to left of pawn
     gray_king = b.piece_at(23, 2)
+    throw "#{gray_king.moves()}"
     gray_king.moves().length.should.equal 3
-    assert.deepEqual p.moves(), [[22, 2], [22, 3], [0, 3]]
+    assert.deepEqual gray_king.moves(), [[22, 2], [22, 3], [0, 3]]
  

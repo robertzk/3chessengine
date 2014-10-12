@@ -26,8 +26,9 @@
       b.move_piece(1, 0, 2, 0);
       b.move_piece(19, 0, 23, 2);
       gray_king = b.piece_at(23, 2);
+      throw "" + (gray_king.moves());
       gray_king.moves().length.should.equal(3);
-      return assert.deepEqual(p.moves(), [[22, 2], [22, 3], [0, 3]]);
+      return assert.deepEqual(gray_king.moves(), [[22, 2], [22, 3], [0, 3]]);
     });
   });
 
