@@ -55,7 +55,7 @@
     Pawn.prototype.moves = function(filter) {
       var moves;
       if (filter == null) {
-        filter = 3;
+        filter = 2;
       }
       moves = this.y() === 5 && this.towards_center ? this.center_moves() : this.noncenter_moves();
       return this.filter_checks(moves, filter - 1);

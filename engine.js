@@ -1517,7 +1517,7 @@ __cs.libs.csb79f58b0 = (function(require, module, exports) {
     return function(filter) {
       var dir, dirs, next_position, positions, prev_x, prev_y, tries, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3;
       if (filter == null) {
-        filter = 3;
+        filter = 2;
       }
       positions = [];
       dirs = [];
@@ -1774,7 +1774,7 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
     Pawn.prototype.moves = function(filter) {
       var moves;
       if (filter == null) {
-        filter = 3;
+        filter = 2;
       }
       moves = this.y() === 5 && this.towards_center ? this.center_moves() : this.noncenter_moves();
       return this.filter_checks(moves, filter - 1);

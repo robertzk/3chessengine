@@ -68,7 +68,7 @@ normalize_position = (old_x, old_y, x, y) ->
 # set one_step = true so we only compute one step forward.
 # This function is intended to be used for Queen, Bishop, Rook, and King
 # as a method.
-moves = (diagonal, axial, one_step = false) -> (filter = 3) ->
+moves = (diagonal, axial, one_step = false) -> (filter = 2) ->
   positions = []
   dirs = []
   if axial
