@@ -1,8 +1,10 @@
 (function() {
-  var Bishop, Board, King, Knight, Pawn, Piece, Queen, Rook, clone,
+  var Bishop, Board, King, Knight, Pawn, Piece, Queen, Rook, clone, __,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   clone = require('./clone');
+
+  __ = require('underscore');
 
   Piece = require('./pieces/piece');
 
@@ -113,14 +115,25 @@
         board[attr] = this[attr];
       }
       clone_piece = function(piece) {
+        var new_piece;
         if (!piece) {
           return;
         }
-        return new piece.constructor({
+        new_piece = new piece.constructor({
           color: piece.color,
           board: board,
-          position: piece.position
+          position: __.clone(piece.position)
         });
+        for (attr in piece) {
+          if (!(typeof piece[attr] !== 'function')) {
+            continue;
+          }
+          if (attr === 'color' || attr === 'board' || attr === 'position' || attr === 'type') {
+            continue;
+          }
+          new_piece[attr] = piece[attr];
+        }
+        return new_piece;
       };
       _ref = this.board;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {

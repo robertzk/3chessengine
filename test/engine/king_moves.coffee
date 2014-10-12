@@ -19,6 +19,16 @@ describe 'King moves', ->
     b.move_piece(0, 1, 0, 2) # Move up a1 pawn
     b.move_piece(19, 0, 23, 2) # Move gray king to left of pawn
     gray_king = b.piece_at(23, 2)
+    console.log "#{gray_king.moves()} WTF WTF "
     gray_king.moves().length.should.equal 4
     same_moves(gray_king.moves(), [[22, 2], [22, 3], [0, 3], [0, 1]]).should.be.true
  
+  it "should not be able to move into the path of a pawn that has crossed the center", ->
+    b = new Board()
+    b.move_piece(23, 1, 11, 2)
+    b.piece_at(11, 2).towards_center = false
+    b.remove_piece(12, 1)
+    b.remove_piece(10, 1)
+    black_king = b.piece_at(11, 0)
+    black_king.moves().length.should.equal 0 # Blocked by pawn
+

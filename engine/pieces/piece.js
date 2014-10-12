@@ -37,7 +37,7 @@
         } else {
           king = vb.king(this.color);
           if (!king) {
-            continue;
+            return moves;
           }
           x = king.x();
           y = king.y();
@@ -50,8 +50,8 @@
               _ref1 = vb.get_pieces(color);
               for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
                 piece = _ref1[_k];
-                if (piece.type === 'pawn' && piece.y !== 5) {
-                  if (Math.abs(piece.x - x) + Math.abs(piece.y - y) > 2) {
+                if (piece.type === 'pawn' && piece.y() !== 5) {
+                  if (Math.abs(piece.x() - x) + Math.abs(piece.y() - y) > 2) {
                     continue;
                   }
                 }
@@ -120,10 +120,10 @@
         for (_i = 0; _i <= 23; _i++){ _results.push(_i); }
         return _results;
       }).apply(this), new_x) < 0) {
-        throw "Invalid new_x";
+        throw "Invalid new_x (" + new_x + ")";
       }
       if (__indexOf.call([0, 1, 2, 3, 4, 5], new_y) < 0) {
-        throw "Invalid new_y";
+        throw "Invalid new_y (" + new_y + ")";
       }
       this.board.board[new_x][new_y] = this;
       this.board.board[this.x()][this.y()] = null;

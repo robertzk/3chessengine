@@ -22,19 +22,20 @@ class Piece
       else
         king = vb.king(@color) # Where is king after moving the piece?
         unless king
-          # Is the king gone? Then he must have been captured!
-          continue
+          # Is there no king? Then this is probably a test scenario and all moves
+          # are OK.
+          return moves
         x = king.x()
         y = king.y()
 
       try
         for color in vb.colors when color != @color
           for piece in vb.get_pieces(color) #when piece.type != 'pawn'
-            if piece.type == 'pawn' && piece.y != 5
+            if piece.type == 'pawn' && piece.y() != 5
               # Unnecessary to consider moves of far away pawns so skip those.
               # Back rank is tricky (since pawns can jump to the other side)
               # so we do check those.
-              continue if Math.abs(piece.x - x) + Math.abs(piece.y - y) > 2
+               continue if Math.abs(piece.x() - x) + Math.abs(piece.y() - y) > 2
 
             # If the king is within the movement path of a foreign piece,
             # this is a bad move since the king will get captured.
@@ -73,8 +74,8 @@ class Piece
 
   move_to: (new_x, new_y) ->
     new_x = (new_x + 24) % 24
-    throw "Invalid new_x" unless new_x in [0..23]
-    throw "Invalid new_y" unless new_y in [0..5]
+    throw "Invalid new_x (#{new_x})" unless new_x in [0..23]
+    throw "Invalid new_y (#{new_y})" unless new_y in [0..5]
     @board.board[new_x][new_y] = @
     @board.board[@x()][@y()] = null
     @position = [new_x, new_y]

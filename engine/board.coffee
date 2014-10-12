@@ -1,4 +1,5 @@
 clone = require './clone'
+__ = require 'underscore'
 
 Piece  = require './pieces/piece'
 King   = require './pieces/king'
@@ -50,7 +51,13 @@ class Board
 
     clone_piece = (piece) ->
       return unless piece
-      new piece.constructor(color: piece.color, board: board, position: piece.position)
+      new_piece = new piece.constructor(color: piece.color, board: board, position: __.clone(piece.position))
+      # Copy over all non-function additional attributes.
+      for attr of piece when typeof piece[attr] != 'function'
+        continue if attr in ['color', 'board', 'position', 'type']
+        new_piece[attr] = piece[attr]
+      new_piece
+      
     (clone_piece(_) for _ in $ for $ in @board)
 
     board
