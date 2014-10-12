@@ -34,8 +34,9 @@ class Piece
             if piece.type == 'pawn' && piece.y() != 5
               # Unnecessary to consider moves of far away pawns so skip those.
               # Back rank is tricky (since pawns can jump to the other side)
-              # so we do check those.
-               continue if Math.abs(piece.x() - x) + Math.abs(piece.y() - y) > 2
+              # so we do check those. It is also tricky in the "singularity"
+              # between 0 and 23, so check for bad moves there as well.
+               continue if x > 0 && x < 23 && Math.abs(piece.x() - x) + Math.abs(piece.y() - y) > 2
 
             # If the king is within the movement path of a foreign piece,
             # this is a bad move since the king will get captured.

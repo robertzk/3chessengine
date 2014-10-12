@@ -23,6 +23,7 @@ __cs.map['./engine/board'] = 'cs07b02b0c';
 __cs.map['./piece'] = 'cs6b44f638';
 __cs.map['./octopus'] = 'csb79f58b0';
 __cs.map['./clone'] = 'cs9a6a87bb';
+__cs.map['underscore'] = 'cs7bbaf501';
 __cs.map['./pieces/piece'] = 'cs6b44f638';
 __cs.map['./pieces/king'] = 'cs852f3f85';
 __cs.map['./pieces/queen'] = 'cs591948df';
@@ -31,7 +32,6 @@ __cs.map['./pieces/bishop'] = 'cs5f8b3ecd';
 __cs.map['./pieces/knight'] = 'csefeb9072';
 __cs.map['./pieces/pawn'] = 'cs4379d23b';
 __cs.map['./util'] = 'cs4dddfcc0';
-__cs.map['underscore'] = 'cs7bbaf501';
 
 //underscore.js
 __cs.libs.cs7bbaf501 = (function(require, module, exports) {
@@ -1378,7 +1378,7 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
         } else {
           king = vb.king(this.color);
           if (!king) {
-            continue;
+            return moves;
           }
           x = king.x();
           y = king.y();
@@ -1391,8 +1391,8 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
               _ref1 = vb.get_pieces(color);
               for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
                 piece = _ref1[_k];
-                if (piece.type === 'pawn' && piece.y !== 5) {
-                  if (Math.abs(piece.x - x) + Math.abs(piece.y - y) > 2) {
+                if (piece.type === 'pawn' && piece.y() !== 5) {
+                  if (x > 0 && x < 23 && Math.abs(piece.x() - x) + Math.abs(piece.y() - y) > 2) {
                     continue;
                   }
                 }
@@ -1455,10 +1455,10 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
         for (_i = 0; _i <= 23; _i++){ _results.push(_i); }
         return _results;
       }).apply(this), new_x) < 0) {
-        throw "Invalid new_x";
+        throw "Invalid new_x (" + new_x + ")";
       }
       if (__indexOf.call([0, 1, 2, 3, 4, 5], new_y) < 0) {
-        throw "Invalid new_y";
+        throw "Invalid new_y (" + new_y + ")";
       }
       this.board.board[new_x][new_y] = this;
       this.board.board[this.x()][this.y()] = null;
@@ -1860,9 +1860,10 @@ return module.exports || exports;
 //board.js
 __cs.libs.cs07b02b0c = (function(require, module, exports) {
 (function() {
-  var Bishop, Board, King, Knight, Pawn, Piece, Queen, Rook, clone,
+  var Bishop, Board, King, Knight, Pawn, Piece, Queen, Rook, clone, __,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
   clone = require('./clone');
+  __ = require('underscore');
   Piece = require('./pieces/piece');
   King = require('./pieces/king');
   Queen = require('./pieces/queen');
@@ -1959,14 +1960,25 @@ __cs.libs.cs07b02b0c = (function(require, module, exports) {
         board[attr] = this[attr];
       }
       clone_piece = function(piece) {
+        var new_piece;
         if (!piece) {
           return;
         }
-        return new piece.constructor({
+        new_piece = new piece.constructor({
           color: piece.color,
           board: board,
-          position: piece.position
+          position: __.clone(piece.position)
         });
+        for (attr in piece) {
+          if (!(typeof piece[attr] !== 'function')) {
+            continue;
+          }
+          if (attr === 'color' || attr === 'board' || attr === 'position' || attr === 'type') {
+            continue;
+          }
+          new_piece[attr] = piece[attr];
+        }
+        return new_piece;
       };
       _ref = this.board;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
