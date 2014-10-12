@@ -1,6 +1,7 @@
 # We should make sure the king cannot move into check!
 #
 should = require('chai').should()
+same_moves = require('./pieces/util').same_moves
 
 King   = require '../../engine/pieces/king'
 Queen  = require '../../engine/pieces/queen'
@@ -14,11 +15,10 @@ describe 'King moves', ->
   it "should not be able to move into a pawn's attack path", ->
     b = new Board()
     b.remove_piece(0, 0) # No rook
-    b.remove_piece(0, 1) # No knight
-    b.move_piece(1, 0, 2, 0) # Move up a1 pawn
+    b.remove_piece(1, 0) # No knight
+    b.move_piece(0, 1, 0, 2) # Move up a1 pawn
     b.move_piece(19, 0, 23, 2) # Move gray king to left of pawn
     gray_king = b.piece_at(23, 2)
-    throw "#{gray_king.moves()}"
-    gray_king.moves().length.should.equal 3
-    assert.deepEqual gray_king.moves(), [[22, 2], [22, 3], [0, 3]]
+    gray_king.moves().length.should.equal 4
+    same_moves(gray_king.moves(), [[22, 2], [22, 3], [0, 3], [0, 1]]).should.be.true
  

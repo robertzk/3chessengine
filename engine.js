@@ -1391,6 +1391,11 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
               _ref1 = vb.get_pieces(color);
               for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
                 piece = _ref1[_k];
+                if (piece.type === 'pawn' && piece.y !== 5) {
+                  if (Math.abs(piece.x - x) + Math.abs(piece.y - y) > 2) {
+                    continue;
+                  }
+                }
                 if (all_in([[x, y]], piece.moves(depth))) {
                   throw "bad";
                 }
@@ -1513,9 +1518,9 @@ __cs.libs.csb79f58b0 = (function(require, module, exports) {
       one_step = false;
     }
     return function(filter) {
-      var dir, dirs, next_position, positions, prev_x, prev_y, tries, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3;
+      var dir, dirs, next_position, positions, prev_x, prev_y, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3;
       if (filter == null) {
-        filter = 3;
+        filter = 2;
       }
       positions = [];
       dirs = [];
@@ -1533,7 +1538,6 @@ __cs.libs.csb79f58b0 = (function(require, module, exports) {
           dirs.push(x);
         }
       }
-      tries = [];
       for (_k = 0, _len2 = dirs.length; _k < _len2; _k++) {
         dir = dirs[_k];
         prev_x = this.x();
@@ -1541,7 +1545,6 @@ __cs.libs.csb79f58b0 = (function(require, module, exports) {
         while (true) {
           _ref2 = [prev_x + dir[0], prev_y + dir[1]], x = _ref2[0], y = _ref2[1];
           next_position = normalize_position.call(this, prev_x, prev_y, x, y);
-          tries.push([x, y]);
           if (!next_position.can_move) {
             break;
           }
@@ -1699,7 +1702,7 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
     Knight.prototype.moves = function(filter) {
       var d, positions, sign1, sign2, x, y, _i, _j, _k, _ref, _ref1;
       if (filter == null) {
-        filter = 3;
+        filter = 2;
       }
       positions = [];
       for (sign1 = _i = -1; _i <= 1; sign1 = _i += 2) {
@@ -1772,7 +1775,7 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
     Pawn.prototype.moves = function(filter) {
       var moves;
       if (filter == null) {
-        filter = 3;
+        filter = 2;
       }
       moves = this.y() === 5 && this.towards_center ? this.center_moves() : this.noncenter_moves();
       return this.filter_checks(moves, filter - 1);
@@ -1805,8 +1808,8 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
       _ref = [-1, 1];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         i = _ref[_i];
-        if ((this.board.has_piece_at(this.x() + i, this.y() + delta)) && (this.board.piece_at(this.x() + i, this.y() + delta).color !== this.color)) {
-          moves.push([this.x() + i, this.y() + delta]);
+        if ((this.board.has_piece_at((this.x() + i + 24) % 24, this.y() + delta)) && (this.board.piece_at((this.x() + i + 24) % 24, this.y() + delta).color !== this.color)) {
+          moves.push([(this.x() + i + 24) % 24, this.y() + delta]);
         }
       }
       return moves;

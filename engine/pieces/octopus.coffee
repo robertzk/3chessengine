@@ -68,7 +68,7 @@ normalize_position = (old_x, old_y, x, y) ->
 # set one_step = true so we only compute one step forward.
 # This function is intended to be used for Queen, Bishop, Rook, and King
 # as a method.
-moves = (diagonal, axial, one_step = false) -> (filter = 3) ->
+moves = (diagonal, axial, one_step = false) -> (filter = 2) ->
   positions = []
   dirs = []
   if axial
@@ -76,14 +76,12 @@ moves = (diagonal, axial, one_step = false) -> (filter = 3) ->
   if diagonal
     dirs.push x for x in [[-1, -1], [-1, 1], [1, -1], [1, 1]]
     
-  tries = []
   for dir in dirs
     prev_x = @x()
     prev_y = @y()
     loop
       [x, y] = [prev_x + dir[0], prev_y + dir[1]]
       next_position = normalize_position.call(@, prev_x, prev_y, x, y)
-      tries.push [x, y]
       break unless next_position.can_move
       positions.push next_position.position
       # If the bishop crosses the inner circle,

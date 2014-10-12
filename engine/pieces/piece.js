@@ -50,6 +50,11 @@
               _ref1 = vb.get_pieces(color);
               for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
                 piece = _ref1[_k];
+                if (piece.type === 'pawn' && piece.y !== 5) {
+                  if (Math.abs(piece.x - x) + Math.abs(piece.y - y) > 2) {
+                    continue;
+                  }
+                }
                 if (all_in([[x, y]], piece.moves(depth))) {
                   throw "bad";
                 }
