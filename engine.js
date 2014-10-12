@@ -23,7 +23,6 @@ __cs.map['./engine/board'] = 'cs07b02b0c';
 __cs.map['./piece'] = 'cs6b44f638';
 __cs.map['./octopus'] = 'csb79f58b0';
 __cs.map['./clone'] = 'cs9a6a87bb';
-__cs.map['underscore'] = 'cs7bbaf501';
 __cs.map['./pieces/piece'] = 'cs6b44f638';
 __cs.map['./pieces/king'] = 'cs852f3f85';
 __cs.map['./pieces/queen'] = 'cs591948df';
@@ -32,6 +31,7 @@ __cs.map['./pieces/bishop'] = 'cs5f8b3ecd';
 __cs.map['./pieces/knight'] = 'csefeb9072';
 __cs.map['./pieces/pawn'] = 'cs4379d23b';
 __cs.map['./util'] = 'cs4dddfcc0';
+__cs.map['underscore'] = 'cs7bbaf501';
 
 //underscore.js
 __cs.libs.cs7bbaf501 = (function(require, module, exports) {
@@ -1860,10 +1860,9 @@ return module.exports || exports;
 //board.js
 __cs.libs.cs07b02b0c = (function(require, module, exports) {
 (function() {
-  var Bishop, Board, King, Knight, Pawn, Piece, Queen, Rook, clone, __,
+  var Bishop, Board, King, Knight, Pawn, Piece, Queen, Rook, clone,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
   clone = require('./clone');
-  __ = require('underscore');
   Piece = require('./pieces/piece');
   King = require('./pieces/king');
   Queen = require('./pieces/queen');
@@ -1960,14 +1959,23 @@ __cs.libs.cs07b02b0c = (function(require, module, exports) {
         board[attr] = this[attr];
       }
       clone_piece = function(piece) {
-        var new_piece;
+        var new_piece, x;
         if (!piece) {
           return;
         }
         new_piece = new piece.constructor({
           color: piece.color,
           board: board,
-          position: __.clone(piece.position)
+          position: (function() {
+            var _i, _len, _ref, _results;
+            _ref = piece.position;
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              x = _ref[_i];
+              _results.push(x);
+            }
+            return _results;
+          })()
         });
         for (attr in piece) {
           if (!(typeof piece[attr] !== 'function')) {
