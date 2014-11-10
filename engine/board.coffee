@@ -43,13 +43,13 @@ class Board
   has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
   piece_at:     (x, y) -> @board[(24 + x) % 24][y]
 
+  # Update
   place_piece: (type, color, x, y) ->
     type = @piece_map[@sanitize_type(type)]
     piece = new type(board: @, position: [x, y], color: @sanitize_color(color))
     @board[(24 + x) % 24][y] = piece
     piece
 
-  # Update
   move_piece: (old_x, old_y, new_x, new_y) ->
     old_x = (old_x + 24) % 24
     throw "No piece at (#{old_x}, #{old_y})" unless @has_piece_at(old_x, old_y)
