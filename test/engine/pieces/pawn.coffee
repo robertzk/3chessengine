@@ -89,10 +89,15 @@ describe 'Pawn', ->
     same_moves(p.moves(), [[23, 4], [0, 4]]).should.be.true
 
   it "should not be able to cross a creek", ->
-    b = new Board()
+    b = new Board() # Crossing to the right
     for i in [0..2]
       b.move_piece(x = b.left_moats()[i], 1, x, 2)
       p = b.piece_at((x + 1) % 24, 1)
+      p.moves().length.should.equal 2
+    b = new Board() # Crossing to the left
+    for i in [0..2]
+      b.move_piece(x = b.right_moats()[i], 1, x, 2)
+      p = b.piece_at((x - 1 + 24) % 24, 1)
       p.moves().length.should.equal 2
 
 
