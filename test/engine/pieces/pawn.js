@@ -167,7 +167,7 @@
       p.moves().length.should.equal(2);
       return same_moves(p.moves(), [[23, 4], [0, 4]]).should.be["true"];
     });
-    return it("should be able to capture across to the right of column 23", function() {
+    it("should be able to capture across to the right of column 23", function() {
       var b, p;
       b = new Board();
       b.move_piece(23, 1, 23, 3);
@@ -176,6 +176,17 @@
       p = b.piece_at(23, 3);
       p.moves().length.should.equal(2);
       return same_moves(p.moves(), [[23, 4], [0, 4]]).should.be["true"];
+    });
+    return it("should not be able to cross a creek", function() {
+      var b, i, p, x, _i, _results;
+      b = new Board();
+      _results = [];
+      for (i = _i = 0; _i <= 2; i = ++_i) {
+        b.move_piece(x = b.left_moats()[i], 1, x, 2);
+        p = b.piece_at((x + 1) % 24, 1);
+        _results.push(p.moves().length.should.equal(2));
+      }
+      return _results;
     });
   });
 
