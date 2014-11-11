@@ -36,7 +36,7 @@
       same_color = this.board.piece_at(x, y).color === this.color;
       out.can_move = !same_color;
     }
-    on_moat_rank = (old_y === 1 && diff_y === -1) || (old_y === 0 && diff_y === 0);
+    on_moat_rank = (old_y === 1 && diff_y === -1) || (old_y === 0 && (diff_y === 0 || diff_y === 1));
     if (on_moat_rank && ((__indexOf.call(this.board.left_moats(), old_x) >= 0 && diff_x === 1) || (__indexOf.call(this.board.right_moats(), old_x) >= 0 && diff_x === -1))) {
       out.can_move = false;
     }
