@@ -69,7 +69,12 @@ class Board
   unweaveState: (unserialized_api_data) ->
     @remove_board()
     for piece in unserialized_api_data
-      @place_piece(piece[2], piece[0], piece[1][0], piece[1][1])
+      type = piece[2]; color = piece[0]; x = piece[1][0]; y = piece[1][1]
+      piece = @place_piece(type, color, x, y)
+      if type == 'pawn'
+        piece.unmoved = piece[2][0]
+        piece.towards_center = piece[3][0]
+
 
   move_piece: (old_x, old_y, new_x, new_y) ->
     old_x = (old_x + 24) % 24

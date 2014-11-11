@@ -150,12 +150,22 @@
     };
 
     Board.prototype.unweaveState = function(unserialized_api_data) {
-      var piece, _i, _len, _results;
+      var color, piece, type, x, y, _i, _len, _results;
       this.remove_board();
       _results = [];
       for (_i = 0, _len = unserialized_api_data.length; _i < _len; _i++) {
         piece = unserialized_api_data[_i];
-        _results.push(this.place_piece(piece[2], piece[0], piece[1][0], piece[1][1]));
+        type = piece[2];
+        color = piece[0];
+        x = piece[1][0];
+        y = piece[1][1];
+        piece = this.place_piece(type, color, x, y);
+        if (type === 'pawn') {
+          piece.unmoved = piece[2][0];
+          _results.push(piece.towards_center = piece[3][0]);
+        } else {
+          _results.push(void 0);
+        }
       }
       return _results;
     };
