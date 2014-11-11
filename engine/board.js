@@ -110,7 +110,7 @@
     };
 
     Board.prototype.serialize = function(content) {
-      return console.log(board);
+      return console.log(JSON.stringify(this.board));
     };
 
     Board.prototype.unserialize = function(content) {

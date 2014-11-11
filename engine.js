@@ -541,7 +541,7 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
       return this.board[(24 + x) % 24][y];
     };
     Board.prototype.serialize = function(content) {
-      return console.log(board);
+      return console.log(JSON.stringify(this.board));
     };
     Board.prototype.unserialize = function(content) {
       return console.log(content);
