@@ -110,11 +110,12 @@
     };
 
     Board.prototype.boardState = function() {
-      var attr, state, substate, x, y, _i, _j;
+      var attr, p, state, substate, x, y, _i, _j;
       state = [];
       for (y = _i = 0; _i <= 5; y = ++_i) {
         for (x = _j = 0; _j <= 23; x = ++_j) {
-          if (this.piece_at(x, y)) {
+          p = this.piece_at(x, y);
+          if (p) {
             substate = [];
             for (attr in p) {
               if (typeof p[attr] !== 'function' && attr !== 'board') {
