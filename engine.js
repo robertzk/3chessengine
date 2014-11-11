@@ -545,7 +545,7 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
       state = [];
       for (y = _i = 0; _i <= 5; y = ++_i) {
         for (x = _j = 0; _j <= 23; x = ++_j) {
-          if (piece_at(x, y)) {
+          if (this.piece_at(x, y)) {
             substate = [];
             for (attr in p) {
               if (typeof p[attr] !== 'function' && attr !== 'board') {
