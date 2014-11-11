@@ -540,6 +540,12 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
     Board.prototype.piece_at = function(x, y) {
       return this.board[(24 + x) % 24][y];
     };
+    Board.prototype.serialize = function(content) {
+      return JSON.stringify(content);
+    };
+    Board.prototype.unserialize = function(content) {
+      return console.log(content);
+    };
     Board.prototype.place_piece = function(type, color, x, y) {
       var piece;
       type = this.piece_map[this.sanitize_type(type)];
