@@ -97,8 +97,15 @@ class Board
         pieces.push(piece) if piece and piece.color == color
     pieces
 
+  left_moats: ->
+    ((x*8 - 1 + 24) % 24 for x in [0..2] when @moats[@colors[x]])
+
+  right_moats: ->
+    (x * 8 for x in [0..2] when @board.moats[@colors[x]])
+
   # Private
   ##
+  
 
   sanitize_type: (type) ->
     type = type.toLowerCase()

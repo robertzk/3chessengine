@@ -224,6 +224,28 @@
       return pieces;
     };
 
+    Board.prototype.left_moats = function() {
+      var x, _i, _results;
+      _results = [];
+      for (x = _i = 0; _i <= 2; x = ++_i) {
+        if (this.moats[this.colors[x]]) {
+          _results.push((x * 8 - 1 + 24) % 24);
+        }
+      }
+      return _results;
+    };
+
+    Board.prototype.right_moats = function() {
+      var x, _i, _results;
+      _results = [];
+      for (x = _i = 0; _i <= 2; x = ++_i) {
+        if (this.board.moats[this.colors[x]]) {
+          _results.push(x * 8);
+        }
+      }
+      return _results;
+    };
+
     Board.prototype.sanitize_type = function(type) {
       type = type.toLowerCase();
       if (!(type in this.piece_map)) {

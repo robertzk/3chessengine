@@ -1798,7 +1798,7 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
       return moves;
     };
     Pawn.prototype.noncenter_moves = function() {
-      var delta, i, left_moat, moves, right_moat, x, _i, _len, _ref, _ref1, _ref2, _ref3;
+      var delta, i, moves, _i, _len, _ref, _ref1, _ref2, _ref3;
       moves = [];
       if (this.unmoved && !this.board.has_piece_at(this.x(), this.y() + 2) && !this.board.has_piece_at(this.x(), this.y() + 1)) {
         moves.push([this.x(), this.y() + 2]);
@@ -1811,28 +1811,11 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         i = _ref[_i];
         if ((this.board.has_piece_at((this.x() + i + 24) % 24, this.y() + delta)) && (this.board.piece_at((this.x() + i + 24) % 24, this.y() + delta).color !== this.color)) {
-          left_moat = (function() {
-            var _j, _results;
-            _results = [];
-            for (x = _j = 0; _j <= 2; x = ++_j) {
-              if (this.board.moats[this.colors[x]]) {
-                _results.push((x * 8 - 1 + 24) % 24);
-              }
-            }
-            return _results;
-          }).call(this);
-          right_moat = (function() {
-            var _j, _results;
-            _results = [];
-            for (x = _j = 0; _j <= 2; x = ++_j) {
-              if (this.board.moats[this.colors[x]]) {
-                _results.push(x * 8);
-              }
-            }
-            return _results;
-          }).call(this);
           if (this.y() <= 2 && (_ref1 = this.x(), __indexOf.call(left_moat.concat(right_moat), _ref1) >= 0)) {
-            if ((i === -1 && (_ref2 = this.x(), __indexOf.call(right_moat, _ref2) >= 0)) || (i === 1 && (_ref3 = this.x(), __indexOf.call(left_moat, _ref3) >= 0))) {
+            if (i === -1 && (_ref2 = this.x(), __indexOf.call(this.board.right_moats(), _ref2) >= 0)) {
+              continue;
+            }
+            if (i === +1 && (_ref3 = this.x(), __indexOf.call(this.board.left_moats(), _ref3) >= 0)) {
               continue;
             }
           }
@@ -2087,6 +2070,26 @@ __cs.libs.cs07b02b0c = (function(require, module, exports) {
         }
       }
       return pieces;
+    };
+    Board.prototype.left_moats = function() {
+      var x, _i, _results;
+      _results = [];
+      for (x = _i = 0; _i <= 2; x = ++_i) {
+        if (this.moats[this.colors[x]]) {
+          _results.push((x * 8 - 1 + 24) % 24);
+        }
+      }
+      return _results;
+    };
+    Board.prototype.right_moats = function() {
+      var x, _i, _results;
+      _results = [];
+      for (x = _i = 0; _i <= 2; x = ++_i) {
+        if (this.board.moats[this.colors[x]]) {
+          _results.push(x * 8);
+        }
+      }
+      return _results;
     };
     Board.prototype.sanitize_type = function(type) {
       type = type.toLowerCase();
