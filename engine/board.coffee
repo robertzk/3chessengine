@@ -57,6 +57,7 @@ class Board
 
   serialize: (content) -> JSON.stringify(@boardState())
   unserialize: (content) ->
+    console.log(content)
     console.log(JSON.parse(content))
     @unweaveState(JSON.parse(content))
 

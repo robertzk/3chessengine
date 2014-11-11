@@ -563,6 +563,7 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
       return JSON.stringify(this.boardState());
     };
     Board.prototype.unserialize = function(content) {
+      console.log(content);
       console.log(JSON.parse(content));
       return this.unweaveState(JSON.parse(content));
     };

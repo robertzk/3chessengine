@@ -134,6 +134,7 @@
     };
 
     Board.prototype.unserialize = function(content) {
+      console.log(content);
       console.log(JSON.parse(content));
       return this.unweaveState(JSON.parse(content));
     };
