@@ -1475,9 +1475,10 @@ return module.exports || exports;
 //octopus.js
 __cs.libs.csb79f58b0 = (function(require, module, exports) {
 (function() {
-  var moves, normalize_position;
+  var moves, normalize_position,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
   normalize_position = function(old_x, old_y, x, y) {
-    var diff_x, diff_y, has_piece, offset, out, same_color;
+    var diff_x, diff_y, has_piece, offset, on_moat_rank, out, same_color;
     if (y < 0) {
       return {
         can_move: false
@@ -1509,6 +1510,10 @@ __cs.libs.csb79f58b0 = (function(require, module, exports) {
     if (has_piece = this.board.has_piece_at(x, y)) {
       same_color = this.board.piece_at(x, y).color === this.color;
       out.can_move = !same_color;
+    }
+    on_moat_rank = (old_y === 1 && diff_y === -1) || (old_y === 0 && (diff_y === 0 || diff_y === 1));
+    if (on_moat_rank && ((__indexOf.call(this.board.left_moats(), old_x) >= 0 && diff_x === 1) || (__indexOf.call(this.board.right_moats(), old_x) >= 0 && diff_x === -1))) {
+      out.can_move = false;
     }
     out.final_move = has_piece;
     out.position = [x, y];
@@ -1676,7 +1681,8 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
 (function() {
   var Knight, Piece,
     __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
   Piece = require('./piece');
   Knight = (function(_super) {
     __extends(Knight, _super);
@@ -1694,6 +1700,19 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
       }
       return [x % 24, !(y < 0) ? y : void 0];
     };
+    Knight.prototype.crossed_moat = function(old_x, old_y, new_x, new_y) {
+      var left_moats, out, right_moats, _ref, _ref1, _ref2, _ref3;
+      if (!(old_y === 0 || new_y === 0)) {
+        return false;
+      }
+      left_moats = this.board.left_moats();
+      right_moats = this.board.right_moats();
+      out = (_ref = old_x + 1, __indexOf.call(left_moats, _ref) >= 0) && __indexOf.call(right_moats, new_x) >= 0;
+      out || (out = __indexOf.call(left_moats, old_x) >= 0 && ((__indexOf.call(right_moats, new_x) >= 0) || (_ref1 = new_x - 1, __indexOf.call(right_moats, _ref1) >= 0)));
+      out || (out = (_ref2 = old_x - 1, __indexOf.call(right_moats, _ref2) >= 0) && __indexOf.call(left_moats, new_x) >= 0);
+      out || (out = __indexOf.call(right_moats, old_x) >= 0 && (__indexOf.call(left_moats, new_x) >= 0 || (_ref3 = new_x + 1, __indexOf.call(left_moats, _ref3) >= 0)));
+      return out;
+    };
 
     /*
      * List the moves available to a knight (in an array of [x, y] positions).
@@ -1710,6 +1729,9 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
         for (sign2 = _j = -1; _j <= 1; sign2 = _j += 2) {
           for (d = _k = 1; _k <= 2; d = ++_k) {
             _ref = this.normalize_position(this.x() + sign1 * d, this.y() + sign2 * (3 - d)), x = _ref[0], y = _ref[1];
+            if (this.crossed_moat(this.x(), this.y(), x, y)) {
+              continue;
+            }
             if ((y == null) || ((_ref1 = this.board.piece_at(x, y)) != null ? _ref1.color : void 0) === this.color) {
               continue;
             }
@@ -1811,7 +1833,7 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         i = _ref[_i];
         if ((this.board.has_piece_at((this.x() + i + 24) % 24, this.y() + delta)) && (this.board.piece_at((this.x() + i + 24) % 24, this.y() + delta).color !== this.color)) {
-          if (this.y() <= 2 && (_ref1 = this.x(), __indexOf.call(this.board.left_moats().concat(this.board.right_moats()), _ref1) >= 0)) {
+          if (this.towards_center && this.y() <= 2 && (_ref1 = this.x(), __indexOf.call(this.board.left_moats().concat(this.board.right_moats()), _ref1) >= 0)) {
             if (i === -1 && (_ref2 = this.x(), __indexOf.call(this.board.right_moats(), _ref2) >= 0)) {
               continue;
             }
