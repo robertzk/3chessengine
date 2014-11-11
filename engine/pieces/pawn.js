@@ -33,6 +33,10 @@
       return this.towards_center = true;
     };
 
+    Pawn.prototype.pass_center = function() {
+      return this.towards_center = false;
+    };
+
 
     /*
      * If a pawn has moved, it can no longer skip 2 spaces nor capture en passent.
@@ -41,6 +45,10 @@
 
     Pawn.prototype.initialize_unmoved = function() {
       return this.unmoved = true;
+    };
+
+    Pawn.prototype.make_moved = function() {
+      return this.unmoved = false;
     };
 
 

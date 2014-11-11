@@ -369,6 +369,9 @@ __cs.libs.cse11cad6d = (function(require, module, exports) {
     Pawn.prototype.initialize_direction = function() {
       return this.towards_center = true;
     };
+    Pawn.prototype.pass_center = function() {
+      return this.towards_center = false;
+    };
 
     /*
      * If a pawn has moved, it can no longer skip 2 spaces nor capture en passent.
@@ -376,6 +379,9 @@ __cs.libs.cse11cad6d = (function(require, module, exports) {
      */
     Pawn.prototype.initialize_unmoved = function() {
       return this.unmoved = true;
+    };
+    Pawn.prototype.make_moved = function() {
+      return this.unmoved = false;
     };
 
     /*
@@ -589,8 +595,14 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
         piece = this.place_piece(type, color, x, y);
         if (type === 'pawn') {
           console.log(data);
-          piece.unmoved = data[3][0];
-          _results.push(piece.towards_center = data[4][0]);
+          if (data[3][0]) {
+            piece.make_unmoved;
+          }
+          if (data[4][0]) {
+            _results.push(piece.pass_center);
+          } else {
+            _results.push(void 0);
+          }
         } else {
           _results.push(void 0);
         }

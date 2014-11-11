@@ -22,12 +22,18 @@ class Pawn extends Piece
   initialize_direction: ->
     @towards_center = true
 
+  pass_center: ->
+    @towards_center = false
+
   ###
   # If a pawn has moved, it can no longer skip 2 spaces nor capture en passent.
   # We must record this somehow, simply as a boolean flag.
   ###
   initialize_unmoved: ->
     @unmoved = true
+
+  make_moved: ->
+    @unmoved = false
 
   ###
   # List the moves available to a pawn (in an array of [x, y] positions).
