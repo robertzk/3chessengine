@@ -27,6 +27,7 @@
       b.remove_piece(1, 0);
       b.move_piece(0, 1, 0, 2);
       b.move_piece(19, 0, 23, 2);
+      b.moats['white'] = false;
       gray_king = b.piece_at(23, 2);
       gray_king.moves().length.should.equal(4);
       return same_moves(gray_king.moves(), [[22, 2], [22, 3], [0, 3], [0, 1]]).should.be["true"];

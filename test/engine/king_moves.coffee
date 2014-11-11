@@ -18,6 +18,7 @@ describe 'King moves', ->
     b.remove_piece(1, 0) # No knight
     b.move_piece(0, 1, 0, 2) # Move up a1 pawn
     b.move_piece(19, 0, 23, 2) # Move gray king to left of pawn
+    b.moats['white'] = false
     gray_king = b.piece_at(23, 2)
     gray_king.moves().length.should.equal 4
     same_moves(gray_king.moves(), [[22, 2], [22, 3], [0, 3], [0, 1]]).should.be.true
