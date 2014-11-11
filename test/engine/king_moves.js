@@ -32,7 +32,7 @@
       gray_king.moves().length.should.equal(4);
       return same_moves(gray_king.moves(), [[22, 2], [22, 3], [0, 3], [0, 1]]).should.be["true"];
     });
-    return it("should not be able to move into the path of a pawn that has crossed the center", function() {
+    it("should not be able to move into the path of a pawn that has crossed the center", function() {
       var b, black_king;
       b = new Board();
       b.move_piece(23, 1, 11, 2);
@@ -41,6 +41,21 @@
       b.remove_piece(10, 1);
       black_king = b.piece_at(11, 0);
       return black_king.moves().length.should.equal(0);
+    });
+    it("should not be able to cross a moat", function() {
+      var b, p;
+      b = new Board();
+      p = b.piece_at(3, 0);
+      p.move_to(0, 0);
+      return p.moves().length.should.equal(0);
+    });
+    return it("should be able to cross a closed moat", function() {
+      var b, p;
+      b = new Board();
+      b.moats['white'] = false;
+      p = b.piece_at(3, 0);
+      p.move_to(0, 0);
+      return p.moves().length.should.equal(1);
     });
   });
 
