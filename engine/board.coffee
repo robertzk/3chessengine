@@ -73,8 +73,10 @@ class Board
       piece = @place_piece(type, color, x, y)
       if type == 'pawn'
         console.log(data)
-        piece.unmoved = JSON.parse(data[3][0])
-        piece.towards_center = JSON.parse(data[4][0])
+        console.log(data[3][0] == true)
+        console.log(data[4][0] == true)
+        piece.unmoved = data[3][0]
+        piece.towards_center = data[4][0]
 
 
   move_piece: (old_x, old_y, new_x, new_y) ->
