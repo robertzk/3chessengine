@@ -589,8 +589,8 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
         piece = this.place_piece(type, color, x, y);
         if (type === 'pawn') {
           console.log(data);
-          piece.unmoved = data[3][0];
-          _results.push(piece.towards_center = true);
+          piece.unmoved = JSON.parse(data[3][0]);
+          _results.push(piece.towards_center = JSON.parse(data[4][0]));
         } else {
           _results.push(void 0);
         }
