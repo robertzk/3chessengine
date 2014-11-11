@@ -32,9 +32,9 @@
       }
       _ref = [this.board.left_moats(), this.board.right_moats()], left_moats = _ref[0], right_moats = _ref[1];
       out = (_ref1 = old_x + 1, __indexOf.call(left_moats, _ref1) >= 0) && __indexOf.call(right_moats, new_x) >= 0;
-      out || (out = __indexOf.call(left_moats, old_x) >= 0 && ((__indexOf.call(right_moats, new_x) >= 0) || (_ref2 = new_x + 1, __indexOf.call(right_moats, _ref2) >= 0)));
+      out || (out = __indexOf.call(left_moats, old_x) >= 0 && ((__indexOf.call(right_moats, new_x) >= 0) || (_ref2 = new_x - 1, __indexOf.call(right_moats, _ref2) >= 0)));
       out || (out = (_ref3 = old_x - 1, __indexOf.call(right_moats, _ref3) >= 0) && __indexOf.call(left_moats, new_x) >= 0);
-      out || (out = __indexOf.call(right_moats, old_x) >= 0 && (__indexOf.call(left_moats, new_x) >= 0 || (_ref4 = new_x - 1, __indexOf.call(left_moats, _ref4) >= 0)));
+      out || (out = __indexOf.call(right_moats, old_x) >= 0 && (__indexOf.call(left_moats, new_x) >= 0 || (_ref4 = new_x + 1, __indexOf.call(left_moats, _ref4) >= 0)));
       return out;
     };
 

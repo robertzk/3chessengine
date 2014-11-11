@@ -20,10 +20,10 @@ class Knight extends Piece
   crossed_moat: (old_x, old_y, new_x, new_y) ->
     return false unless old_y == 0 or new_y == 0
     [left_moats, right_moats] = [@board.left_moats(), @board.right_moats()]
-    out = (old_x + 1 in left_moats and new_x in right_moats)
-    out or= (old_x in left_moats and ((new_x in right_moats) or (new_x + 1 in right_moats)))
+    out   = (old_x + 1 in left_moats and new_x in right_moats)
+    out or= (old_x in left_moats and ((new_x in right_moats) or (new_x - 1 in right_moats)))
     out or= (old_x - 1 in right_moats and new_x in left_moats)
-    out or= (old_x in right_moats and (new_x in left_moats or new_x - 1 in left_moats))
+    out or= (old_x in right_moats and (new_x in left_moats or new_x + 1 in left_moats))
     out
 
   ###
