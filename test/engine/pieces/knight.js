@@ -12,9 +12,17 @@
   Board = require('../../../engine/board');
 
   describe('Knight', function() {
-    it("should display two forward moves and one capturing move initially", function() {
+    it("should display two forward moves initially", function() {
       var b, p;
       b = new Board();
+      p = b.piece_at(1, 0);
+      p.moves().length.should.equal(2);
+      return assert.deepEqual(p.moves(), [[0, 2], [2, 2]]);
+    });
+    it("should display two forward moves and one capturing move initially if moats are off", function() {
+      var b, p;
+      b = new Board();
+      b.moats['white'] = false;
       p = b.piece_at(1, 0);
       p.moves().length.should.equal(3);
       return assert.deepEqual(p.moves(), [[0, 2], [23, 1], [2, 2]]);

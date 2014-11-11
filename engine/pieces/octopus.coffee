@@ -59,6 +59,12 @@ normalize_position = (old_x, old_y, x, y) ->
     # We can only move onto a piece if it is of a different color.
     out.can_move = !same_color
 
+  # Do not allow moat crossing
+  on_moat_rank = (old_y == 1 and diff_y == -1) or (old_y == 0 and (diff_y == 0 or diff_y == 1))
+  if on_moat_rank and ((old_x in @board.left_moats() and diff_x == 1) or
+      (old_x in @board.right_moats() and diff_x == -1))
+    out.can_move = false
+    
   # If there is a piece, this is our final move in this direction.
   out.final_move = has_piece
   out.position = [x, y]
@@ -68,7 +74,7 @@ normalize_position = (old_x, old_y, x, y) ->
 # set one_step = true so we only compute one step forward.
 # This function is intended to be used for Queen, Bishop, Rook, and King
 # as a method.
-moves = (diagonal, axial, one_step = false) -> ->
+moves = (diagonal, axial, one_step = false) -> (filter = 2) ->
   positions = []
   dirs = []
   if axial
@@ -76,14 +82,12 @@ moves = (diagonal, axial, one_step = false) -> ->
   if diagonal
     dirs.push x for x in [[-1, -1], [-1, 1], [1, -1], [1, 1]]
     
-  tries = []
   for dir in dirs
     prev_x = @x()
     prev_y = @y()
     loop
       [x, y] = [prev_x + dir[0], prev_y + dir[1]]
       next_position = normalize_position.call(@, prev_x, prev_y, x, y)
-      tries.push [x, y]
       break unless next_position.can_move
       positions.push next_position.position
       # If the bishop crosses the inner circle,
@@ -92,7 +96,7 @@ moves = (diagonal, axial, one_step = false) -> ->
       break if next_position.final_move || one_step
       [prev_x, prev_y] = next_position.position
 
-  positions
+  @filter_checks positions, filter - 1
 
 module.exports = moves
 

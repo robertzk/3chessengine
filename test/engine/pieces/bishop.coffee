@@ -19,3 +19,16 @@ describe 'Bishop', ->
     true_moves = [[1,1],[0,2],[23,3],[22,4],[21,5],[7,5],[6,4],[5,3],[4,2]]
     same_moves(moves, true_moves).should.be.true
 
+  it "should not be able to cross a moat", ->
+    b = new Board()
+    p = b.piece_at(2, 0) # King-side white bishop
+    p.move_to(0, 0) # Move into the rook!
+    p.moves().length.should.equal 0
+
+  it "should be able to cross a closed moat", ->
+    b = new Board()
+    b.moats['white'] = false
+    p = b.piece_at(2, 0) # King-side white bishop
+    p.move_to(0, 0) # Move into the rook!
+    p.moves().length.should.equal 1
+

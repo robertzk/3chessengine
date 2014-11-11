@@ -1,8 +1,10 @@
 (function() {
-  var Bishop, Board, King, Knight, Pawn, Queen, Rook,
+  var Bishop, Board, King, Knight, Pawn, Piece, Queen, Rook, clone,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  King = require('./pieces/piece');
+  clone = require('./clone');
+
+  Piece = require('./pieces/piece');
 
   King = require('./pieces/king');
 
@@ -27,6 +29,7 @@
       if (setup_pieces) {
         this.initialize_pieces();
       }
+      this.initialize_moats();
     }
 
     Board.prototype.initialize_constants = function() {
@@ -58,6 +61,18 @@
         }
         return _results;
       })();
+    };
+
+    Board.prototype.initialize_moats = function() {
+      var k, _i, _len, _ref, _results;
+      this.moats = {};
+      _ref = this.colors;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        k = _ref[_i];
+        _results.push(this.moats[k] = true);
+      }
+      return _results;
     };
 
     Board.prototype.initialize_pieces = function() {
@@ -198,6 +213,104 @@
           }
           return _results1;
         }).call(this));
+      }
+      return _results;
+    };
+
+    Board.prototype.virtual_board = function() {
+      var $, attr, board, clone_piece, _, _i, _j, _len, _len1, _ref;
+      board = new Board(false);
+      for (attr in this) {
+        if (attr === 'board') {
+          continue;
+        }
+        board[attr] = this[attr];
+      }
+      clone_piece = function(piece) {
+        var new_piece, x;
+        if (!piece) {
+          return;
+        }
+        new_piece = new piece.constructor({
+          color: piece.color,
+          board: board,
+          position: (function() {
+            var _i, _len, _ref, _results;
+            _ref = piece.position;
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              x = _ref[_i];
+              _results.push(x);
+            }
+            return _results;
+          })()
+        });
+        for (attr in piece) {
+          if (!(typeof piece[attr] !== 'function')) {
+            continue;
+          }
+          if (attr === 'color' || attr === 'board' || attr === 'position' || attr === 'type') {
+            continue;
+          }
+          new_piece[attr] = piece[attr];
+        }
+        return new_piece;
+      };
+      _ref = this.board;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        $ = _ref[_i];
+        for (_j = 0, _len1 = $.length; _j < _len1; _j++) {
+          _ = $[_j];
+          clone_piece(_);
+        }
+      }
+      return board;
+    };
+
+    Board.prototype.king = function(color) {
+      var piece, x, y, _i, _j;
+      for (x = _i = 0; _i <= 23; x = ++_i) {
+        for (y = _j = 0; _j <= 5; y = ++_j) {
+          piece = this.board[x][y];
+          if (piece && piece.type === 'king' && piece.color === color) {
+            return piece;
+          }
+        }
+      }
+    };
+
+    Board.prototype.get_pieces = function(color) {
+      var piece, pieces, x, y, _i, _j;
+      pieces = [];
+      for (x = _i = 0; _i <= 23; x = ++_i) {
+        for (y = _j = 0; _j <= 5; y = ++_j) {
+          piece = this.board[x][y];
+          if (piece && piece.color === color) {
+            pieces.push(piece);
+          }
+        }
+      }
+      return pieces;
+    };
+
+    Board.prototype.left_moats = function() {
+      var x, _i, _results;
+      _results = [];
+      for (x = _i = 0; _i <= 2; x = ++_i) {
+        if (this.moats[this.colors[x]]) {
+          _results.push((x * 8 - 1 + 24) % 24);
+        }
+      }
+      return _results;
+    };
+
+    Board.prototype.right_moats = function() {
+      var x, _i, _results;
+      _results = [];
+      for (x = _i = 0; _i <= 2; x = ++_i) {
+        if (this.moats[this.colors[x]]) {
+          _results.push(x * 8);
+        }
       }
       return _results;
     };

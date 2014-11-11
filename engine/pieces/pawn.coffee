@@ -36,11 +36,14 @@ class Pawn extends Piece
   # forward. Adjacent to the center, the pawn can cross the center, or 
   # capture along the same diagonal a bishop would be able to.
   ###
-  moves: ->
-    if @y() == 5 && @towards_center # We have reached the inner circle
-      do @center_moves
-    else
-      do @noncenter_moves
+  moves: (filter = 2) ->
+    moves =
+      if @y() == 5 && @towards_center # We have reached the inner circle
+        do @center_moves
+      else
+        do @noncenter_moves
+
+    @filter_checks(moves, filter - 1)
 
   center_moves: ->
     moves = []
@@ -72,9 +75,15 @@ class Pawn extends Piece
 
     # Take a piece along the adjacent diagonals.
     for i in [-1, 1]
-      if (@board.has_piece_at(@x() + i, @y() + delta)) and \
-         (@board.piece_at(@x() + i, @y() + delta).color != @color)
-        moves.push [@x() + i, @y() + delta]
+      if (@board.has_piece_at((@x() + i + 24) % 24, @y() + delta)) and \
+         (@board.piece_at((@x() + i + 24) % 24, @y() + delta).color != @color)
+
+        # Do not allow capture across moats
+        if @towards_center and @y() <= 2 and @x() in @board.left_moats().concat(@board.right_moats())
+          continue if i is -1 and @x() in @board.right_moats()
+          continue if i is +1 and @x() in @board.left_moats()
+          
+        moves.push [(@x() + i + 24) % 24, @y() + delta]
     
     moves
 

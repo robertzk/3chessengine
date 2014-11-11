@@ -1,7 +1,8 @@
 (function() {
   var Pawn, Piece,
     __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Piece = require('./piece');
 
@@ -52,12 +53,13 @@
      * capture along the same diagonal a bishop would be able to.
      */
 
-    Pawn.prototype.moves = function() {
-      if (this.y() === 5 && this.towards_center) {
-        return this.center_moves();
-      } else {
-        return this.noncenter_moves();
+    Pawn.prototype.moves = function(filter) {
+      var moves;
+      if (filter == null) {
+        filter = 2;
       }
+      moves = this.y() === 5 && this.towards_center ? this.center_moves() : this.noncenter_moves();
+      return this.filter_checks(moves, filter - 1);
     };
 
     Pawn.prototype.center_moves = function() {
@@ -77,7 +79,7 @@
     };
 
     Pawn.prototype.noncenter_moves = function() {
-      var delta, i, moves, _i, _len, _ref;
+      var delta, i, moves, _i, _len, _ref, _ref1, _ref2, _ref3;
       moves = [];
       if (this.unmoved && !this.board.has_piece_at(this.x(), this.y() + 2) && !this.board.has_piece_at(this.x(), this.y() + 1)) {
         moves.push([this.x(), this.y() + 2]);
@@ -89,8 +91,16 @@
       _ref = [-1, 1];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         i = _ref[_i];
-        if ((this.board.has_piece_at(this.x() + i, this.y() + delta)) && (this.board.piece_at(this.x() + i, this.y() + delta).color !== this.color)) {
-          moves.push([this.x() + i, this.y() + delta]);
+        if ((this.board.has_piece_at((this.x() + i + 24) % 24, this.y() + delta)) && (this.board.piece_at((this.x() + i + 24) % 24, this.y() + delta).color !== this.color)) {
+          if (this.towards_center && this.y() <= 2 && (_ref1 = this.x(), __indexOf.call(this.board.left_moats().concat(this.board.right_moats()), _ref1) >= 0)) {
+            if (i === -1 && (_ref2 = this.x(), __indexOf.call(this.board.right_moats(), _ref2) >= 0)) {
+              continue;
+            }
+            if (i === +1 && (_ref3 = this.x(), __indexOf.call(this.board.left_moats(), _ref3) >= 0)) {
+              continue;
+            }
+          }
+          moves.push([(this.x() + i + 24) % 24, this.y() + delta]);
         }
       }
       return moves;

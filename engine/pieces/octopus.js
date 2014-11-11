@@ -1,8 +1,9 @@
 (function() {
-  var moves, normalize_position;
+  var moves, normalize_position,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   normalize_position = function(old_x, old_y, x, y) {
-    var diff_x, diff_y, has_piece, offset, out, same_color;
+    var diff_x, diff_y, has_piece, offset, on_moat_rank, out, same_color;
     if (y < 0) {
       return {
         can_move: false
@@ -35,6 +36,10 @@
       same_color = this.board.piece_at(x, y).color === this.color;
       out.can_move = !same_color;
     }
+    on_moat_rank = (old_y === 1 && diff_y === -1) || (old_y === 0 && (diff_y === 0 || diff_y === 1));
+    if (on_moat_rank && ((__indexOf.call(this.board.left_moats(), old_x) >= 0 && diff_x === 1) || (__indexOf.call(this.board.right_moats(), old_x) >= 0 && diff_x === -1))) {
+      out.can_move = false;
+    }
     out.final_move = has_piece;
     out.position = [x, y];
     return out;
@@ -44,8 +49,11 @@
     if (one_step == null) {
       one_step = false;
     }
-    return function() {
-      var dir, dirs, next_position, positions, prev_x, prev_y, tries, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3;
+    return function(filter) {
+      var dir, dirs, next_position, positions, prev_x, prev_y, x, y, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3;
+      if (filter == null) {
+        filter = 2;
+      }
       positions = [];
       dirs = [];
       if (axial) {
@@ -62,7 +70,6 @@
           dirs.push(x);
         }
       }
-      tries = [];
       for (_k = 0, _len2 = dirs.length; _k < _len2; _k++) {
         dir = dirs[_k];
         prev_x = this.x();
@@ -70,7 +77,6 @@
         while (true) {
           _ref2 = [prev_x + dir[0], prev_y + dir[1]], x = _ref2[0], y = _ref2[1];
           next_position = normalize_position.call(this, prev_x, prev_y, x, y);
-          tries.push([x, y]);
           if (!next_position.can_move) {
             break;
           }
@@ -84,7 +90,7 @@
           _ref3 = next_position.position, prev_x = _ref3[0], prev_y = _ref3[1];
         }
       }
-      return positions;
+      return this.filter_checks(positions, filter - 1);
     };
   };
 

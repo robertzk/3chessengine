@@ -17,6 +17,16 @@
 
     King.prototype.moves = octopus(true, true, true);
 
+
+    /*
+     * If a king has moved, it can no longer castle.
+     * We must record this somehow, simply as a boolean flag.
+     */
+
+    King.prototype.initialize_unmoved = function() {
+      return this.unmoved = true;
+    };
+
     return King;
 
   })(Piece);

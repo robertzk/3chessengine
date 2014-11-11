@@ -20,11 +20,11 @@
   },
   "homepage": "https://github.com/robertzk/3chessengine",
   "dependencies": {
-    "coffee-script": "latest"
+    "coffee-script": "latest",
+    "underscore": "latest"
   },
   "devDependencies": {
     "chai": "^1.9.1",
-    "mocha": "^1.21.4",
-    "underscore": "latest"
+    "mocha": "^1.21.4"
   }
 }

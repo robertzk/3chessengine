@@ -1,4 +1,6 @@
-King   = require './pieces/piece'
+clone = require './clone'
+
+Piece  = require './pieces/piece'
 King   = require './pieces/king'
 Queen  = require './pieces/queen'
 Rook   = require './pieces/rook'
@@ -15,6 +17,7 @@ class Board
     do @initialize_board
     do @initialize_constants
     @initialize_pieces() if setup_pieces
+    @initialize_moats()
 
   initialize_constants: ->
     @piece_map = { rook: Rook, knight: Knight, bishop: Bishop, king: King, queen: Queen, pawn: Pawn }
@@ -22,6 +25,10 @@ class Board
 
   initialize_board: ->
     @board = (null for _ in [0..5] for $ in [0..23])
+
+  initialize_moats: ->
+    @moats = {}
+    @moats[k] = true for k in @colors # All moats are active.
 
   initialize_pieces: ->
     for color in @colors
@@ -38,6 +45,9 @@ class Board
     [color_name, color] = [color, @colors.indexOf(color)]
     for i in [0..7]
       new Pawn(color: color_name, board: @, position: [8 * color + i, 1])
+
+  # A virtual copy of the board will be used for checking which moves put
+  # a king into mate.
 
   # Read
   has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
@@ -89,6 +99,47 @@ class Board
       for x in [0..23]
         if @piece_at(x, y)
           @remove_piece(x, y)
+
+  # Other
+  virtual_board: ->
+    board = new Board(false)
+    for attr of @
+      continue if attr == 'board'
+      board[attr] = @[attr]
+
+    clone_piece = (piece) ->
+      return unless piece
+      new_piece = new piece.constructor(color: piece.color, board: board, \
+        position: (x for x in piece.position))
+      # Copy over all non-function additional attributes.
+      for attr of piece when typeof piece[attr] != 'function'
+        continue if attr in ['color', 'board', 'position', 'type']
+        new_piece[attr] = piece[attr]
+      new_piece
+      
+    (clone_piece(_) for _ in $ for $ in @board)
+
+    board
+
+  king: (color) ->
+    for x in [0..23]
+      for y in [0..5]
+        piece = @board[x][y]
+        return piece if piece and piece.type == 'king' and piece.color == color
+
+  get_pieces: (color) ->
+    pieces = []
+    for x in [0..23]
+      for y in [0..5]
+        piece = @board[x][y]
+        pieces.push(piece) if piece and piece.color == color
+    pieces
+
+  left_moats: ->
+    ((x*8 - 1 + 24) % 24 for x in [0..2] when @moats[@colors[x]])
+
+  right_moats: ->
+    (x * 8 for x in [0..2] when @moats[@colors[x]])
 
   # Private
   ##

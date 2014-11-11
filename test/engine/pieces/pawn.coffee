@@ -1,5 +1,6 @@
 should = require('chai').should()
 assert = require('chai').assert
+same_moves = require('./util').same_moves
 Pawn = require '../../../engine/pieces/pawn'
 Board = require '../../../engine/board'
 
@@ -70,4 +71,51 @@ describe 'Pawn', ->
     p.towards_center.should.be.true
     p.move_to(12, 5)
     p.towards_center.should.be.false
+
+  it "should be able to capture across to the left of column 0", ->
+    b = new Board()
+    b.move_piece(23, 1, 23, 3); b.move_piece(23, 3, 23, 4)
+    b.move_piece(0, 1, 0, 3)
+    p = b.piece_at(0, 3)
+    p.moves().length.should.equal 2
+    same_moves(p.moves(), [[23, 4], [0, 4]]).should.be.true
+    
+  it "should be able to capture across to the right of column 23", ->
+    b = new Board()
+    b.move_piece(23, 1, 23, 3)
+    b.move_piece(0, 1, 0, 3); b.move_piece(0, 3, 0, 4)
+    p = b.piece_at(23, 3)
+    p.moves().length.should.equal 2
+    same_moves(p.moves(), [[23, 4], [0, 4]]).should.be.true
+
+  it "should not be able to cross a creek", ->
+    b = new Board() # Crossing to the right
+    for i in [0..2]
+      b.move_piece(x = b.left_moats()[i], 1, x, 2)
+      p = b.piece_at((x + 1) % 24, 1)
+      p.moves().length.should.equal 2
+    b = new Board() # Crossing to the left
+    for i in [0..2]
+      b.move_piece(x = b.right_moats()[i], 1, x, 2)
+      p = b.piece_at((x - 1 + 24) % 24, 1)
+      p.moves().length.should.equal 2
+
+  it "should be able to cross a creek if moats are disabled", ->
+    b = new Board() # Crossing to the right
+    left_moats = b.left_moats()
+    b.moats[i] = false for i in b.colors
+    for i in [0..2]
+      b.move_piece(x = left_moats[i], 1, x, 2)
+      p = b.piece_at((x + 1) % 24, 1)
+      p.moves().length.should.equal 3
+    b.moats[i] = false for i in b.colors
+    
+    b = new Board() # Crossing to the left
+    right_moats = b.right_moats()
+    b.moats[i] = false for i in b.colors
+    for i in [0..2]
+      b.move_piece(x = right_moats[i], 1, x, 2)
+      p = b.piece_at((x - 1 + 24) % 24, 1)
+      p.moves().length.should.equal 3
+
 
