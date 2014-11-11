@@ -1701,12 +1701,16 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
       return [x % 24, !(y < 0) ? y : void 0];
     };
     Knight.prototype.crossed_moat = function(old_x, old_y, new_x, new_y) {
-      var left_moats, right_moats, _ref, _ref1, _ref2, _ref3, _ref4;
+      var left_moats, out, right_moats, _ref, _ref1, _ref2, _ref3, _ref4;
       if (!(old_y === 0 || new_y === 0)) {
         return false;
       }
       _ref = [this.board.left_moats(), this.board.right_moats()], left_moats = _ref[0], right_moats = _ref[1];
-      return ((_ref1 = old_x + 1, __indexOf.call(left_moats, _ref1) >= 0) && __indexOf.call(right_moats, new_x) >= 0) || (__indexOf.call(left_moats, x) >= 0 && (__indexOf.call(right_moats, new_x) >= 0 || (_ref2 = new_x + 1, __indexOf.call(right_moats, _ref2) >= 0))) || ((_ref3 = old_x - 1, __indexOf.call(right_moats, _ref3) >= 0) && __indexOf.call(left_moats, new_x) >= 0) || (__indexOf.call(right_moats, old_x) >= 0 && (__indexOf.call(left_moats, new_x) >= 0 || (_ref4 = new_x - 1, __indexOf.call(left_moats, _ref4) >= 0)));
+      out = (_ref1 = old_x + 1, __indexOf.call(left_moats, _ref1) >= 0) && __indexOf.call(right_moats, new_x) >= 0;
+      out || (out = __indexOf.call(left_moats, old_x) >= 0 && ((__indexOf.call(right_moats, new_x) >= 0) || (_ref2 = new_x + 1, __indexOf.call(right_moats, _ref2) >= 0)));
+      out || (out = (_ref3 = old_x - 1, __indexOf.call(right_moats, _ref3) >= 0) && __indexOf.call(left_moats, new_x) >= 0);
+      out || (out = __indexOf.call(right_moats, old_x) >= 0 && (__indexOf.call(left_moats, new_x) >= 0 || (_ref4 = new_x - 1, __indexOf.call(left_moats, _ref4) >= 0)));
+      return out;
     };
 
     /*
@@ -1724,7 +1728,7 @@ __cs.libs.csefeb9072 = (function(require, module, exports) {
         for (sign2 = _j = -1; _j <= 1; sign2 = _j += 2) {
           for (d = _k = 1; _k <= 2; d = ++_k) {
             _ref = this.normalize_position(this.x() + sign1 * d, this.y() + sign2 * (3 - d)), x = _ref[0], y = _ref[1];
-            if (crossed_moat(this.x(), this.y(), x, y)) {
+            if (this.crossed_moat(this.x(), this.y(), x, y)) {
               continue;
             }
             if ((y == null) || ((_ref1 = this.board.piece_at(x, y)) != null ? _ref1.color : void 0) === this.color) {
