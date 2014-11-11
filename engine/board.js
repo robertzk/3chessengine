@@ -163,7 +163,7 @@
         if (type === 'pawn') {
           console.log(data);
           piece.unmoved = data[3][0];
-          _results.push(piece.towards_center = data[4][0]);
+          _results.push(piece.towards_center = true);
         } else {
           _results.push(void 0);
         }
