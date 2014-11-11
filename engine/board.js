@@ -162,10 +162,10 @@
         piece = this.place_piece(type, color, x, y);
         if (type === 'pawn') {
           console.log(data);
-          console.log(typeof data[3][0]);
-          console.log(typeof data[4][0]);
-          piece.unmoved = data[3][0];
-          _results.push(piece.towards_center = data[4][0]);
+          console.log(typeof data[3]);
+          console.log(typeof data[4]);
+          piece.unmoved = data[3];
+          _results.push(piece.towards_center = data[4]);
         } else {
           _results.push(void 0);
         }
