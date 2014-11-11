@@ -31,3 +31,4 @@ describe 'Bishop', ->
     p = b.piece_at(2, 0) # King-side white bishop
     p.move_to(0, 0) # Move into the rook!
     p.moves().length.should.equal 1
+
