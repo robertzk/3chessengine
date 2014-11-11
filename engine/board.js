@@ -64,15 +64,14 @@
     };
 
     Board.prototype.initialize_moats = function() {
-      var k, _i, _len, _ref, _results;
+      var k, _i, _len, _ref;
       this.moats = {};
       _ref = this.colors;
-      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         k = _ref[_i];
-        _results.push(this.moats[k] = true);
+        this.moats[k] = true;
       }
-      return _results;
+      return this.moats['white'] = false;
     };
 
     Board.prototype.initialize_pieces = function() {
