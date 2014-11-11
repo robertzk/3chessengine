@@ -560,7 +560,7 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
       return state;
     };
     Board.prototype.serialize = function(content) {
-      return console.log(boardState);
+      return console.log(this.boardState);
     };
     Board.prototype.unserialize = function(content) {
       return console.log(content);
