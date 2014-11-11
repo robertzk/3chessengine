@@ -73,8 +73,8 @@ class Board
       piece = @place_piece(type, color, x, y)
       if type == 'pawn'
         console.log(data)
-        piece.make_unmoved if data[3][0]
-        piece.pass_center if data[4][0]
+        piece.make_unmoved if !data[3][0]
+        piece.pass_center if !data[4][0]
 
 
   move_piece: (old_x, old_y, new_x, new_y) ->

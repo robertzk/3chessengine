@@ -162,10 +162,10 @@
         piece = this.place_piece(type, color, x, y);
         if (type === 'pawn') {
           console.log(data);
-          if (data[3][0]) {
+          if (!data[3][0]) {
             piece.make_unmoved;
           }
-          if (data[4][0]) {
+          if (!data[4][0]) {
             _results.push(piece.pass_center);
           } else {
             _results.push(void 0);
