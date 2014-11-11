@@ -105,7 +105,6 @@ class Board
 
   # Private
   ##
-  
 
   sanitize_type: (type) ->
     type = type.toLowerCase()

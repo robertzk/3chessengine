@@ -1,8 +1,9 @@
 (function() {
-  var moves, normalize_position;
+  var moves, normalize_position,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   normalize_position = function(old_x, old_y, x, y) {
-    var diff_x, diff_y, has_piece, offset, out, same_color;
+    var diff_x, diff_y, has_piece, offset, on_moat_rank, out, same_color;
     if (y < 0) {
       return {
         can_move: false
@@ -34,6 +35,10 @@
     if (has_piece = this.board.has_piece_at(x, y)) {
       same_color = this.board.piece_at(x, y).color === this.color;
       out.can_move = !same_color;
+    }
+    on_moat_rank = (old_y === 1 && diff_y === -1) || (old_y === 0 && (diff_y === 0 || diff_y === 1));
+    if (on_moat_rank && ((__indexOf.call(this.board.left_moats(), old_x) >= 0 && diff_x === 1) || (__indexOf.call(this.board.right_moats(), old_x) >= 0 && diff_x === -1))) {
+      out.can_move = false;
     }
     out.final_move = has_piece;
     out.position = [x, y];

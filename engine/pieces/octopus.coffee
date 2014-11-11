@@ -59,6 +59,12 @@ normalize_position = (old_x, old_y, x, y) ->
     # We can only move onto a piece if it is of a different color.
     out.can_move = !same_color
 
+  # Do not allow moat crossing
+  on_moat_rank = (old_y == 1 and diff_y == -1) or (old_y == 0 and (diff_y == 0 or diff_y == 1))
+  if on_moat_rank and ((old_x in @board.left_moats() and diff_x == 1) or
+      (old_x in @board.right_moats() and diff_x == -1))
+    out.can_move = false
+    
   # If there is a piece, this is our final move in this direction.
   out.final_move = has_piece
   out.position = [x, y]
