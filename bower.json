@@ -2,11 +2,12 @@
   "name": "3chessengine",
   "main": "engine.js",
   "version": "0.1.9",
-  "dependencies": { },
+  "dependencies": {
+    "underscore": "latest"
+  },
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.21.4",
-    "underscore": "latest",
     "coffee-script": "latest"
   }
 }

@@ -1,5 +1,6 @@
 should = require('chai').should()
 assert = require('chai').assert
+same_moves = require('./util').same_moves
 Pawn = require '../../../engine/pieces/pawn'
 Board = require '../../../engine/board'
 
@@ -70,4 +71,21 @@ describe 'Pawn', ->
     p.towards_center.should.be.true
     p.move_to(12, 5)
     p.towards_center.should.be.false
+
+  it "should be able to capture across to the left of column 0", ->
+    b = new Board()
+    b.move_piece(23, 1, 23, 3); b.move_piece(23, 3, 23, 4)
+    b.move_piece(0, 1, 0, 3)
+    p = b.piece_at(0, 3)
+    p.moves().length.should.equal 2
+    same_moves(p.moves(), [[23, 4], [0, 4]]).should.be.true
+    
+  it "should be able to capture across to the right of column 23", ->
+    b = new Board()
+    b.move_piece(23, 1, 23, 3)
+    b.move_piece(0, 1, 0, 3); b.move_piece(0, 3, 0, 4)
+    p = b.piece_at(23, 3)
+    p.moves().length.should.equal 2
+    same_moves(p.moves(), [[23, 4], [0, 4]]).should.be.true
+
 

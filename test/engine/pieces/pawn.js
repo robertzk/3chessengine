@@ -1,9 +1,11 @@
 (function() {
-  var Board, Pawn, assert, should;
+  var Board, Pawn, assert, same_moves, should;
 
   should = require('chai').should();
 
   assert = require('chai').assert;
+
+  same_moves = require('./util').same_moves;
 
   Pawn = require('../../../engine/pieces/pawn');
 
@@ -147,13 +149,33 @@
       p.move_to(0, 3);
       return assert.deepEqual(p.moves(), [[0, 4]]);
     });
-    return it("crossing the inner circle should make a pawn change its towards_center", function() {
+    it("crossing the inner circle should make a pawn change its towards_center", function() {
       var b, p;
       b = new Board();
       p = b.place_piece('pawn', 'white', 0, 5);
       p.towards_center.should.be["true"];
       p.move_to(12, 5);
       return p.towards_center.should.be["false"];
+    });
+    it("should be able to capture across to the left of column 0", function() {
+      var b, p;
+      b = new Board();
+      b.move_piece(23, 1, 23, 3);
+      b.move_piece(23, 3, 23, 4);
+      b.move_piece(0, 1, 0, 3);
+      p = b.piece_at(0, 3);
+      p.moves().length.should.equal(2);
+      return same_moves(p.moves(), [[23, 4], [0, 4]]).should.be["true"];
+    });
+    return it("should be able to capture across to the right of column 23", function() {
+      var b, p;
+      b = new Board();
+      b.move_piece(23, 1, 23, 3);
+      b.move_piece(0, 1, 0, 3);
+      b.move_piece(0, 3, 0, 4);
+      p = b.piece_at(23, 3);
+      p.moves().length.should.equal(2);
+      return same_moves(p.moves(), [[23, 4], [0, 4]]).should.be["true"];
     });
   });
 

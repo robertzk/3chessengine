@@ -45,3 +45,27 @@ describe 'Board', ->
     b.has_piece_at(0, 3).should.be.true
     b.piece_at(0, 3).should.equal piece
 
+  it "a virtual board should not interfere with the real board", ->
+    b = new Board()
+    vb = do b.virtual_board
+    vb.move_piece(1, 1, 1, 2)
+    vb.has_piece_at(1, 2).should.be.true
+    b.has_piece_at(1, 2).should.be.false
+
+  it "can find a king", ->
+    b = new Board()
+    king = b.king('white')
+    king.x().should.equal 3
+    king.y().should.equal 0
+    king = b.king('black')
+    king.x().should.equal 3 + 8
+    king.y().should.equal 0
+    king = b.king('grey')
+    king.x().should.equal 3 + 16
+    king.y().should.equal 0
+
+  it "can find colored pieces", ->
+    b = new Board()
+    whites = b.get_pieces('white')
+    whites.length.should.equal 16
+

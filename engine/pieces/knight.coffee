@@ -22,7 +22,7 @@ class Knight extends Piece
   #
   # Recall that it can capture in L shapes all around the board.
   ###
-  moves: ->
+  moves: (filter = 2) ->
     positions = []
     for sign1 in [-1..1] by 2
       for sign2 in [-1..1] by 2
@@ -33,7 +33,7 @@ class Knight extends Piece
           continue if !y? or @board.piece_at(x, y)?.color == @color
           positions.push [x, y]
 
-    positions
+    @filter_checks positions, filter - 1
 
   # TODO: (RK) Knights cannot cross moats.
 
