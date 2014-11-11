@@ -31,6 +31,9 @@ class Knight extends Piece
           # If the knight went off the board or is landing on a piece
           # of the same color, this is an illegal move.
           continue if !y? or @board.piece_at(x, y)?.color == @color
+
+          # Prevent moat crossing
+          
           positions.push [x, y]
 
     @filter_checks positions, filter - 1
