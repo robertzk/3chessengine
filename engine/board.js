@@ -29,6 +29,7 @@
       if (setup_pieces) {
         this.initialize_pieces();
       }
+      this.initialize_moats();
     }
 
     Board.prototype.initialize_constants = function() {
@@ -60,6 +61,18 @@
         }
         return _results;
       })();
+    };
+
+    Board.prototype.initialize_moats = function() {
+      var k, _i, _len, _ref, _results;
+      this.moats = {};
+      _ref = this.colors;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        k = _ref[_i];
+        _results.push(this.moats[k] = true);
+      }
+      return _results;
     };
 
     Board.prototype.initialize_pieces = function() {

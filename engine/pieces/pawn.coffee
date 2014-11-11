@@ -77,6 +77,11 @@ class Pawn extends Piece
     for i in [-1, 1]
       if (@board.has_piece_at((@x() + i + 24) % 24, @y() + delta)) and \
          (@board.piece_at((@x() + i + 24) % 24, @y() + delta).color != @color)
+
+        # Do not allow capture across moats
+        if @y() <= 2 and @x() in [23, 0, 7, 8, 15, 16]
+          continue if (i is -1 and x in [0, 8, 16]) or (i is 1 and x in [23, 7, 15])
+          
         moves.push [(@x() + i + 24) % 24, @y() + delta]
     
     moves

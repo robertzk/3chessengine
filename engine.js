@@ -1796,7 +1796,7 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
       return moves;
     };
     Pawn.prototype.noncenter_moves = function() {
-      var delta, i, moves, _i, _len, _ref;
+      var delta, i, moves, _i, _len, _ref, _ref1;
       moves = [];
       if (this.unmoved && !this.board.has_piece_at(this.x(), this.y() + 2) && !this.board.has_piece_at(this.x(), this.y() + 1)) {
         moves.push([this.x(), this.y() + 2]);
@@ -1809,6 +1809,11 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         i = _ref[_i];
         if ((this.board.has_piece_at((this.x() + i + 24) % 24, this.y() + delta)) && (this.board.piece_at((this.x() + i + 24) % 24, this.y() + delta).color !== this.color)) {
+          if (this.y() <= 2 && ((_ref1 = this.x()) === 23 || _ref1 === 0 || _ref1 === 7 || _ref1 === 8 || _ref1 === 15 || _ref1 === 16)) {
+            if ((i === -1 && (x === 0 || x === 8 || x === 16)) || (i === 1 && (x === 23 || x === 7 || x === 15))) {
+              continue;
+            }
+          }
           moves.push([(this.x() + i + 24) % 24, this.y() + delta]);
         }
       }
@@ -1881,6 +1886,7 @@ __cs.libs.cs07b02b0c = (function(require, module, exports) {
       if (setup_pieces) {
         this.initialize_pieces();
       }
+      this.initialize_moats();
     }
     Board.prototype.initialize_constants = function() {
       this.piece_map = {
@@ -1910,6 +1916,17 @@ __cs.libs.cs07b02b0c = (function(require, module, exports) {
         }
         return _results;
       })();
+    };
+    Board.prototype.initialize_moats = function() {
+      var k, _i, _len, _ref, _results;
+      this.moats = {};
+      _ref = this.colors;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        k = _ref[_i];
+        _results.push(this.moats[k] = true);
+      }
+      return _results;
     };
     Board.prototype.initialize_pieces = function() {
       var color, _i, _len, _ref, _results;

@@ -16,6 +16,7 @@ class Board
     do @initialize_board
     do @initialize_constants
     @initialize_pieces() if setup_pieces
+    @initialize_moats()
 
   initialize_constants: ->
     @piece_map = { rook: Rook, knight: Knight, bishop: Bishop, king: King, queen: Queen, pawn: Pawn }
@@ -23,6 +24,10 @@ class Board
 
   initialize_board: ->
     @board = (null for _ in [0..5] for $ in [0..23])
+
+  initialize_moats: ->
+    @moats = {}
+    @moats[k] = true for k in @colors # All moats are active.
 
   initialize_pieces: ->
     for color in @colors
