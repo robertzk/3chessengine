@@ -28,7 +28,6 @@ class Board
   initialize_moats: ->
     @moats = {}
     @moats[k] = true for k in @colors # All moats are active.
-    @moats['white'] = false
 
   initialize_pieces: ->
     for color in @colors

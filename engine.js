@@ -1940,14 +1940,15 @@ __cs.libs.cs07b02b0c = (function(require, module, exports) {
       })();
     };
     Board.prototype.initialize_moats = function() {
-      var k, _i, _len, _ref;
+      var k, _i, _len, _ref, _results;
       this.moats = {};
       _ref = this.colors;
+      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         k = _ref[_i];
-        this.moats[k] = true;
+        _results.push(this.moats[k] = true);
       }
-      return this.moats['white'] = false;
+      return _results;
     };
     Board.prototype.initialize_pieces = function() {
       var color, _i, _len, _ref, _results;
