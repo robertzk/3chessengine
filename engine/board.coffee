@@ -43,7 +43,7 @@ class Board
   has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
   piece_at:     (x, y) -> @board[(24 + x) % 24][y]
   
-  serialize: (content) -> console.log(JSON.stringify(@board))
+  serialize: (content) -> console.log(@board) #JSON.stringify(@board))
   unserialize: (content) -> console.log(content)
 
   # Update
