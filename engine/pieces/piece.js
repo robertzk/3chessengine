@@ -9,6 +9,7 @@
       if (!arguments.length) {
         return this;
       }
+      this.colors = ['white', 'black', 'grey'];
       this.assign_color(opts);
       this.assign_board(opts);
       this.assign_position(opts);
@@ -71,13 +72,13 @@
     };
 
     Piece.prototype.assign_color = function(opts) {
-      var color, colors;
+      var color;
       if (!('color' in opts)) {
         throw "Please provide a piece color";
       }
       color = opts.color.toLowerCase();
-      if (__indexOf.call(colors = ['white', 'black', 'grey'], color) < 0) {
-        throw "Piece color must be one of " + (colors.join(', '));
+      if (__indexOf.call(this.colors, color) < 0) {
+        throw "Piece color must be one of " + (this.colors.join(', '));
       }
       return this.color = color;
     };

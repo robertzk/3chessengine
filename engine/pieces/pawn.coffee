@@ -79,8 +79,10 @@ class Pawn extends Piece
          (@board.piece_at((@x() + i + 24) % 24, @y() + delta).color != @color)
 
         # Do not allow capture across moats
-        if @y() <= 2 and @x() in [23, 0, 7, 8, 15, 16]
-          continue if (i is -1 and x in [0, 8, 16]) or (i is 1 and x in [23, 7, 15])
+        left_moat  = [(x*8 - 1 + 24) % 24 for x in [0..2] when @board.moats[@colors[x]]]
+        right_moat = [x * 8 for x in [0..2] when @board.moats[@colors[x]]]
+        if @y() <= 2 and @x() in left_moat.concat(right_moat)
+          continue if (i is -1 and @x() in right_moat) or (i is 1 and @x() in left_moat)
           
         moves.push [(@x() + i + 24) % 24, @y() + delta]
     

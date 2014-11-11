@@ -3,6 +3,7 @@ class Piece
 
   constructor: (opts) ->
     return @ unless arguments.length
+    @colors = ['white', 'black', 'grey']
     @assign_color    opts
     @assign_board    opts
     @assign_position opts
@@ -51,8 +52,8 @@ class Piece
   assign_color: (opts) ->
     throw "Please provide a piece color" unless 'color' of opts
     color = opts.color.toLowerCase()
-    unless color in colors = ['white', 'black', 'grey']
-      throw "Piece color must be one of #{colors.join(', ')}"
+    unless color in @colors
+      throw "Piece color must be one of #{@colors.join(', ')}"
     @color = color
 
   assign_board: (opts) ->

@@ -1,7 +1,8 @@
 (function() {
   var Pawn, Piece,
     __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Piece = require('./piece');
 
@@ -78,7 +79,7 @@
     };
 
     Pawn.prototype.noncenter_moves = function() {
-      var delta, i, moves, _i, _len, _ref, _ref1;
+      var delta, i, left_moat, moves, right_moat, x, _i, _len, _ref, _ref1, _ref2, _ref3;
       moves = [];
       if (this.unmoved && !this.board.has_piece_at(this.x(), this.y() + 2) && !this.board.has_piece_at(this.x(), this.y() + 1)) {
         moves.push([this.x(), this.y() + 2]);
@@ -91,8 +92,32 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         i = _ref[_i];
         if ((this.board.has_piece_at((this.x() + i + 24) % 24, this.y() + delta)) && (this.board.piece_at((this.x() + i + 24) % 24, this.y() + delta).color !== this.color)) {
-          if (this.y() <= 2 && ((_ref1 = this.x()) === 23 || _ref1 === 0 || _ref1 === 7 || _ref1 === 8 || _ref1 === 15 || _ref1 === 16)) {
-            if ((i === -1 && (x === 0 || x === 8 || x === 16)) || (i === 1 && (x === 23 || x === 7 || x === 15))) {
+          left_moat = [
+            (function() {
+              var _j, _results;
+              _results = [];
+              for (x = _j = 0; _j <= 2; x = ++_j) {
+                if (this.board.moats[this.colors[x]]) {
+                  _results.push((x * 8 - 1 + 24) % 24);
+                }
+              }
+              return _results;
+            }).call(this)
+          ];
+          right_moat = [
+            (function() {
+              var _j, _results;
+              _results = [];
+              for (x = _j = 0; _j <= 2; x = ++_j) {
+                if (this.board.moats[this.colors[x]]) {
+                  _results.push(x * 8);
+                }
+              }
+              return _results;
+            }).call(this)
+          ];
+          if (this.y() <= 2 && (_ref1 = this.x(), __indexOf.call(left_moat.concat(right_moat), _ref1) >= 0)) {
+            if ((i === -1 && (_ref2 = this.x(), __indexOf.call(right_moat, _ref2) >= 0)) || (i === 1 && (_ref3 = this.x(), __indexOf.call(left_moat, _ref3) >= 0))) {
               continue;
             }
           }
