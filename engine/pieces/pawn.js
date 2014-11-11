@@ -92,33 +92,26 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         i = _ref[_i];
         if ((this.board.has_piece_at((this.x() + i + 24) % 24, this.y() + delta)) && (this.board.piece_at((this.x() + i + 24) % 24, this.y() + delta).color !== this.color)) {
-          left_moat = [
-            (function() {
-              var _j, _results;
-              _results = [];
-              for (x = _j = 0; _j <= 2; x = ++_j) {
-                if (this.board.moats[this.colors[x]]) {
-                  _results.push((x * 8 - 1 + 24) % 24);
-                }
+          left_moat = (function() {
+            var _j, _results;
+            _results = [];
+            for (x = _j = 0; _j <= 2; x = ++_j) {
+              if (this.board.moats[this.colors[x]]) {
+                _results.push((x * 8 - 1 + 24) % 24);
               }
-              return _results;
-            }).call(this)
-          ];
-          right_moat = [
-            (function() {
-              var _j, _results;
-              _results = [];
-              for (x = _j = 0; _j <= 2; x = ++_j) {
-                if (this.board.moats[this.colors[x]]) {
-                  _results.push(x * 8);
-                }
+            }
+            return _results;
+          }).call(this);
+          right_moat = (function() {
+            var _j, _results;
+            _results = [];
+            for (x = _j = 0; _j <= 2; x = ++_j) {
+              if (this.board.moats[this.colors[x]]) {
+                _results.push(x * 8);
               }
-              return _results;
-            }).call(this)
-          ];
-          console.log('moats');
-          console.log(left_moat);
-          console.log(right_moat);
+            }
+            return _results;
+          }).call(this);
           if (this.y() <= 2 && (_ref1 = this.x(), __indexOf.call(left_moat.concat(right_moat), _ref1) >= 0)) {
             if ((i === -1 && (_ref2 = this.x(), __indexOf.call(right_moat, _ref2) >= 0)) || (i === 1 && (_ref3 = this.x(), __indexOf.call(left_moat, _ref3) >= 0))) {
               continue;

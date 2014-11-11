@@ -79,11 +79,8 @@ class Pawn extends Piece
          (@board.piece_at((@x() + i + 24) % 24, @y() + delta).color != @color)
 
         # Do not allow capture across moats
-        left_moat  = [(x*8 - 1 + 24) % 24 for x in [0..2] when @board.moats[@colors[x]]]
-        right_moat = [x * 8 for x in [0..2] when @board.moats[@colors[x]]]
-        console.log 'moats'
-        console.log left_moat
-        console.log right_moat
+        left_moat  = ((x*8 - 1 + 24) % 24 for x in [0..2] when @board.moats[@colors[x]])
+        right_moat = (x * 8 for x in [0..2] when @board.moats[@colors[x]])
         if @y() <= 2 and @x() in left_moat.concat(right_moat)
           continue if (i is -1 and @x() in right_moat) or (i is 1 and @x() in left_moat)
           
