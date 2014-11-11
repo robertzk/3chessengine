@@ -72,8 +72,8 @@ class Board
       type = piece[2]; color = piece[0]; x = piece[1][0]; y = piece[1][1]
       piece = @place_piece(type, color, x, y)
       if type == 'pawn'
-        piece.unmoved = piece[2][0]
-        piece.towards_center = piece[3][0]
+        piece.unmoved = piece[4][0]
+        piece.towards_center = piece[5][0]
 
 
   move_piece: (old_x, old_y, new_x, new_y) ->

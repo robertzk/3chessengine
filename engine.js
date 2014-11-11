@@ -588,8 +588,8 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
         y = piece[1][1];
         piece = this.place_piece(type, color, x, y);
         if (type === 'pawn') {
-          piece.unmoved = piece[2][0];
-          _results.push(piece.towards_center = piece[3][0]);
+          piece.unmoved = piece[4][0];
+          _results.push(piece.towards_center = piece[5][0]);
         } else {
           _results.push(void 0);
         }
