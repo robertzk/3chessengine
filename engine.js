@@ -1835,6 +1835,9 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
               return _results;
             }).call(this)
           ];
+          console.log('moats');
+          console.log(left_moat);
+          console.log(right_moat);
           if (this.y() <= 2 && (_ref1 = this.x(), __indexOf.call(left_moat.concat(right_moat), _ref1) >= 0)) {
             if ((i === -1 && (_ref2 = this.x(), __indexOf.call(right_moat, _ref2) >= 0)) || (i === 1 && (_ref3 = this.x(), __indexOf.call(left_moat, _ref3) >= 0))) {
               continue;
