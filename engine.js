@@ -577,19 +577,19 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
       return piece;
     };
     Board.prototype.unweaveState = function(unserialized_api_data) {
-      var color, piece, type, x, y, _i, _len, _results;
+      var color, data, piece, type, x, y, _i, _len, _results;
       this.remove_board();
       _results = [];
       for (_i = 0, _len = unserialized_api_data.length; _i < _len; _i++) {
-        piece = unserialized_api_data[_i];
-        type = piece[2];
-        color = piece[0];
-        x = piece[1][0];
-        y = piece[1][1];
+        data = unserialized_api_data[_i];
+        type = data[2];
+        color = data[0];
+        x = data[1][0];
+        y = data[1][1];
         piece = this.place_piece(type, color, x, y);
         if (type === 'pawn') {
-          piece.unmoved = piece[3][0];
-          _results.push(piece.towards_center = piece[4][0]);
+          piece.unmoved = data[3][0];
+          _results.push(piece.towards_center = data[4][0]);
         } else {
           _results.push(void 0);
         }
