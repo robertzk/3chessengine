@@ -66,8 +66,7 @@ class Board
     state
 
   serialize: (content) -> JSON.stringify(@boardState())
-  unserialize: (content) ->
-    @unweaveState(JSON.parse(content))
+  unserialize: (content) -> @unweaveState(JSON.parse(content))
 
   # Update
   place_piece: (type, color, x, y) ->
