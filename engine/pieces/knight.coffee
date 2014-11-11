@@ -17,6 +17,14 @@ class Knight extends Piece
 
     [x % 24, y unless y < 0]
 
+  crossed_moat: (old_x, old_y, new_x, new_y) ->
+    return false unless old_y == 0 or new_y == 0
+    [left_moats, right_moats] = @board.left_moats(), @board.right_moats()
+    (old_x + 1 in left_moats and new_x in right_moats) or
+      (x in left_moats and (new_x in right_moats or new_x + 1 in right_moats)) or
+      (old_x - 1 in right_moats and new_x in left_moats) or
+      (old_x in right_moats and (new_x in left_moats or new_x - 1 in left_moats))
+
   ###
   # List the moves available to a knight (in an array of [x, y] positions).
   #
@@ -28,12 +36,14 @@ class Knight extends Piece
       for sign2 in [-1..1] by 2
         for d in [1..2]
           [x, y] = @normalize_position @x() + sign1 * d, @y() + sign2 * (3 - d)
+
+          # Prevent moat crossing
+          continue if crossed_moat @x(), @y(), x, y
+
           # If the knight went off the board or is landing on a piece
           # of the same color, this is an illegal move.
           continue if !y? or @board.piece_at(x, y)?.color == @color
 
-          # Prevent moat crossing
-          
           positions.push [x, y]
 
     @filter_checks positions, filter - 1
