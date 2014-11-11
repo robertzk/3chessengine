@@ -100,4 +100,22 @@ describe 'Pawn', ->
       p = b.piece_at((x - 1 + 24) % 24, 1)
       p.moves().length.should.equal 2
 
+  it "should be able to cross a creek if moats are disabled", ->
+    b = new Board() # Crossing to the right
+    left_moats = b.left_moats()
+    b.moats[i] = false for i in b.colors
+    for i in [0..2]
+      b.move_piece(x = left_moats[i], 1, x, 2)
+      p = b.piece_at((x + 1) % 24, 1)
+      p.moves().length.should.equal 3
+    b.moats[i] = false for i in b.colors
+    
+    b = new Board() # Crossing to the left
+    right_moats = b.right_moats()
+    b.moats[i] = false for i in b.colors
+    for i in [0..2]
+      b.move_piece(x = right_moats[i], 1, x, 2)
+      p = b.piece_at((x - 1 + 24) % 24, 1)
+      p.moves().length.should.equal 3
+
 
