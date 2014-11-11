@@ -47,7 +47,7 @@ class Board
     state = []
     for y in [0..5]
       for x in [0..23]
-        if piece_at(x, y)
+        if @piece_at(x, y)
           substate = []
           for attr of p when typeof p[attr] != 'function' && attr != 'board'
             substate.push p[attr]
