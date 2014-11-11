@@ -55,7 +55,7 @@ class Board
           state.push substate
     state
 
-  serialize: (content) -> console.log(@boardState()) #JSON.stringify(@board))
+  serialize: (content) -> console.log(JSON.stringify(@boardState())) #JSON.stringify(@board)
   unserialize: (content) -> console.log(content)
 
   # Update
