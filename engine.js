@@ -540,8 +540,26 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
     Board.prototype.piece_at = function(x, y) {
       return this.board[(24 + x) % 24][y];
     };
+    Board.prototype.boardState = function() {
+      var attr, state, substate, x, y, _i, _j;
+      state = [];
+      for (y = _i = 0; _i <= 5; y = ++_i) {
+        for (x = _j = 0; _j <= 23; x = ++_j) {
+          if (piece_at(x, y)) {
+            substate = [];
+            for (attr in p) {
+              if (typeof p[attr] !== 'function' && attr !== 'board') {
+                substate.push(p[attr]);
+              }
+            }
+            state.push(substate);
+          }
+        }
+      }
+      return state;
+    };
     Board.prototype.serialize = function(content) {
-      return console.log(this.board);
+      return console.log(boardState);
     };
     Board.prototype.unserialize = function(content) {
       return console.log(content);

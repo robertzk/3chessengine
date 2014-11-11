@@ -43,7 +43,18 @@ class Board
   has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
   piece_at:     (x, y) -> @board[(24 + x) % 24][y]
   
-  serialize: (content) -> console.log(@board) #JSON.stringify(@board))
+  boardState: ->
+    state = []
+    for y in [0..5]
+      for x in [0..23]
+        if piece_at(x, y)
+          substate = []
+          for attr of p when typeof p[attr] != 'function' && attr != 'board'
+            substate.push p[attr]
+          state.push substate
+    state
+
+  serialize: (content) -> console.log(boardState) #JSON.stringify(@board))
   unserialize: (content) -> console.log(content)
 
   # Update
