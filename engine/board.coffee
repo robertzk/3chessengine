@@ -55,8 +55,10 @@ class Board
           state.push substate
     state
 
-  serialize: (content) -> console.log(JSON.stringify(@boardState())) #JSON.stringify(@board)
-  unserialize: (content) -> console.log(content)
+  serialize: (content) -> JSON.stringify(@boardState())
+  unserialize: (content) ->
+    console.log(JSON.parse(content))
+    @unweaveState(JSON.parse(content))
 
   # Update
   place_piece: (type, color, x, y) ->
@@ -65,6 +67,11 @@ class Board
     @board[(24 + x) % 24][y] = piece
     piece
 
+  unweaveState: (unserialized_api_data) ->
+    @remove_board()
+    for piece in unserialized_api_data
+      @place_piece(piece[2], piece[0], piece[1][0], piece[1][1])
+
   move_piece: (old_x, old_y, new_x, new_y) ->
     old_x = (old_x + 24) % 24
     throw "No piece at (#{old_x}, #{old_y})" unless @has_piece_at(old_x, old_y)
@@ -72,6 +79,12 @@ class Board
 
   # Destroy
   remove_piece: (x, y) -> @board[x][y] = null
+
+  remove_board: ->
+    for y in [0..5]
+      for x in [0..23]
+        if @piece_at(x, y)
+          @remove_piece(x, y)
 
   # Private
   ##

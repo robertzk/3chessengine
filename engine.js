@@ -560,10 +560,11 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
       return state;
     };
     Board.prototype.serialize = function(content) {
-      return console.log(JSON.stringify(this.boardState()));
+      return JSON.stringify(this.boardState());
     };
     Board.prototype.unserialize = function(content) {
-      return console.log(content);
+      console.log(JSON.parse(content));
+      return this.unweaveState(JSON.parse(content));
     };
     Board.prototype.place_piece = function(type, color, x, y) {
       var piece;
@@ -576,6 +577,16 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
       this.board[(24 + x) % 24][y] = piece;
       return piece;
     };
+    Board.prototype.unweaveState = function(unserialized_api_data) {
+      var piece, _i, _len, _results;
+      this.remove_board();
+      _results = [];
+      for (_i = 0, _len = unserialized_api_data.length; _i < _len; _i++) {
+        piece = unserialized_api_data[_i];
+        _results.push(this.place_piece(piece[2], piece[0], piece[1][0], piece[1][1]));
+      }
+      return _results;
+    };
     Board.prototype.move_piece = function(old_x, old_y, new_x, new_y) {
       old_x = (old_x + 24) % 24;
       if (!this.has_piece_at(old_x, old_y)) {
@@ -585,6 +596,25 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
     };
     Board.prototype.remove_piece = function(x, y) {
       return this.board[x][y] = null;
+    };
+    Board.prototype.remove_board = function() {
+      var x, y, _i, _results;
+      _results = [];
+      for (y = _i = 0; _i <= 5; y = ++_i) {
+        _results.push((function() {
+          var _j, _results1;
+          _results1 = [];
+          for (x = _j = 0; _j <= 23; x = ++_j) {
+            if (this.piece_at(x, y)) {
+              _results1.push(this.remove_piece(x, y));
+            } else {
+              _results1.push(void 0);
+            }
+          }
+          return _results1;
+        }).call(this));
+      }
+      return _results;
     };
     Board.prototype.sanitize_type = function(type) {
       type = type.toLowerCase();
