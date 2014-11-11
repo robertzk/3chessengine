@@ -42,6 +42,9 @@ class Board
   # Read
   has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
   piece_at:     (x, y) -> @board[(24 + x) % 24][y]
+  
+  serialize: (content) -> JSON.stringify(content)
+  unserialize: (content) -> console.log(content)
 
   # Update
   place_piece: (type, color, x, y) ->
