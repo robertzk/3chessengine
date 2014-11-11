@@ -72,6 +72,7 @@ class Board
       type = data[2]; color = data[0]; x = data[1][0]; y = data[1][1]
       piece = @place_piece(type, color, x, y)
       if type == 'pawn'
+        console.log(data)
         piece.unmoved = data[3][0]
         piece.towards_center = data[4][0]
 
