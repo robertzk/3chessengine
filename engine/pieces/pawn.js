@@ -92,7 +92,7 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         i = _ref[_i];
         if ((this.board.has_piece_at((this.x() + i + 24) % 24, this.y() + delta)) && (this.board.piece_at((this.x() + i + 24) % 24, this.y() + delta).color !== this.color)) {
-          if (this.y() <= 2 && (_ref1 = this.x(), __indexOf.call(this.left_moats().concat(this.board.right_moats()), _ref1) >= 0)) {
+          if (this.y() <= 2 && (_ref1 = this.x(), __indexOf.call(this.board.left_moats().concat(this.board.right_moats()), _ref1) >= 0)) {
             if (i === -1 && (_ref2 = this.x(), __indexOf.call(this.board.right_moats(), _ref2) >= 0)) {
               continue;
             }

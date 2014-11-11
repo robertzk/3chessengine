@@ -79,7 +79,7 @@ class Pawn extends Piece
          (@board.piece_at((@x() + i + 24) % 24, @y() + delta).color != @color)
 
         # Do not allow capture across moats
-        if @y() <= 2 and @x() in @left_moats().concat(@board.right_moats())
+        if @y() <= 2 and @x() in @board.left_moats().concat(@board.right_moats())
           continue if i is -1 and @x() in @board.right_moats()
           continue if i is +1 and @x() in @board.left_moats()
           
