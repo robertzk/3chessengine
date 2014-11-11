@@ -101,7 +101,7 @@ class Board
     ((x*8 - 1 + 24) % 24 for x in [0..2] when @moats[@colors[x]])
 
   right_moats: ->
-    (x * 8 for x in [0..2] when @board.moats[@colors[x]])
+    (x * 8 for x in [0..2] when @moats[@colors[x]])
 
   # Private
   ##

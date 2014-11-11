@@ -239,7 +239,7 @@
       var x, _i, _results;
       _results = [];
       for (x = _i = 0; _i <= 2; x = ++_i) {
-        if (this.board.moats[this.colors[x]]) {
+        if (this.moats[this.colors[x]]) {
           _results.push(x * 8);
         }
       }
