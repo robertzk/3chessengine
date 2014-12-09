@@ -10,6 +10,7 @@ Pawn   = require './pieces/pawn'
 
 class Board
 
+  # Create
   constructor: (setup_pieces = true) ->
     @__class = 'Board'
 
@@ -47,6 +48,58 @@ class Board
 
   # A virtual copy of the board will be used for checking which moves put
   # a king into mate.
+
+  # Read
+  has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
+  piece_at:     (x, y) -> @board[(24 + x) % 24][y]
+  
+  boardState: ->
+    state = []
+    for y in [0..5]
+      for x in [0..23]
+        p = @piece_at(x, y)
+        if p
+          substate = []
+          for attr of p when typeof p[attr] != 'function' && attr != 'board'
+            substate.push p[attr]
+          state.push substate
+    state
+
+  serialize: (content) -> JSON.stringify(@boardState())
+  unserialize: (content) -> @unweaveState(JSON.parse(content))
+
+  # Update
+  place_piece: (type, color, x, y) ->
+    type = @piece_map[@sanitize_type(type)]
+    piece = new type(board: @, position: [x, y], color: @sanitize_color(color))
+    @board[(24 + x) % 24][y] = piece
+    piece
+
+  unweaveState: (unserialized_api_data) ->
+    @remove_board()
+    for data in unserialized_api_data
+      type = data[2]; color = data[0]; x = data[1][0]; y = data[1][1]
+      piece = @place_piece(type, color, x, y)
+      if type == 'pawn'
+        piece.unmoved = data[3]
+        piece.towards_center = data[4]
+
+
+  move_piece: (old_x, old_y, new_x, new_y) ->
+    old_x = (old_x + 24) % 24
+    throw "No piece at (#{old_x}, #{old_y})" unless @has_piece_at(old_x, old_y)
+    @piece_at(old_x, old_y).move_to(new_x, new_y)
+
+  # Destroy
+  remove_piece: (x, y) -> @board[x][y] = null
+
+  remove_board: ->
+    for y in [0..5]
+      for x in [0..23]
+        if @piece_at(x, y)
+          @remove_piece(x, y)
+
+  # Other
   virtual_board: ->
     board = new Board(false)
     for attr of @
@@ -66,22 +119,6 @@ class Board
     (clone_piece(_) for _ in $ for $ in @board)
 
     board
-
-  has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
-  piece_at:     (x, y) -> @board[(24 + x) % 24][y]
-
-  place_piece: (type, color, x, y) ->
-    type = @piece_map[@sanitize_type(type)]
-    piece = new type(board: @, position: [x, y], color: @sanitize_color(color))
-    @board[(24 + x) % 24][y] = piece
-    piece
-
-  move_piece: (old_x, old_y, new_x, new_y) ->
-    old_x = (old_x + 24) % 24
-    throw "No piece at (#{old_x}, #{old_y})" unless @has_piece_at(old_x, old_y)
-    @piece_at(old_x, old_y).move_to(new_x, new_y)
-
-  remove_piece: (x, y) -> @board[x][y] = null
 
   king: (color) ->
     for x in [0..23]

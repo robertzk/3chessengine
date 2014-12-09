@@ -116,6 +116,107 @@
       return _results;
     };
 
+    Board.prototype.has_piece_at = function(x, y) {
+      return this.board[(24 + x) % 24][y] !== null;
+    };
+
+    Board.prototype.piece_at = function(x, y) {
+      return this.board[(24 + x) % 24][y];
+    };
+
+    Board.prototype.boardState = function() {
+      var attr, p, state, substate, x, y, _i, _j;
+      state = [];
+      for (y = _i = 0; _i <= 5; y = ++_i) {
+        for (x = _j = 0; _j <= 23; x = ++_j) {
+          p = this.piece_at(x, y);
+          if (p) {
+            substate = [];
+            for (attr in p) {
+              if (typeof p[attr] !== 'function' && attr !== 'board') {
+                substate.push(p[attr]);
+              }
+            }
+            state.push(substate);
+          }
+        }
+      }
+      return state;
+    };
+
+    Board.prototype.serialize = function(content) {
+      return JSON.stringify(this.boardState());
+    };
+
+    Board.prototype.unserialize = function(content) {
+      return this.unweaveState(JSON.parse(content));
+    };
+
+    Board.prototype.place_piece = function(type, color, x, y) {
+      var piece;
+      type = this.piece_map[this.sanitize_type(type)];
+      piece = new type({
+        board: this,
+        position: [x, y],
+        color: this.sanitize_color(color)
+      });
+      this.board[(24 + x) % 24][y] = piece;
+      return piece;
+    };
+
+    Board.prototype.unweaveState = function(unserialized_api_data) {
+      var color, data, piece, type, x, y, _i, _len, _results;
+      this.remove_board();
+      _results = [];
+      for (_i = 0, _len = unserialized_api_data.length; _i < _len; _i++) {
+        data = unserialized_api_data[_i];
+        type = data[2];
+        color = data[0];
+        x = data[1][0];
+        y = data[1][1];
+        piece = this.place_piece(type, color, x, y);
+        if (type === 'pawn') {
+          piece.unmoved = data[3];
+          _results.push(piece.towards_center = data[4]);
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
+    };
+
+    Board.prototype.move_piece = function(old_x, old_y, new_x, new_y) {
+      old_x = (old_x + 24) % 24;
+      if (!this.has_piece_at(old_x, old_y)) {
+        throw "No piece at (" + old_x + ", " + old_y + ")";
+      }
+      return this.piece_at(old_x, old_y).move_to(new_x, new_y);
+    };
+
+    Board.prototype.remove_piece = function(x, y) {
+      return this.board[x][y] = null;
+    };
+
+    Board.prototype.remove_board = function() {
+      var x, y, _i, _results;
+      _results = [];
+      for (y = _i = 0; _i <= 5; y = ++_i) {
+        _results.push((function() {
+          var _j, _results1;
+          _results1 = [];
+          for (x = _j = 0; _j <= 23; x = ++_j) {
+            if (this.piece_at(x, y)) {
+              _results1.push(this.remove_piece(x, y));
+            } else {
+              _results1.push(void 0);
+            }
+          }
+          return _results1;
+        }).call(this));
+      }
+      return _results;
+    };
+
     Board.prototype.virtual_board = function() {
       var $, attr, board, clone_piece, _, _i, _j, _len, _len1, _ref;
       board = new Board(false);
@@ -164,38 +265,6 @@
         }
       }
       return board;
-    };
-
-    Board.prototype.has_piece_at = function(x, y) {
-      return this.board[(24 + x) % 24][y] !== null;
-    };
-
-    Board.prototype.piece_at = function(x, y) {
-      return this.board[(24 + x) % 24][y];
-    };
-
-    Board.prototype.place_piece = function(type, color, x, y) {
-      var piece;
-      type = this.piece_map[this.sanitize_type(type)];
-      piece = new type({
-        board: this,
-        position: [x, y],
-        color: this.sanitize_color(color)
-      });
-      this.board[(24 + x) % 24][y] = piece;
-      return piece;
-    };
-
-    Board.prototype.move_piece = function(old_x, old_y, new_x, new_y) {
-      old_x = (old_x + 24) % 24;
-      if (!this.has_piece_at(old_x, old_y)) {
-        throw "No piece at (" + old_x + ", " + old_y + ")";
-      }
-      return this.piece_at(old_x, old_y).move_to(new_x, new_y);
-    };
-
-    Board.prototype.remove_piece = function(x, y) {
-      return this.board[x][y] = null;
     };
 
     Board.prototype.king = function(color) {
