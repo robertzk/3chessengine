@@ -1622,7 +1622,7 @@ __cs.libs.cs852f3f85 = (function(require, module, exports) {
               empty && (empty = !this.board.piece_at(this.x() - i, this.y()));
             }
             if (empty) {
-              moves += [this.x() + (x === -3 ? -1 : 2), this.y()];
+              moves += [this.x() + (ix === -3 ? -1 : 2), this.y()];
             }
           }
         }

@@ -31,7 +31,7 @@ class King extends Piece
           empty = true
           empty and= !@board.piece_at(@x() - i, @y()) for i in [1..(Math.abs(ix) - 1)]
           if empty # No pieces in the way
-            moves += [@x() + (if x == -3 then -1 else 2), @y()]
+            moves += [@x() + (if ix == -3 then -1 else 2), @y()]
     moves
 
 
