@@ -1466,7 +1466,11 @@ __cs.libs.cs6b44f638 = (function(require, module, exports) {
       }
       this.board.board[new_x][new_y] = this;
       this.board.board[this.x()][this.y()] = null;
-      return this.position = [new_x, new_y];
+      this.position = [new_x, new_y];
+      if (this.type === 'king') {
+        this.castle_move(new_x);
+      }
+      return this.position;
     };
     return Piece;
   })();
@@ -1632,6 +1636,17 @@ __cs.libs.cs852f3f85 = (function(require, module, exports) {
         }
       }
       return moves;
+    };
+
+    /*
+     * Perform a castling move by moving the rook.
+     */
+    King.prototype.castle_move = function(new_x) {
+      if (new_x - x === -2) {
+        return this.board.piece_at(this.x() - 3, this.y()).move_to(this.x() - 1, this.y());
+      } else if (new_x - x === 2) {
+        return this.board.piece_at(this.x() + 4, this.y()).move_to(this.x() + 1, this.y());
+      }
     };
     return King;
   })(Piece);
