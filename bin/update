@@ -1,9 +1,13 @@
 #!/bin/bash
 
-./clientside
-git tag -d 0.1.9
-git tag 0.1.9
-cd ../threemanchess
-bower uninstall 3chessengine
-bower install
-cd ../3chessengine
+if git status --porcelain; then
+  echo "Please commit all your changes."
+else
+  ./clientside
+  git tag -d 0.1.9
+  git tag 0.1.9
+  cd ../threemanchess
+  bower uninstall 3chessengine
+  bower install
+  cd ../3chessengine
+fi

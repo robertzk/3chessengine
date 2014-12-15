@@ -137,7 +137,6 @@
                 substate[attr] = p[attr];
               }
             }
-            console.log(substate);
             state.push(substate);
           }
         }
