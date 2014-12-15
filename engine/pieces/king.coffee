@@ -29,9 +29,10 @@ class King extends Piece
       if rook = @board.piece_at(@x() + ix, @y())
         if rook.type is 'rook' and rook.unmoved
           empty = true
-          empty and= !@board.piece_at(@x() - i, @y()) for i in [1..(Math.abs(ix) - 1)]
+          for i in [1..(Math.abs(ix) - 1)]
+            empty and= !@board.piece_at(@x() + (if ix < 0 then -1 else 1) * i, @y())
           if empty # No pieces in the way
-            moves += [@x() + (if ix == -3 then -1 else 2), @y()]
+            moves.push [@x() + (if ix == -3 then -1 else 2), @y()]
     moves
 
 

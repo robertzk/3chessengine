@@ -53,10 +53,10 @@
           if (rook.type === 'rook' && rook.unmoved) {
             empty = true;
             for (i = _j = 1, _ref1 = Math.abs(ix) - 1; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; i = 1 <= _ref1 ? ++_j : --_j) {
-              empty && (empty = !this.board.piece_at(this.x() - i, this.y()));
+              empty && (empty = !this.board.piece_at(this.x() + (ix < 0 ? -1 : 1) * i, this.y()));
             }
             if (empty) {
-              moves += [this.x() + (ix === -3 ? -1 : 2), this.y()];
+              moves.push([this.x() + (ix === -3 ? -1 : 2), this.y()]);
             }
           }
         }
