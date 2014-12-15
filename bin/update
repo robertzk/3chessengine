@@ -1,8 +1,6 @@
 #!/bin/bash
 
-if git status --porcelain; then
-  echo "Please commit all your changes."
-else
+if git diff-index --quiet HEAD --; then
   ./clientside
   git tag -d 0.1.9
   git tag 0.1.9
@@ -10,4 +8,6 @@ else
   bower uninstall 3chessengine
   bower install
   cd ../3chessengine
+else
+  echo "Please commit all your changes."
 fi
