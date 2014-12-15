@@ -71,9 +71,9 @@
      */
 
     King.prototype.castle_move = function(new_x) {
-      if (new_x - x === -2) {
+      if (new_x - this.x() === -2) {
         return this.board.piece_at(this.x() - 3, this.y()).move_to(this.x() - 1, this.y());
-      } else if (new_x - x === 2) {
+      } else if (new_x - this.x() === 2) {
         return this.board.piece_at(this.x() + 4, this.y()).move_to(this.x() + 1, this.y());
       }
     };

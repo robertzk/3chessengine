@@ -42,9 +42,9 @@ class King extends Piece
   castle_move: (new_x) ->
     # We assume this was in the list of allowed moves so castling is legal,
     # and the rook is appropriately placed.
-    if new_x - x == -2
+    if new_x - @x() == -2
       @board.piece_at(@x() - 3, @y()).move_to(@x() - 1, @y())
-    else if new_x - x == 2
+    else if new_x - @x() == 2
       @board.piece_at(@x() + 4, @y()).move_to(@x() + 1, @y())
 
 module.exports = King
