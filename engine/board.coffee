@@ -83,8 +83,8 @@ class Board
       x = data['position'][0]; y = data['position'][1]
       piece = @place_piece(type, color, x, y)
       if type == 'pawn'
-        piece.unmoved = data[3]
-        piece.towards_center = data[4]
+        piece.unmoved = data['unmoved']
+        piece.towards_center = data['towards_center']
 
 
   move_piece: (old_x, old_y, new_x, new_y) ->

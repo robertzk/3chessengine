@@ -177,8 +177,8 @@
         y = data['position'][1];
         piece = this.place_piece(type, color, x, y);
         if (type === 'pawn') {
-          piece.unmoved = data[3];
-          _results.push(piece.towards_center = data[4]);
+          piece.unmoved = data['unmoved'];
+          _results.push(piece.towards_center = data['towards_center']);
         } else {
           _results.push(void 0);
         }
