@@ -133,10 +133,11 @@
           if (p) {
             substate = {};
             for (attr in p) {
-              if (typeof p[attr] !== 'function' && attr !== 'board') {
+              if (typeof p[attr] !== 'function' && attr !== 'board' && attr !== 'colors') {
                 substate[attr] = p[attr];
               }
             }
+            console.log(substate);
             state.push(substate);
           }
         }

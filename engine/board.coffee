@@ -60,8 +60,9 @@ class Board
         p = @piece_at(x, y)
         if p
           substate = {}
-          for attr of p when typeof p[attr] != 'function' && attr != 'board'
+          for attr of p when typeof p[attr] != 'function' && attr != 'board' && attr != 'colors'
             substate[attr] = p[attr]
+          console.log substate
           state.push substate
     state
 
