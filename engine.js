@@ -1591,7 +1591,7 @@ __cs.libs.cs852f3f85 = (function(require, module, exports) {
       if (index == null) {
         index = 2;
       }
-      return regular_moves(index) + this.castling_moves();
+      return this.regular_moves(index) + this.castling_moves();
     };
 
     /*
