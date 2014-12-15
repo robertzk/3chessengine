@@ -73,7 +73,7 @@ normalize_position = (old_x, old_y, x, y) ->
 # Compute all diagonal or axial moves for a piece. If King, we can
 # set one_step = true so we only compute one step forward.
 # This function is intended to be used for Queen, Bishop, Rook, and King
-# as a method.
+# as a method
 moves = (diagonal, axial, one_step = false) -> (filter = 2) ->
   positions = []
   dirs = []

@@ -15,7 +15,12 @@
       this.type = 'king';
     }
 
-    King.prototype.moves = octopus(true, true, true);
+    King.prototype.moves = function(index) {
+      if (index == null) {
+        index = 2;
+      }
+      return octopus(true, true, true)(index) + this.castling_moves();
+    };
 
 
     /*
@@ -25,6 +30,42 @@
 
     King.prototype.initialize_unmoved = function() {
       return this.unmoved = true;
+    };
+
+
+    /*
+     * Return the list of available castling moves.
+     */
+
+    King.prototype.castling_moves = function() {
+      var empty, i, ix, moves, rook, _i, _j, _len, _ref, _ref1, _results;
+      if (!this.unmoved) {
+        return [];
+      }
+      moves = [];
+      _ref = [-3, 4];
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        ix = _ref[_i];
+        if (rook = this.board.piece_at(this.x() + ix, this.y())) {
+          if (rook.type === 'rook' && rook.unmoved) {
+            empty = true;
+            for (i = _j = 1, _ref1 = Math.abs(ix) - 1; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; i = 1 <= _ref1 ? ++_j : --_j) {
+              empty && (empty = !this.board.piece_at(this.x() - i, this.y()));
+            }
+            if (empty) {
+              _results.push(moves += [this.x() + (x === -3 ? -1 : 2), this.y()]);
+            } else {
+              _results.push(void 0);
+            }
+          } else {
+            _results.push(void 0);
+          }
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
     };
 
     return King;

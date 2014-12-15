@@ -13,24 +13,24 @@ if (typeof __cs == 'undefined') {
   };
   window.require = __cs.r;
 }
-__cs.map['./engine/pieces/king'] = 'cs8a65d88b';
-__cs.map['./engine/pieces/queen'] = 'cs76eafe84';
-__cs.map['./engine/pieces/rook'] = 'csca1c0963';
-__cs.map['./engine/pieces/bishop'] = 'cs96474aed';
-__cs.map['./engine/pieces/knight'] = 'cs397257ae';
-__cs.map['./engine/pieces/pawn'] = 'cse11cad6d';
-__cs.map['./engine/board'] = 'cse850a7f0';
-__cs.map['./piece'] = 'cs22b76903';
-__cs.map['./octopus'] = 'cs4e77ff2f';
-__cs.map['./clone'] = 'cs63fbaf48';
-__cs.map['./pieces/piece'] = 'cs22b76903';
-__cs.map['./pieces/king'] = 'cs8a65d88b';
-__cs.map['./pieces/queen'] = 'cs76eafe84';
-__cs.map['./pieces/rook'] = 'csca1c0963';
-__cs.map['./pieces/bishop'] = 'cs96474aed';
-__cs.map['./pieces/knight'] = 'cs397257ae';
-__cs.map['./pieces/pawn'] = 'cse11cad6d';
-__cs.map['./util'] = 'csc94b5560';
+__cs.map['./engine/pieces/king'] = 'cs852f3f85';
+__cs.map['./engine/pieces/queen'] = 'cs591948df';
+__cs.map['./engine/pieces/rook'] = 'cs50ac7fdb';
+__cs.map['./engine/pieces/bishop'] = 'cs5f8b3ecd';
+__cs.map['./engine/pieces/knight'] = 'csefeb9072';
+__cs.map['./engine/pieces/pawn'] = 'cs4379d23b';
+__cs.map['./engine/board'] = 'cs07b02b0c';
+__cs.map['./piece'] = 'cs6b44f638';
+__cs.map['./octopus'] = 'csb79f58b0';
+__cs.map['./clone'] = 'cs9a6a87bb';
+__cs.map['./pieces/piece'] = 'cs6b44f638';
+__cs.map['./pieces/king'] = 'cs852f3f85';
+__cs.map['./pieces/queen'] = 'cs591948df';
+__cs.map['./pieces/rook'] = 'cs50ac7fdb';
+__cs.map['./pieces/bishop'] = 'cs5f8b3ecd';
+__cs.map['./pieces/knight'] = 'csefeb9072';
+__cs.map['./pieces/pawn'] = 'cs4379d23b';
+__cs.map['./util'] = 'cs4dddfcc0';
 __cs.map['underscore'] = 'cs7bbaf501';
 
 //underscore.js
@@ -1306,7 +1306,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //util.js
-__cs.libs.csc94b5560 = (function(require, module, exports) {
+__cs.libs.cs4dddfcc0 = (function(require, module, exports) {
 (function() {
   var all_in, same_moves, _;
   _ = require('underscore')._;
@@ -1342,7 +1342,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //piece.js
-__cs.libs.cs22b76903 = (function(require, module, exports) {
+__cs.libs.cs6b44f638 = (function(require, module, exports) {
 (function() {
   var Piece, all_in,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -1473,7 +1473,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //octopus.js
-__cs.libs.cs4e77ff2f = (function(require, module, exports) {
+__cs.libs.csb79f58b0 = (function(require, module, exports) {
 (function() {
   var moves, normalize_position,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -1573,7 +1573,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //king.js
-__cs.libs.cs8a65d88b = (function(require, module, exports) {
+__cs.libs.cs852f3f85 = (function(require, module, exports) {
 (function() {
   var King, Piece, octopus,
     __hasProp = {}.hasOwnProperty,
@@ -1586,7 +1586,12 @@ __cs.libs.cs8a65d88b = (function(require, module, exports) {
       King.__super__.constructor.apply(this, arguments);
       this.type = 'king';
     }
-    King.prototype.moves = octopus(true, true, true);
+    King.prototype.moves = function(index) {
+      if (index == null) {
+        index = 2;
+      }
+      return octopus(true, true, true)(index) + this.castling_moves();
+    };
 
     /*
      * If a king has moved, it can no longer castle.
@@ -1594,6 +1599,40 @@ __cs.libs.cs8a65d88b = (function(require, module, exports) {
      */
     King.prototype.initialize_unmoved = function() {
       return this.unmoved = true;
+    };
+
+    /*
+     * Return the list of available castling moves.
+     */
+    King.prototype.castling_moves = function() {
+      var empty, i, ix, moves, rook, _i, _j, _len, _ref, _ref1, _results;
+      if (!this.unmoved) {
+        return [];
+      }
+      moves = [];
+      _ref = [-3, 4];
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        ix = _ref[_i];
+        if (rook = this.board.piece_at(this.x() + ix, this.y())) {
+          if (rook.type === 'rook' && rook.unmoved) {
+            empty = true;
+            for (i = _j = 1, _ref1 = Math.abs(ix) - 1; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; i = 1 <= _ref1 ? ++_j : --_j) {
+              empty && (empty = !this.board.piece_at(this.x() - i, this.y()));
+            }
+            if (empty) {
+              _results.push(moves += [this.x() + (x === -3 ? -1 : 2), this.y()]);
+            } else {
+              _results.push(void 0);
+            }
+          } else {
+            _results.push(void 0);
+          }
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
     };
     return King;
   })(Piece);
@@ -1603,7 +1642,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //queen.js
-__cs.libs.cs76eafe84 = (function(require, module, exports) {
+__cs.libs.cs591948df = (function(require, module, exports) {
 (function() {
   var Piece, Queen, octopus,
     __hasProp = {}.hasOwnProperty,
@@ -1625,7 +1664,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //rook.js
-__cs.libs.csca1c0963 = (function(require, module, exports) {
+__cs.libs.cs50ac7fdb = (function(require, module, exports) {
 (function() {
   var Piece, Rook, octopus,
     __hasProp = {}.hasOwnProperty,
@@ -1655,7 +1694,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //bishop.js
-__cs.libs.cs96474aed = (function(require, module, exports) {
+__cs.libs.cs5f8b3ecd = (function(require, module, exports) {
 (function() {
   var Bishop, Piece, octopus,
     __hasProp = {}.hasOwnProperty,
@@ -1677,7 +1716,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //knight.js
-__cs.libs.cs397257ae = (function(require, module, exports) {
+__cs.libs.csefeb9072 = (function(require, module, exports) {
 (function() {
   var Knight, Piece,
     __hasProp = {}.hasOwnProperty,
@@ -1749,7 +1788,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //pawn.js
-__cs.libs.cse11cad6d = (function(require, module, exports) {
+__cs.libs.cs4379d23b = (function(require, module, exports) {
 (function() {
   var Pawn, Piece,
     __hasProp = {}.hasOwnProperty,
@@ -1864,7 +1903,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //clone.js
-__cs.libs.cs63fbaf48 = (function(require, module, exports) {
+__cs.libs.cs9a6a87bb = (function(require, module, exports) {
 // http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
 clone = function(obj, except) {
     if (except == null) except = []
@@ -1890,7 +1929,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 
 //board.js
-__cs.libs.cse850a7f0 = (function(require, module, exports) {
+__cs.libs.cs07b02b0c = (function(require, module, exports) {
 (function() {
   var Bishop, Board, King, Knight, Pawn, Piece, Queen, Rook, clone,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
