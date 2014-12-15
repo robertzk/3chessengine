@@ -83,5 +83,10 @@ class Piece
     @board.board[@x()][@y()] = null
     @position = [new_x, new_y]
 
+    # For kings, castle
+    @castle_move(new_x) if @type == 'king'
+
+    @position
+
 module.exports = Piece
 

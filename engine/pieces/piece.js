@@ -131,7 +131,11 @@
       }
       this.board.board[new_x][new_y] = this;
       this.board.board[this.x()][this.y()] = null;
-      return this.position = [new_x, new_y];
+      this.position = [new_x, new_y];
+      if (this.type === 'king') {
+        this.castle_move(new_x);
+      }
+      return this.position;
     };
 
     return Piece;
