@@ -12,6 +12,7 @@
 
     function King(opts) {
       King.__super__.constructor.apply(this, arguments);
+      this.initialize_unmoved();
       this.type = 'king';
     }
 
