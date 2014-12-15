@@ -118,6 +118,9 @@
       if (this.unmoved != null) {
         this.unmoved = false;
       }
+      if (this.type === 'king') {
+        this.castle_move(new_x);
+      }
       new_x = (new_x + 24) % 24;
       if (__indexOf.call((function() {
         _results = [];
@@ -131,11 +134,7 @@
       }
       this.board.board[new_x][new_y] = this;
       this.board.board[this.x()][this.y()] = null;
-      this.position = [new_x, new_y];
-      if (this.type === 'king') {
-        this.castle_move(new_x);
-      }
-      return this.position;
+      return this.position = [new_x, new_y];
     };
 
     return Piece;
