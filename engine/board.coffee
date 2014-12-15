@@ -79,6 +79,7 @@ class Board
   unweave_state: (unserialized_api_data) ->
     @remove_board()
     for data in unserialized_api_data
+      console.log data
       type = data['type']; color = data['color']
       x = data['position'][0]; y = data['position'][1]
       piece = @place_piece(type, color, x, y)

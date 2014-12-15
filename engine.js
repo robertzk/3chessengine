@@ -2008,10 +2008,11 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
           if (p) {
             substate = {};
             for (attr in p) {
-              if (typeof p[attr] !== 'function' && attr !== 'board') {
+              if (typeof p[attr] !== 'function' && attr !== 'board' && attr !== 'colors') {
                 substate[attr] = p[attr];
               }
             }
+            console.log(substate);
             state.push(substate);
           }
         }
@@ -2041,14 +2042,14 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
       _results = [];
       for (_i = 0, _len = unserialized_api_data.length; _i < _len; _i++) {
         data = unserialized_api_data[_i];
-        type = data[2];
-        color = data[0];
-        x = data[1][0];
-        y = data[1][1];
+        type = data['type'];
+        color = data['color'];
+        x = data['position'][0];
+        y = data['position'][1];
         piece = this.place_piece(type, color, x, y);
         if (type === 'pawn') {
-          piece.unmoved = data[3];
-          _results.push(piece.towards_center = data[4]);
+          piece.unmoved = data['unmoved'];
+          _results.push(piece.towards_center = data['towards_center']);
         } else {
           _results.push(void 0);
         }
