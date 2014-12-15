@@ -4,7 +4,7 @@ class Rook extends Piece
 
   constructor: (opts) ->
     super
-    #do @initialize_unmoved
+    do @initialize_unmoved
     @type = 'rook'
 
   moves: octopus(false, true)
