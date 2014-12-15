@@ -171,10 +171,10 @@
       _results = [];
       for (_i = 0, _len = unserialized_api_data.length; _i < _len; _i++) {
         data = unserialized_api_data[_i];
-        type = data[2];
-        color = data[0];
-        x = data[1][0];
-        y = data[1][1];
+        type = data['type'];
+        color = data['color'];
+        x = data['position'][0];
+        y = data['position'][1];
         piece = this.place_piece(type, color, x, y);
         if (type === 'pawn') {
           piece.unmoved = data[3];

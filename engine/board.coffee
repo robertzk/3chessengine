@@ -79,7 +79,8 @@ class Board
   unweave_state: (unserialized_api_data) ->
     @remove_board()
     for data in unserialized_api_data
-      type = data[2]; color = data[0]; x = data[1][0]; y = data[1][1]
+      type = data['type']; color = data['color']
+      x = data['position'][0]; y = data['position'][1]
       piece = @place_piece(type, color, x, y)
       if type == 'pawn'
         piece.unmoved = data[3]
