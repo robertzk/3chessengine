@@ -6,8 +6,9 @@ class King extends Piece
     super
     @type = 'king'
 
+  regular_moves: octopus(true, true, true)
   moves: (index = 2) ->
-    octopus(true, true, true)(index) + @castling_moves()
+    regular_moves(index) + @castling_moves()
 
   ###
   # If a king has moved, it can no longer castle.

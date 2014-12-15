@@ -15,11 +15,13 @@
       this.type = 'king';
     }
 
+    King.prototype.regular_moves = octopus(true, true, true);
+
     King.prototype.moves = function(index) {
       if (index == null) {
         index = 2;
       }
-      return octopus(true, true, true)(index) + this.castling_moves();
+      return regular_moves(index) + this.castling_moves();
     };
 
 
