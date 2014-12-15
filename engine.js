@@ -1999,19 +1999,20 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
     Board.prototype.piece_at = function(x, y) {
       return this.board[(24 + x) % 24][y];
     };
-    Board.prototype.boardState = function() {
+    Board.prototype.board_state = function() {
       var attr, p, state, substate, x, y, _i, _j;
       state = [];
       for (y = _i = 0; _i <= 5; y = ++_i) {
         for (x = _j = 0; _j <= 23; x = ++_j) {
           p = this.piece_at(x, y);
           if (p) {
-            substate = [];
+            substate = {};
             for (attr in p) {
               if (typeof p[attr] !== 'function' && attr !== 'board') {
-                substate.push(p[attr]);
+                substate[attr] = p[attr];
               }
             }
+            console.log(substate);
             state.push(substate);
           }
         }
@@ -2019,10 +2020,10 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
       return state;
     };
     Board.prototype.serialize = function(content) {
-      return JSON.stringify(this.boardState());
+      return JSON.stringify(this.board_state());
     };
     Board.prototype.unserialize = function(content) {
-      return this.unweaveState(JSON.parse(content));
+      return this.unweave_state(JSON.parse(content));
     };
     Board.prototype.place_piece = function(type, color, x, y) {
       var piece;
@@ -2035,7 +2036,7 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
       this.board[(24 + x) % 24][y] = piece;
       return piece;
     };
-    Board.prototype.unweaveState = function(unserialized_api_data) {
+    Board.prototype.unweave_state = function(unserialized_api_data) {
       var color, data, piece, type, x, y, _i, _len, _results;
       this.remove_board();
       _results = [];
