@@ -1584,7 +1584,6 @@ __cs.libs.cs852f3f85 = (function(require, module, exports) {
     __extends(King, _super);
     function King(opts) {
       King.__super__.constructor.apply(this, arguments);
-      this.initialize_unmoved();
       this.type = 'king';
     }
     King.prototype.regular_moves = octopus(true, true, true);
@@ -1677,7 +1676,6 @@ __cs.libs.cs50ac7fdb = (function(require, module, exports) {
     __extends(Rook, _super);
     function Rook(opts) {
       Rook.__super__.constructor.apply(this, arguments);
-      this.initialize_unmoved();
       this.type = 'rook';
     }
     Rook.prototype.moves = octopus(false, true);

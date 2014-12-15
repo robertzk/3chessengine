@@ -4,7 +4,7 @@ class King extends Piece
 
   constructor: (opts) ->
     super
-    do @initialize_unmoved
+    #do @initialize_unmoved
     @type = 'king'
 
   regular_moves: octopus(true, true, true)
