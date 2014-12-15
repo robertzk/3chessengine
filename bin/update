@@ -1,0 +1,9 @@
+#!/bin/bash
+
+./clientside
+git tag -d 0.1.10
+git tag 0.1.10
+cd ../threemanchess
+bower uninstall 3chessengine
+bower install
+cd ../3chessengine

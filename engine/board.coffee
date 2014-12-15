@@ -53,20 +53,20 @@ class Board
   has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
   piece_at:     (x, y) -> @board[(24 + x) % 24][y]
   
-  boardState: ->
+  board_state: ->
     state = []
     for y in [0..5]
       for x in [0..23]
         p = @piece_at(x, y)
         if p
-          substate = []
+          substate = {}
           for attr of p when typeof p[attr] != 'function' && attr != 'board'
-            substate.push p[attr]
+            substate[attr] = p[attr]
           state.push substate
     state
 
-  serialize: (content) -> JSON.stringify(@boardState())
-  unserialize: (content) -> @unweaveState(JSON.parse(content))
+  serialize: (content) -> JSON.stringify(@board_state())
+  unserialize: (content) -> @unweave_state(JSON.parse(content))
 
   # Update
   place_piece: (type, color, x, y) ->
@@ -75,7 +75,7 @@ class Board
     @board[(24 + x) % 24][y] = piece
     piece
 
-  unweaveState: (unserialized_api_data) ->
+  unweave_state: (unserialized_api_data) ->
     @remove_board()
     for data in unserialized_api_data
       type = data[2]; color = data[0]; x = data[1][0]; y = data[1][1]
