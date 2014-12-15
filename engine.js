@@ -1612,7 +1612,6 @@ __cs.libs.cs852f3f85 = (function(require, module, exports) {
         return [];
       }
       moves = [];
-      debugger;
       _ref = [-3, 4];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         ix = _ref[_i];

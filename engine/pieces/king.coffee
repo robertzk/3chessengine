@@ -25,7 +25,6 @@ class King extends Piece
     # TODO: (RK) Filter checks
     return [] unless @unmoved
     moves = []
-    `debugger`
     for ix in [-3, 4]
       sign = if ix < 0 then -1 else 1
       if rook = @board.piece_at(@x() + ix, @y())
