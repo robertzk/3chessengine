@@ -8,7 +8,7 @@ class King extends Piece
 
   regular_moves: octopus(true, true, true)
   moves: (index = 2) ->
-    @regular_moves(index) + @castling_moves()
+    @regular_moves(index).concat @castling_moves()
 
   ###
   # If a king has moved, it can no longer castle.

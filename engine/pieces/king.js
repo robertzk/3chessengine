@@ -21,7 +21,7 @@
       if (index == null) {
         index = 2;
       }
-      return this.regular_moves(index) + this.castling_moves();
+      return this.regular_moves(index).concat(this.castling_moves());
     };
 
 
