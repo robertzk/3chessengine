@@ -41,22 +41,24 @@
      */
 
     King.prototype.castling_moves = function() {
-      var empty, i, ix, moves, rook, _i, _j, _len, _ref, _ref1;
+      var empty, i, ix, moves, rook, sign, _i, _j, _len, _ref, _ref1;
       if (!this.unmoved) {
         return [];
       }
       moves = [];
+      debugger;
       _ref = [-3, 4];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         ix = _ref[_i];
+        sign = ix < 0 ? -1 : 1;
         if (rook = this.board.piece_at(this.x() + ix, this.y())) {
           if (rook.type === 'rook' && rook.unmoved) {
             empty = true;
             for (i = _j = 1, _ref1 = Math.abs(ix) - 1; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; i = 1 <= _ref1 ? ++_j : --_j) {
-              empty && (empty = !this.board.piece_at(this.x() + (ix < 0 ? -1 : 1) * i, this.y()));
+              empty && (empty = !this.board.piece_at(this.x() + sign * i, this.y()));
             }
             if (empty) {
-              moves.push([this.x() + (ix === -3 ? -1 : 2), this.y()]);
+              moves.push([this.x() + sign * 2, this.y()]);
             }
           }
         }

@@ -25,14 +25,16 @@ class King extends Piece
     # TODO: (RK) Filter checks
     return [] unless @unmoved
     moves = []
+    `debugger`
     for ix in [-3, 4]
+      sign = if ix < 0 then -1 else 1
       if rook = @board.piece_at(@x() + ix, @y())
         if rook.type is 'rook' and rook.unmoved
           empty = true
           for i in [1..(Math.abs(ix) - 1)]
-            empty and= !@board.piece_at(@x() + (if ix < 0 then -1 else 1) * i, @y())
+            empty and= !@board.piece_at(@x() + sign * i, @y())
           if empty # No pieces in the way
-            moves.push [@x() + (if ix == -3 then -1 else 2), @y()]
+            moves.push [@x() + sign * 2, @y()]
     moves
 
 
