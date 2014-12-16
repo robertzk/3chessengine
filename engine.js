@@ -2012,7 +2012,6 @@ __cs.libs.cse850a7f0 = (function(require, module, exports) {
                 substate[attr] = p[attr];
               }
             }
-            console.log(substate);
             state.push(substate);
           }
         }

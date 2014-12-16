@@ -137,7 +137,6 @@
                 substate[attr] = p[attr];
               }
             }
-            console.log(substate);
             state.push(substate);
           }
         }
@@ -171,7 +170,6 @@
       _results = [];
       for (_i = 0, _len = unserialized_api_data.length; _i < _len; _i++) {
         data = unserialized_api_data[_i];
-        console.log(data);
         type = data['type'];
         color = data['color'];
         x = data['position'][0];
