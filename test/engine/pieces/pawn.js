@@ -194,7 +194,7 @@
       }
       return _results;
     });
-    return it("should be able to cross a creek if moats are disabled", function() {
+    it("should be able to cross a creek if moats are disabled", function() {
       var b, i, left_moats, p, right_moats, x, _i, _j, _k, _l, _len, _len1, _len2, _m, _ref, _ref1, _ref2, _results;
       b = new Board();
       left_moats = b.left_moats();
@@ -227,6 +227,17 @@
         _results.push(p.moves().length.should.equal(3));
       }
       return _results;
+    });
+    return describe("promotions", function() {
+      return it("can promote to a queen", function() {
+        var b, p;
+        b = new Board();
+        b.board[0][0] = null;
+        p = b.piece_at(0, 1);
+        p.towards_center = true;
+        p.move_to(0, 0);
+        return b.piece_at(0, 0).type.should.equal('queen');
+      });
     });
   });
 

@@ -118,4 +118,13 @@ describe 'Pawn', ->
       p = b.piece_at((x - 1 + 24) % 24, 1)
       p.moves().length.should.equal 3
 
+  describe "promotions", ->
+
+    it "can promote to a queen", ->
+      b = new Board()
+      b.board[0][0] = null
+      p = b.piece_at(0, 1)
+      p.towards_center = true
+      p.move_to(0, 0)
+      b.piece_at(0, 0).type.should.equal 'queen'
 

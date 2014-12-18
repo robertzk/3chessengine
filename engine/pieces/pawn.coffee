@@ -1,5 +1,9 @@
 Piece = require('./piece')
 Rook = require('./rook')
+Queen = require('./queen')
+Knight = require('./knight')
+Bishop = require('./bishop')
+
 class Pawn extends Piece
 
   constructor: (opts) ->
@@ -97,8 +101,8 @@ class Pawn extends Piece
       @towards_center = false
     else if new_y == 0 # Promotion!
       promotion = eval("#{promotion[0].toUpperCase()}#{promotion.substr(1)}")
-      @board.board[out[0]][out[1]] = new promotion(color: @color,
-        board: @board, position: @position)
+      @board.board[out[0]][out[1]] =
+        new promotion(color: @color, board: @board, position: @position)
     out
 
 module.exports = Pawn
