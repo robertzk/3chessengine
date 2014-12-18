@@ -1,6 +1,6 @@
 {
   "name": "3chessengine",
-  "version": "0.1.5",
+  "version": "0.1.10",
   "description": "3 man chess engine",
   "main": "index.js",
   "scripts": {
