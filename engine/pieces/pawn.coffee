@@ -1,4 +1,5 @@
 Piece = require('./piece')
+Rook = require('./rook')
 class Pawn extends Piece
 
   constructor: (opts) ->
@@ -87,12 +88,17 @@ class Pawn extends Piece
     
     moves
 
-  move_to: (new_x, new_y) ->
+  move_to: (new_x, new_y, promotion = 'queen') ->
     @unmoved = false
+
     old_y = @y()
     out = super
     if old_y == 5 && new_y == 5 # We crossed the inner circle
       @towards_center = false
+    else if new_y == 0 # Promotion!
+      promotion = eval("#{promotion[0].toUpperCase()}#{promotion.substr(1)}")
+      @board.board[out[0]][out[1]] = new promotion(color: @color,
+        board: @board, position: @position)
     out
 
 module.exports = Pawn
