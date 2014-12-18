@@ -23,6 +23,9 @@ __cs.map['./engine/board'] = 'cs07b02b0c';
 __cs.map['./piece'] = 'cs6b44f638';
 __cs.map['./octopus'] = 'csb79f58b0';
 __cs.map['./rook'] = 'cs50ac7fdb';
+__cs.map['./queen'] = 'cs591948df';
+__cs.map['./knight'] = 'csefeb9072';
+__cs.map['./bishop'] = 'cs5f8b3ecd';
 __cs.map['./clone'] = 'cs9a6a87bb';
 __cs.map['./pieces/piece'] = 'cs6b44f638';
 __cs.map['./pieces/king'] = 'cs852f3f85';
@@ -1805,12 +1808,15 @@ return module.exports || exports;
 //pawn.js
 __cs.libs.cs4379d23b = (function(require, module, exports) {
 (function() {
-  var Pawn, Piece, Rook,
+  var Bishop, Knight, Pawn, Piece, Queen, Rook,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
   Piece = require('./piece');
   Rook = require('./rook');
+  Queen = require('./queen');
+  Knight = require('./knight');
+  Bishop = require('./bishop');
   Pawn = (function(_super) {
     __extends(Pawn, _super);
     function Pawn(opts) {
@@ -1914,8 +1920,7 @@ __cs.libs.cs4379d23b = (function(require, module, exports) {
       } else if (new_y === 0) {
         promotion = eval("" + (promotion[0].toUpperCase()) + (promotion.substr(1)));
         this.board.board[out[0]][out[1]] = new promotion({
-          color: this.color
-        }, {
+          color: this.color,
           board: this.board,
           position: this.position
         });
