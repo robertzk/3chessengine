@@ -129,3 +129,5 @@ describe 'Pawn', ->
         p.move_to(0, 0, type)
         b.piece_at(0, 0).type.should.equal type
 
+    # TODO: (RK) Test that promotion doesn't work when it causes check.
+
