@@ -2,8 +2,8 @@
 
 if git diff-index --quiet HEAD --; then
   ./clientside
-  git tag -d 0.1.9
-  git tag 0.1.9
+  git tag -d 0.1.10
+  git tag 0.1.10
   cd ../threemanchess
   bower uninstall 3chessengine
   bower install
