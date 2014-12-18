@@ -229,15 +229,22 @@
       return _results;
     });
     return describe("promotions", function() {
-      return it("can promote to a queen", function() {
-        var b, p;
-        b = new Board();
-        b.board[0][0] = null;
-        p = b.piece_at(0, 1);
-        p.towards_center = true;
-        p.move_to(0, 0);
-        return b.piece_at(0, 0).type.should.equal('queen');
-      });
+      var type, _i, _len, _ref, _results;
+      _ref = ['queen', 'rook', 'bishop', 'knight'];
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        type = _ref[_i];
+        _results.push(it("can promote to a " + type, function() {
+          var b, p;
+          b = new Board();
+          b.board[0][0] = null;
+          p = b.piece_at(0, 1);
+          p.towards_center = true;
+          p.move_to(0, 0, type);
+          return b.piece_at(0, 0).type.should.equal(type);
+        }));
+      }
+      return _results;
     });
   });
 

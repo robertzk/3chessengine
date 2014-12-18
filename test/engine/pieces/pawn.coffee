@@ -120,11 +120,12 @@ describe 'Pawn', ->
 
   describe "promotions", ->
 
-    it "can promote to a queen", ->
-      b = new Board()
-      b.board[0][0] = null
-      p = b.piece_at(0, 1)
-      p.towards_center = true
-      p.move_to(0, 0)
-      b.piece_at(0, 0).type.should.equal 'queen'
+    for type in ['queen', 'rook', 'bishop', 'knight']
+      it "can promote to a #{type}", ->
+        b = new Board()
+        b.board[0][0] = null
+        p = b.piece_at(0, 1)
+        p.towards_center = true
+        p.move_to(0, 0, type)
+        b.piece_at(0, 0).type.should.equal type
 
