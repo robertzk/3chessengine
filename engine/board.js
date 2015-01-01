@@ -185,12 +185,12 @@
       return _results;
     };
 
-    Board.prototype.move_piece = function(old_x, old_y, new_x, new_y) {
+    Board.prototype.move_piece = function(old_x, old_y, new_x, new_y, promotion) {
       old_x = (old_x + 24) % 24;
       if (!this.has_piece_at(old_x, old_y)) {
         throw "No piece at (" + old_x + ", " + old_y + ")";
       }
-      return this.piece_at(old_x, old_y).move_to(new_x, new_y);
+      return this.piece_at(old_x, old_y).move_to(new_x, new_y, promotion);
     };
 
     Board.prototype.remove_piece = function(x, y) {

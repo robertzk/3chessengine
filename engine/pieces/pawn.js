@@ -1,10 +1,18 @@
 (function() {
-  var Pawn, Piece,
+  var Bishop, Knight, Pawn, Piece, Queen, Rook,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Piece = require('./piece');
+
+  Rook = require('./rook');
+
+  Queen = require('./queen');
+
+  Knight = require('./knight');
+
+  Bishop = require('./bishop');
 
   Pawn = (function(_super) {
     __extends(Pawn, _super);
@@ -106,13 +114,23 @@
       return moves;
     };
 
-    Pawn.prototype.move_to = function(new_x, new_y) {
+    Pawn.prototype.move_to = function(new_x, new_y, promotion) {
       var old_y, out;
+      if (promotion == null) {
+        promotion = 'queen';
+      }
       this.unmoved = false;
       old_y = this.y();
       out = Pawn.__super__.move_to.apply(this, arguments);
       if (old_y === 5 && new_y === 5) {
         this.towards_center = false;
+      } else if (new_y === 0) {
+        promotion = eval("" + (promotion[0].toUpperCase()) + (promotion.substr(1)));
+        this.board.board[out[0]][out[1]] = new promotion({
+          color: this.color,
+          board: this.board,
+          position: this.position
+        });
       }
       return out;
     };

@@ -12,6 +12,7 @@
 
     function Rook(opts) {
       Rook.__super__.constructor.apply(this, arguments);
+      this.initialize_unmoved();
       this.type = 'rook';
     }
 

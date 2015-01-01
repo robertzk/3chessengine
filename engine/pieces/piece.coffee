@@ -75,6 +75,11 @@ class Piece
   y: -> @position[1]
 
   move_to: (new_x, new_y) ->
+    @unmoved = false if @unmoved?
+
+    # For kings, castle
+    @castle_move(new_x) if @type == 'king'
+
     new_x = (new_x + 24) % 24
     throw "Invalid new_x (#{new_x})" unless new_x in [0..23]
     throw "Invalid new_y (#{new_y})" unless new_y in [0..5]
