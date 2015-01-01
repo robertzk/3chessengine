@@ -60,7 +60,8 @@ normalize_position = (old_x, old_y, x, y) ->
     out.can_move = !same_color
 
   # Do not allow moat crossing
-  on_moat_rank = (old_y == 1 and diff_y == -1) or (old_y == 0 and (diff_y == 0 or diff_y == 1))
+  on_moat_rank   = (old_y == 1 and diff_y == -1)
+  on_moat_rank or= (old_y == 0 and (diff_y == 0 or diff_y == 1))
   if on_moat_rank and ((old_x in @board.left_moats() and diff_x == 1) or
       (old_x in @board.right_moats() and diff_x == -1))
     out.can_move = false
@@ -83,8 +84,7 @@ moves = (diagonal, axial, one_step = false) -> (filter = 2) ->
     dirs.push x for x in [[-1, -1], [-1, 1], [1, -1], [1, 1]]
     
   for dir in dirs
-    prev_x = @x()
-    prev_y = @y()
+    [prev_x, prev_y] = [@x(), @y()]
     loop
       [x, y] = [prev_x + dir[0], prev_y + dir[1]]
       next_position = normalize_position.call(@, prev_x, prev_y, x, y)
