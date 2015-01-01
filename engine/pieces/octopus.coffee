@@ -30,7 +30,7 @@
 #  - position: The normalized x and y coordinates.
 normalize_position = (old_x, old_y, x, y) ->
   return { can_move: false } if y < 0
-  if Math.abs(old_x - x) + Math.abs(old_y - y) != 2
+  if Math.abs(old_x - x) != 1 && Math.abs(old_y - y) != 1
     throw "Only adjacent moves supported"
 
   diff_x = x - old_x # This has to be precomputed before the % 24s
