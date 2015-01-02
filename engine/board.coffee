@@ -141,10 +141,12 @@ class Board
     pieces
 
   each_piece: (fn) ->
+    out = []
     for x in [0..23]
       for y in [0..5]
         if piece = @board[x][y]
-          fn(piece)
+          out.push fn(piece)
+    out
 
   left_moats: ->
     ((x*8 - 1 + 24) % 24 for x in [0..2] when @moats[@colors[x]])
@@ -160,7 +162,7 @@ class Board
 
     king = @king color
     #@each_piece (piece) ->
-      #   return 
+      #  return null if piece.color == color
 
 
   # Private

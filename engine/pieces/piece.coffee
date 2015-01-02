@@ -93,7 +93,7 @@ class Piece
     @board.board[@x()][@y()] = null
 
     # Check if the next player is eliminated.
-    #@board.check_eliminated(@color)
+    @board.check_eliminated(@color)
 
     @position = [new_x, new_y]
 

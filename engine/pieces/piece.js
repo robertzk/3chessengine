@@ -142,6 +142,7 @@
       }
       this.board.board[new_x][new_y] = this;
       this.board.board[this.x()][this.y()] = null;
+      this.board.check_eliminated(this.color);
       return this.position = [new_x, new_y];
     };
 

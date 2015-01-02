@@ -307,23 +307,16 @@
     };
 
     Board.prototype.each_piece = function(fn) {
-      var piece, x, y, _i, _results;
-      _results = [];
+      var out, piece, x, y, _i, _j;
+      out = [];
       for (x = _i = 0; _i <= 23; x = ++_i) {
-        _results.push((function() {
-          var _j, _results1;
-          _results1 = [];
-          for (y = _j = 0; _j <= 5; y = ++_j) {
-            if (piece = this.board[x][y]) {
-              _results1.push(fn(piece));
-            } else {
-              _results1.push(void 0);
-            }
+        for (y = _j = 0; _j <= 5; y = ++_j) {
+          if (piece = this.board[x][y]) {
+            out.push(fn(piece));
           }
-          return _results1;
-        }).call(this));
+        }
       }
-      return _results;
+      return out;
     };
 
     Board.prototype.left_moats = function() {
