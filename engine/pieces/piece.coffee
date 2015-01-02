@@ -8,7 +8,8 @@ class Piece
     @assign_board    opts
     @assign_position opts
 
-  moves: -> []
+  moves: ->
+    @_moves.apply(@, Array.prototype.slice.call(arguments, 0))
 #    if @board.eliminated[@color]
 #      []
 #    else

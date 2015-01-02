@@ -8,7 +8,7 @@ class King extends Piece
     @type = 'king'
 
   regular_moves: octopus(true, true, true)
-  moves: (index = 2) ->
+  _moves: (index = 2) ->
     @regular_moves(index).concat @castling_moves()
 
   ###

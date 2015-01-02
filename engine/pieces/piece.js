@@ -16,7 +16,7 @@
     }
 
     Piece.prototype.moves = function() {
-      return [];
+      return this._moves.apply(this, Array.prototype.slice.call(arguments, 0));
     };
 
     Piece.prototype._moves = function() {
