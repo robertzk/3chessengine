@@ -8,7 +8,13 @@ class Piece
     @assign_board    opts
     @assign_position opts
 
-  moves: -> []
+  moves: ->
+    if @board[@color].eliminated
+      []
+    else
+      do @_moves
+  
+  _moves: -> []
 
   filter_checks: (moves, depth = 0) ->
     return moves unless depth

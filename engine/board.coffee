@@ -16,8 +16,9 @@ class Board
 
     do @initialize_board
     do @initialize_constants
-    @initialize_pieces() if setup_pieces
-    @initialize_moats()
+    do @initialize_pieces if setup_pieces
+    do @initialize_moats
+    do @initialize_eliminated
 
   initialize_constants: ->
     @piece_map = { rook: Rook, knight: Knight, bishop: Bishop, king: King, queen: Queen, pawn: Pawn }
@@ -29,6 +30,10 @@ class Board
   initialize_moats: ->
     @moats = {}
     @moats[k] = true for k in @colors # All moats are active.
+
+  initialize_eliminated: ->
+    @eliminated = {}
+    @eliminated[k] = false for k in @colors # No players are eliminated.
 
   initialize_pieces: ->
     for color in @colors
@@ -45,9 +50,6 @@ class Board
     [color_name, color] = [color, @colors.indexOf(color)]
     for i in [0..7]
       new Pawn(color: color_name, board: @, position: [8 * color + i, 1])
-
-  # A virtual copy of the board will be used for checking which moves put
-  # a king into mate.
 
   # Read
   has_piece_at: (x, y) -> @board[(24 + x) % 24][y] != null
@@ -99,6 +101,9 @@ class Board
       for x in [0..23]
         if @piece_at(x, y)
           @remove_piece(x, y)
+
+  # A virtual copy of the board will be used for checking which moves put
+  # a king into mate.
 
   # Other
   virtual_board: ->
