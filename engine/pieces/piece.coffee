@@ -9,11 +9,10 @@ class Piece
     @assign_position opts
 
   moves: ->
-    @_moves.apply(@, Array.prototype.slice.call(arguments, 0))
-#    if @board.eliminated[@color]
-#      []
-#    else
-#      do @_moves
+    if @board.eliminated[@color]
+      []
+    else
+      @_moves.apply(@, Array.prototype.slice.call(arguments, 0))
   
   _moves: -> []
 

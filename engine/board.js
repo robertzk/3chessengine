@@ -30,6 +30,7 @@
         this.initialize_pieces();
       }
       this.initialize_moats();
+      this.initialize_eliminated();
     }
 
     Board.prototype.initialize_constants = function() {

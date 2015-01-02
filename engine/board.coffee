@@ -18,7 +18,7 @@ class Board
     do @initialize_constants
     do @initialize_pieces if setup_pieces
     do @initialize_moats
-    # do @initialize_eliminated
+    do @initialize_eliminated
 
   initialize_constants: ->
     @piece_map = { rook: Rook, knight: Knight, bishop: Bishop, king: King, queen: Queen, pawn: Pawn }
