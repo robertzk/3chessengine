@@ -15,7 +15,7 @@
       this.type = 'queen';
     }
 
-    Queen.prototype.moves = octopus(true, true);
+    Queen.prototype._moves = octopus(true, true);
 
     return Queen;
 

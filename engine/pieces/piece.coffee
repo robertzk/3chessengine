@@ -9,7 +9,7 @@ class Piece
     @assign_position opts
 
   moves: ->
-    if @board[@color].eliminated
+    if @board.eliminated[@color]
       []
     else
       do @_moves
@@ -91,6 +91,10 @@ class Piece
     throw "Invalid new_y (#{new_y})" unless new_y in [0..5]
     @board.board[new_x][new_y] = @
     @board.board[@x()][@y()] = null
+
+    # Check if the next player is eliminated.
+    #@board.check_eliminated(@color)
+
     @position = [new_x, new_y]
 
 module.exports = Piece

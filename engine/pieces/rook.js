@@ -16,7 +16,7 @@
       this.type = 'rook';
     }
 
-    Rook.prototype.moves = octopus(false, true);
+    Rook.prototype._moves = octopus(false, true);
 
 
     /*

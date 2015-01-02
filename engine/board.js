@@ -30,6 +30,7 @@
         this.initialize_pieces();
       }
       this.initialize_moats();
+      this.initialize_eliminated();
     }
 
     Board.prototype.initialize_constants = function() {
@@ -71,6 +72,18 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         k = _ref[_i];
         _results.push(this.moats[k] = true);
+      }
+      return _results;
+    };
+
+    Board.prototype.initialize_eliminated = function() {
+      var k, _i, _len, _ref, _results;
+      this.eliminated = {};
+      _ref = this.colors;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        k = _ref[_i];
+        _results.push(this.eliminated[k] = false);
       }
       return _results;
     };
@@ -293,6 +306,26 @@
       return pieces;
     };
 
+    Board.prototype.each_piece = function(fn) {
+      var piece, x, y, _i, _results;
+      _results = [];
+      for (x = _i = 0; _i <= 23; x = ++_i) {
+        _results.push((function() {
+          var _j, _results1;
+          _results1 = [];
+          for (y = _j = 0; _j <= 5; y = ++_j) {
+            if (piece = this.board[x][y]) {
+              _results1.push(fn(piece));
+            } else {
+              _results1.push(void 0);
+            }
+          }
+          return _results1;
+        }).call(this));
+      }
+      return _results;
+    };
+
     Board.prototype.left_moats = function() {
       var x, _i, _results;
       _results = [];
@@ -313,6 +346,18 @@
         }
       }
       return _results;
+    };
+
+    Board.prototype.next_color = function(color) {
+      return this.colors[(this.colors.indexOf(color) + 1) % 3];
+    };
+
+    Board.prototype.check_eliminated = function(color) {
+      var king;
+      if (this.eliminated[color]) {
+        return;
+      }
+      return king = this.king(color);
     };
 
     Board.prototype.sanitize_type = function(type) {

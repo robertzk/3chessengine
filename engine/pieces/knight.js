@@ -46,7 +46,7 @@
      * Recall that it can capture in L shapes all around the board.
      */
 
-    Knight.prototype.moves = function(filter) {
+    Knight.prototype._moves = function(filter) {
       var d, positions, sign1, sign2, x, y, _i, _j, _k, _ref, _ref1;
       if (filter == null) {
         filter = 2;

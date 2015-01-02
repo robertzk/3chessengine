@@ -140,11 +140,28 @@ class Board
         pieces.push(piece) if piece and piece.color == color
     pieces
 
+  each_piece: (fn) ->
+    for x in [0..23]
+      for y in [0..5]
+        if piece = @board[x][y]
+          fn(piece)
+
   left_moats: ->
     ((x*8 - 1 + 24) % 24 for x in [0..2] when @moats[@colors[x]])
 
   right_moats: ->
     (x * 8 for x in [0..2] when @moats[@colors[x]])
+
+  next_color: (color) ->
+    @colors[(@colors.indexOf(color) + 1) % 3]
+    
+  check_eliminated: (color) ->
+    return if @eliminated[color]
+
+    king = @king color
+    #@each_piece (piece) ->
+      #   return 
+
 
   # Private
   ##

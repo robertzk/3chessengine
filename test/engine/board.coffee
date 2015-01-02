@@ -69,3 +69,9 @@ describe 'Board', ->
     whites = b.get_pieces('white')
     whites.length.should.equal 16
 
+  it "can find the next color", ->
+    b = new Board()
+    b.next_color('white').should.equal 'grey'
+    b.next_color('grey').should.equal  'black'
+    b.next_color('black').should.equal 'white'
+
