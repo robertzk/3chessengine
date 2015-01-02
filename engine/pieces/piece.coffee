@@ -8,11 +8,11 @@ class Piece
     @assign_board    opts
     @assign_position opts
 
-  moves: ->
-    if @board.eliminated[@color]
-      []
-    else
-      do @_moves
+  moves: -> []
+#    if @board.eliminated[@color]
+#      []
+#    else
+#      do @_moves
   
   _moves: -> []
 

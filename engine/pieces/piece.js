@@ -16,11 +16,7 @@
     }
 
     Piece.prototype.moves = function() {
-      if (this.board.eliminated[this.color]) {
-        return [];
-      } else {
-        return this._moves();
-      }
+      return [];
     };
 
     Piece.prototype._moves = function() {

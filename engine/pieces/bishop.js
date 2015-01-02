@@ -15,7 +15,7 @@
       this.type = 'bishop';
     }
 
-    Bishop.prototype._moves = octopus(true, false);
+    Bishop.prototype.moves = octopus(true, false);
 
     return Bishop;
 

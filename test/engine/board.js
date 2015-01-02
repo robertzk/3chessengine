@@ -96,9 +96,9 @@
     return it("can find the next color", function() {
       var b;
       b = new Board();
-      b.next_color('white').should.equal('grey');
-      b.next_color('grey').should.equal('black');
-      return b.next_color('black').should.equal('white');
+      b.next_color('white').should.equal('black');
+      b.next_color('grey').should.equal('white');
+      return b.next_color('black').should.equal('grey');
     });
   });
 

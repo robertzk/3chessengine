@@ -33,7 +33,7 @@ class Knight extends Piece
   #
   # Recall that it can capture in L shapes all around the board.
   ###
-  _moves: (filter = 2) ->
+  moves: (filter = 2) ->
     positions = []
     for sign1 in [-1..1] by 2
       for sign2 in [-1..1] by 2

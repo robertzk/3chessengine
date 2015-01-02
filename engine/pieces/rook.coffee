@@ -7,7 +7,7 @@ class Rook extends Piece
     do @initialize_unmoved
     @type = 'rook'
 
-  _moves: octopus(false, true)
+  moves: octopus(false, true)
 
   ###
   # If a rook has moved, it can no longer be used in conjunction with castling.

@@ -18,7 +18,7 @@
 
     King.prototype.regular_moves = octopus(true, true, true);
 
-    King.prototype._moves = function(index) {
+    King.prototype.moves = function(index) {
       if (index == null) {
         index = 2;
       }

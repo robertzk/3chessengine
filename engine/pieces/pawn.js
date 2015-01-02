@@ -61,7 +61,7 @@
      * capture along the same diagonal a bishop would be able to.
      */
 
-    Pawn.prototype._moves = function(filter) {
+    Pawn.prototype.moves = function(filter) {
       var moves;
       if (filter == null) {
         filter = 2;
