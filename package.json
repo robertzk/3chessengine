@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/robertzk/3chessengine",
   "dependencies": {
+    "bower": "^1.8.4",
     "coffee-script": "latest",
     "underscore": "latest"
   },
