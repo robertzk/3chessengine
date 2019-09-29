@@ -16,6 +16,14 @@
     }
 
     Piece.prototype.moves = function() {
+      if (this.board.eliminated[this.color]) {
+        return [];
+      } else {
+        return this._moves.apply(this, Array.prototype.slice.call(arguments, 0));
+      }
+    };
+
+    Piece.prototype._moves = function() {
       return [];
     };
 
@@ -134,6 +142,7 @@
       }
       this.board.board[new_x][new_y] = this;
       this.board.board[this.x()][this.y()] = null;
+      this.board.check_eliminated(this.color);
       return this.position = [new_x, new_y];
     };
 

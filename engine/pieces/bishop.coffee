@@ -6,7 +6,7 @@ class Bishop extends Piece
     super
     @type = 'bishop'
 
-  moves: octopus(true, false)
+  _moves: octopus(true, false)
 
 module.exports = Bishop
 

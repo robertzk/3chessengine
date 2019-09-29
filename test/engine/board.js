@@ -87,11 +87,18 @@
       king.x().should.equal(3 + 16);
       return king.y().should.equal(0);
     });
-    return it("can find colored pieces", function() {
+    it("can find colored pieces", function() {
       var b, whites;
       b = new Board();
       whites = b.get_pieces('white');
       return whites.length.should.equal(16);
+    });
+    return it("can find the next color", function() {
+      var b;
+      b = new Board();
+      b.next_color('white').should.equal('black');
+      b.next_color('grey').should.equal('white');
+      return b.next_color('black').should.equal('grey');
     });
   });
 
